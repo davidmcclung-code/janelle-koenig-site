@@ -1,4 +1,6 @@
 ---
+import { asset } from '../utils/paths';
+
 interface Props {
   thumbnailSrc?: string;
   title?: string;
@@ -6,7 +8,7 @@ interface Props {
 }
 
 const {
-  thumbnailSrc = '/images/performance/janelle-placeholder-comedy.png',
+  thumbnailSrc = asset('/images/performance/janelle-placeholder-comedy.png'),
   title = 'Watch Janelle',
   description = 'Stand-up, interviews and questionable life choices.',
 } = Astro.props;

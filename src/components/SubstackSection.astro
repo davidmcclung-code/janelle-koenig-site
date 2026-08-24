@@ -1,12 +1,13 @@
 ---
 import { siteConfig } from '../data/siteConfig';
+import { asset } from '../utils/paths';
 
 interface Props {
   imageSrc?: string;
 }
 
 const {
-  imageSrc = '/images/social/janelle-placeholder-substack.png',
+  imageSrc = asset('/images/social/janelle-placeholder-substack.png'),
 } = Astro.props;
 ---
 

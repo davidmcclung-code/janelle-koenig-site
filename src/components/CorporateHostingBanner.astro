@@ -1,10 +1,12 @@
 ---
+import { asset } from '../utils/paths';
+
 interface Props {
   imageSrc?: string;
 }
 
 const {
-  imageSrc = '/images/services/janelle-placeholder-mc.png',
+  imageSrc = asset('/images/services/janelle-placeholder-mc.png'),
 } = Astro.props;
 ---
 

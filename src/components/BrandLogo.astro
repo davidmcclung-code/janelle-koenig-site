@@ -1,4 +1,6 @@
 ---
+import { asset } from '../utils/paths';
+
 interface Props {
   variant?: 'dark' | 'light';
   class?: string;
@@ -6,8 +8,8 @@ interface Props {
 
 const { variant = 'dark', class: className = '' } = Astro.props;
 const logoSrc = variant === 'light' 
-  ? '/images/logos/janelle-koenig-logo-white.png' 
-  : '/images/logos/janelle-koenig-logo.png';
+  ? asset('/images/logos/janelle-koenig-logo-white.png')
+  : asset('/images/logos/janelle-koenig-logo.png');
 ---
 
 <div class={`brand-logo-container ${className}`}>

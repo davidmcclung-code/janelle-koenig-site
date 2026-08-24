@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '../data/siteConfig';
+import { asset } from '../utils/paths';
 ---
 
 <section class="hero-section" id="hero" aria-label="Hero Section">
@@ -52,7 +53,7 @@ import { siteConfig } from '../data/siteConfig';
     <!-- Layered Large Portrait Anchored to Bottom Edge -->
     <div class="hero-media">
       <img
-        src="/images/hero/janelle-placeholder-hero.png"
+        src={asset('/images/hero/janelle-placeholder-hero.png')}
         alt="Janelle Koenig smiling in denim dress"
         width="796"
         height="1024"
