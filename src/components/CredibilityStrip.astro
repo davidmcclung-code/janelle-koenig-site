@@ -1,0 +1,173 @@
+---
+const logos = [
+  { name: 'ABC', src: '/images/logos/abc.png', alt: 'Australian Broadcasting Corporation', width: 44, class: 'logo-abc' },
+  { name: 'Channel 9', src: '/images/logos/channel9.png', alt: 'Channel 9', width: 56, class: 'logo-nine' },
+  { name: 'Network 10', src: '/images/logos/network10.png', alt: 'Network 10', width: 34, class: 'logo-ten' },
+  { name: 'SBS', src: '/images/logos/sbs.png', alt: 'SBS Television', width: 56, class: 'logo-sbs' },
+  { name: 'Prime Video', src: '/images/logos/primevideo.png', alt: 'Amazon Prime Video', width: 78, class: 'logo-prime' },
+  { name: 'The Project', src: '/images/logos/theproject.png', alt: 'The Project', width: 70, class: 'logo-project hide-on-mobile' },
+  { name: 'Nova 93.7', src: '/images/logos/nova937.png', alt: 'Nova 93.7', width: 72, class: 'logo-nova hide-on-mobile' },
+];
+---
+
+<section class="credibility-section" aria-label="Media Appearances and Credits">
+  <div class="container">
+    <div class="credibility-inner reveal">
+      <!-- Cursive Label -->
+      <div class="credibility-label-wrapper">
+        <span class="font-script text-script-section credibility-label">As seen on</span>
+      </div>
+
+      <!-- Normalized Logo Row: One Single Horizontal Line -->
+      <div class="logo-cloud">
+        {
+          logos.map((logo) => (
+            <div class={`logo-item ${logo.class}`} title={logo.alt}>
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                width={logo.width}
+                height="28"
+                loading="lazy"
+                class="media-logo-img"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .credibility-section {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: none;
+    background-color: var(--colour-page);
+    width: 100%;
+  }
+
+  .credibility-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(12px, 2.5vw, 32px);
+  }
+
+  .credibility-label-wrapper {
+    flex-shrink: 0;
+  }
+
+  .credibility-label {
+    color: var(--colour-primary);
+    transform: rotate(-2deg);
+    display: inline-block;
+    white-space: nowrap;
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    line-height: 1;
+  }
+
+  .logo-cloud {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(6px, 2vw, 28px);
+    flex: 1;
+    width: auto;
+  }
+
+  .logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0.9;
+    color: var(--colour-ink);
+  }
+
+  .media-logo-img {
+    height: 18px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: grayscale(100%) contrast(120%);
+    transition: opacity var(--motion-fast) var(--ease-out);
+  }
+
+  /* Optical Normalisation for Balanced Visual Weight */
+  .logo-abc .media-logo-img {
+    height: 24px;
+  }
+
+  .logo-nine .media-logo-img {
+    height: 18px;
+  }
+
+  .logo-ten .media-logo-img {
+    height: 19px;
+  }
+
+  .logo-sbs .media-logo-img {
+    height: 17px;
+  }
+
+  .logo-prime .media-logo-img {
+    height: 14px;
+  }
+
+  .logo-project .media-logo-img {
+    height: 15px;
+  }
+
+  .logo-nova .media-logo-img {
+    height: 18px;
+  }
+
+  @media (max-width: 849px) {
+    .hide-on-mobile {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .credibility-inner {
+      gap: 10px;
+    }
+
+    .credibility-label {
+      font-size: 1.1rem;
+    }
+
+    .logo-cloud {
+      gap: 6px;
+    }
+
+    .media-logo-img {
+      height: 14px;
+    }
+
+    .logo-abc .media-logo-img {
+      height: 18px;
+    }
+
+    .logo-nine .media-logo-img {
+      height: 14px;
+    }
+
+    .logo-ten .media-logo-img {
+      height: 15px;
+    }
+
+    .logo-sbs .media-logo-img {
+      height: 14px;
+    }
+
+    .logo-prime .media-logo-img {
+      height: 11px;
+    }
+  }
+</style>

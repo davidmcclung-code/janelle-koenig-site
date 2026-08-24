@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap');
+
+:root {
+  /* Font Sizes tuned to 1024px reference */
+  --text-hero: clamp(2.35rem, 5.2vw, 3.75rem);
+  --text-section-title: clamp(1.65rem, 2.8vw, 2.25rem);
+  --text-script-hero: clamp(1.35rem, 2.2vw, 1.75rem);
+  --text-script-section: clamp(1.35rem, 2.2vw, 1.75rem);
+  --text-h2: clamp(1.5rem, 2.5vw, 2rem);
+  --text-h3: clamp(1.125rem, 1.8vw, 1.45rem);
+  --text-intro: clamp(0.9375rem, 1.15vw, 1.0625rem);
+  --text-body: 0.9375rem;
+  --text-sm: 0.8125rem;
+  --text-xs: 0.6875rem;
+
+  /* Line Heights */
+  --lh-tight: 0.95;
+  --lh-heading: 1.1;
+  --lh-snug: 1.35;
+  --lh-body: 1.5;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--lh-body);
+  color: var(--colour-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: var(--lh-heading);
+  color: var(--colour-ink);
+  margin: 0;
+}
+
+.font-script {
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: var(--colour-primary);
+  letter-spacing: 0.01em;
+}
+
+.text-hero {
+  font-size: var(--text-hero);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.035em;
+  font-weight: 900;
+}
+
+.text-script-hero {
+  font-size: var(--text-script-hero);
+  line-height: 1.1;
+}
+
+.text-script-section {
+  font-size: var(--text-script-section);
+  line-height: 1.2;
+}
+
+.text-intro {
+  font-size: var(--text-intro);
+  line-height: var(--lh-snug);
+  color: var(--colour-ink-subtle);
+}
+
+.text-muted {
+  color: var(--colour-muted);
+}

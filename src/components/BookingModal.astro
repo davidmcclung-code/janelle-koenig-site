@@ -1,0 +1,303 @@
+---
+import { siteConfig } from '../data/siteConfig';
+---
+
+<dialog id="booking-modal" class="booking-dialog" aria-labelledby="booking-modal-title">
+  <div class="booking-card">
+    <!-- Header -->
+    <div class="booking-header">
+      <div>
+        <span class="font-script booking-pretitle">Need a grown-up?</span>
+        <h3 id="booking-modal-title" class="booking-title">Book Janelle</h3>
+      </div>
+      <button type="button" class="booking-close-btn" id="booking-modal-close" aria-label="Close booking modal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body / Form -->
+    <div class="booking-body">
+      <p class="booking-intro">
+        Tell Janelle what you're planning, who's in the room and how much trouble she's allowed to get into.
+      </p>
+
+      <form id="booking-form" class="booking-form" action={`mailto:${siteConfig.email}`} method="POST" enctype="text/plain">
+        <div class="form-grid">
+          <!-- Name -->
+          <div class="form-group">
+            <label for="booking-name" class="form-label">Your Name <span class="required-star">*</span></label>
+            <input type="text" id="booking-name" name="name" required class="form-input" placeholder="e.g. Sarah Mitchell" />
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="booking-email" class="form-label">Email Address <span class="required-star">*</span></label>
+            <input type="email" id="booking-email" name="email" required class="form-input" placeholder="sarah@example.com" />
+          </div>
+
+          <!-- Organisation -->
+          <div class="form-group">
+            <label for="booking-org" class="form-label">Organisation / Agency <span class="optional-tag">(optional)</span></label>
+            <input type="text" id="booking-org" name="organisation" class="form-input" placeholder="Company or Event Name" />
+          </div>
+
+          <!-- Service Type -->
+          <div class="form-group">
+            <label for="booking-type" class="form-label">Booking Type</label>
+            <select id="booking-type" name="type" class="form-select">
+              <option value="mc">Professional MC</option>
+              <option value="panel">Panel Host / Facilitator</option>
+              <option value="comedy">Stand-up Comedy</option>
+              <option value="other">Other / Custom</option>
+            </select>
+          </div>
+
+          <!-- Date & Location -->
+          <div class="form-group">
+            <label for="booking-date" class="form-label">Event Date <span class="optional-tag">(optional)</span></label>
+            <input type="date" id="booking-date" name="date" class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="booking-location" class="form-label">Location / City <span class="optional-tag">(optional)</span></label>
+            <input type="text" id="booking-location" name="location" class="form-input" placeholder="e.g. Perth, Melbourne" />
+          </div>
+
+          <!-- Message -->
+          <div class="form-group full-width">
+            <label for="booking-message" class="form-label">Event Details & Brief <span class="required-star">*</span></label>
+            <textarea id="booking-message" name="message" rows="4" required class="form-textarea" placeholder="Tell us about the audience, timing, and what you need from Janelle..."></textarea>
+          </div>
+        </div>
+
+        <!-- Form Submission Footer -->
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary form-submit-btn">
+            SEND ENQUIRY
+          </button>
+          <p class="direct-contact-note">
+            Prefer direct email? Reach Janelle at <a href={`mailto:${siteConfig.email}`} class="direct-link">{siteConfig.email}</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .booking-dialog {
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: transparent;
+    max-width: 680px;
+    width: calc(100% - 2rem);
+    margin: auto;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  }
+
+  .booking-dialog::backdrop {
+    background-color: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(6px);
+  }
+
+  .booking-card {
+    background-color: var(--colour-page);
+    color: var(--colour-ink);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--colour-border);
+  }
+
+  .booking-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-6) var(--space-7) var(--space-4);
+    border-bottom: 1px solid var(--colour-border);
+  }
+
+  .booking-pretitle {
+    font-size: 1.5rem;
+    color: var(--colour-primary);
+    display: block;
+    margin-bottom: -4px;
+  }
+
+  .booking-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--colour-ink);
+    margin: 0;
+  }
+
+  .booking-close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.06);
+    color: var(--colour-ink);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--motion-fast) var(--ease-out);
+  }
+
+  .booking-close-btn:hover {
+    background-color: var(--colour-primary);
+    color: #ffffff;
+  }
+
+  .booking-body {
+    padding: var(--space-6) var(--space-7);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .booking-intro {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: var(--lh-snug);
+    color: var(--colour-ink-subtle);
+    margin-bottom: var(--space-6);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 540px) {
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .form-label {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--colour-ink);
+    letter-spacing: 0.02em;
+  }
+
+  .required-star {
+    color: var(--colour-primary);
+  }
+
+  .optional-tag {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--colour-muted);
+    font-weight: 400;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #ffffff;
+    border: 1px solid var(--colour-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--colour-ink);
+    transition: border-color var(--motion-fast) var(--ease-out),
+                box-shadow var(--motion-fast) var(--ease-out);
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--colour-primary);
+    box-shadow: 0 0 0 3px var(--colour-primary-light);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .form-submit-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .direct-contact-note {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--colour-muted);
+    text-align: center;
+  }
+
+  .direct-link {
+    color: var(--colour-primary);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  const bookingModal = document.getElementById('booking-modal') as HTMLDialogElement | null;
+  const bookingCloseBtn = document.getElementById('booking-modal-close');
+  const bookingTriggers = document.querySelectorAll('[data-booking-trigger]');
+
+  function openBookingModal() {
+    if (bookingModal && typeof bookingModal.showModal === 'function') {
+      bookingModal.showModal();
+    }
+  }
+
+  function closeBookingModal() {
+    if (bookingModal && typeof bookingModal.close === 'function') {
+      bookingModal.close();
+    }
+  }
+
+  bookingTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', openBookingModal);
+  });
+
+  bookingCloseBtn?.addEventListener('click', closeBookingModal);
+
+  bookingModal?.addEventListener('click', (e) => {
+    const dialogDimensions = bookingModal.getBoundingClientRect();
+    if (
+      e.clientX < dialogDimensions.left ||
+      e.clientX > dialogDimensions.right ||
+      e.clientY < dialogDimensions.top ||
+      e.clientY > dialogDimensions.bottom
+    ) {
+      closeBookingModal();
+    }
+  });
+</script>

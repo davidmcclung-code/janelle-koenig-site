@@ -1,0 +1,44 @@
+---
+interface Props {
+  variant?: 'dark' | 'light';
+  class?: string;
+}
+
+const { variant = 'dark', class: className = '' } = Astro.props;
+const logoSrc = variant === 'light' 
+  ? '/images/logos/janelle-koenig-logo-white.png' 
+  : '/images/logos/janelle-koenig-logo.png';
+---
+
+<div class={`brand-logo-container ${className}`}>
+  <img
+    src={logoSrc}
+    alt="Janelle Koenig"
+    width="148"
+    height="78"
+    class="brand-logo-img"
+    loading="eager"
+    decoding="async"
+  />
+</div>
+
+<style>
+  .brand-logo-container {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .brand-logo-img {
+    width: 125px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    .brand-logo-img {
+      width: 105px;
+    }
+  }
+</style>

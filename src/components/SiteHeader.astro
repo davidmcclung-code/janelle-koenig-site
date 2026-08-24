@@ -1,0 +1,341 @@
+---
+import { siteConfig } from '../data/siteConfig';
+import BrandLogo from './BrandLogo.astro';
+---
+
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <!-- Brand Logo aligned to left margin -->
+    <a href="#" class="logo-link" aria-label="Janelle Koenig Home">
+      <BrandLogo variant="dark" />
+    </a>
+
+    <!-- Desktop Navigation centred across available space -->
+    <nav class="nav-desktop" aria-label="Main Navigation">
+      <ul class="nav-list">
+        {
+          siteConfig.navItems.map((item) => (
+            <li>
+              <a href={item.href} class="nav-link">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Header CTA button aligned to right margin -->
+    <div class="header-action">
+      <a href="#shows" class="btn btn-primary header-cta">
+        SEE JANELLE LIVE
+      </a>
+    </div>
+
+    <!-- Mobile Menu Toggle Button -->
+    <button
+      type="button"
+      class="menu-toggle"
+      id="menu-toggle"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg class="hamburger-icon" width="24" height="18" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <line x1="2" y1="2" x2="22" y2="2" />
+        <line x1="2" y1="9" x2="22" y2="9" />
+        <line x1="2" y1="16" x2="22" y2="16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-inner">
+      <div class="mobile-menu-header">
+        <a href="#" class="logo-link" aria-label="Janelle Koenig Home" id="mobile-logo">
+          <BrandLogo variant="dark" />
+        </a>
+        <button
+          type="button"
+          class="menu-close"
+          id="menu-close"
+          aria-label="Close navigation menu"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="mobile-nav" aria-label="Mobile Navigation">
+        <ul class="mobile-nav-list">
+          {
+            siteConfig.navItems.map((item) => (
+              <li>
+                <a href={item.href} class="mobile-nav-link">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mobile-menu-cta">
+          <a href="#shows" class="btn btn-primary mobile-btn" id="mobile-cta-btn">
+            SEE JANELLE LIVE
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    width: 100%;
+    z-index: 100;
+    background: transparent;
+    padding-top: 1.25rem;
+    padding-bottom: 0.5rem;
+    position: relative;
+  }
+
+  @media (max-width: 600px) {
+    .site-header {
+      padding-top: 0.85rem;
+      padding-bottom: 0.25rem;
+    }
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+    z-index: 2;
+  }
+
+  /* Desktop Nav Centered */
+  .nav-desktop {
+    display: none;
+  }
+
+  @media (min-width: 850px) {
+    .nav-desktop {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  }
+
+  .nav-link {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--colour-ink);
+    text-transform: uppercase;
+    position: relative;
+    padding: var(--space-1) 0;
+    transition: color var(--motion-fast) var(--ease-out);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--colour-primary);
+    transition: width var(--motion-fast) var(--ease-out);
+  }
+
+  .nav-link:hover {
+    color: var(--colour-primary);
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Header CTA Aligned to Right */
+  .header-action {
+    display: none;
+    z-index: 2;
+  }
+
+  @media (min-width: 850px) {
+    .header-action {
+      display: block;
+    }
+  }
+
+  .header-cta {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Mobile Toggle Button */
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--colour-ink);
+    transition: color var(--motion-fast) var(--ease-out);
+  }
+
+  .menu-toggle:hover {
+    color: var(--colour-primary);
+  }
+
+  .hamburger-icon {
+    display: block;
+  }
+
+  @media (min-width: 850px) {
+    .menu-toggle {
+      display: none;
+    }
+  }
+
+  /* Mobile Menu Drawer */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--colour-page);
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: opacity var(--motion-standard) var(--ease-out),
+                transform var(--motion-standard) var(--ease-out),
+                visibility var(--motion-standard);
+  }
+
+  .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-4) var(--container-gutter) var(--space-8);
+  }
+
+  .mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--colour-border);
+  }
+
+  .menu-close {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--colour-ink);
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding-top: var(--space-6);
+  }
+
+  .mobile-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .mobile-nav-link {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 800;
+    color: var(--colour-ink);
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    transition: color var(--motion-fast) var(--ease-out);
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--colour-primary);
+  }
+
+  .mobile-menu-cta {
+    padding-top: var(--space-6);
+  }
+
+  .mobile-btn {
+    width: 100%;
+    padding: 0.9rem;
+    font-size: 0.9375rem;
+  }
+</style>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuClose = document.getElementById('menu-close');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link, #mobile-cta-btn, #mobile-logo');
+
+  function openMenu() {
+    if (!mobileMenu || !menuToggle) return;
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    if (!mobileMenu || !menuToggle) return;
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  menuToggle?.addEventListener('click', openMenu);
+  menuClose?.addEventListener('click', closeMenu);
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>

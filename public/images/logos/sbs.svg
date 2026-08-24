@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 50" fill="currentColor" aria-label="SBS">
+  <!-- SBS angled dynamic parallelogram curves -->
+  <path d="M12,40 L4,40 L16,10 L24,10 Z" fill="currentColor"/>
+  <path d="M22,40 L15,40 L27,10 L34,10 Z" fill="currentColor"/>
+  <text x="42" y="38" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="34" letter-spacing="1">SBS</text>
+</svg>

@@ -1,0 +1,205 @@
+---
+interface Props {
+  imageSrc?: string;
+}
+
+const {
+  imageSrc = '/images/services/janelle-placeholder-mc.png',
+} = Astro.props;
+---
+
+<section class="corporate-banner-section" id="mc-events" aria-label="MC and Corporate Event Hosting">
+  <div class="banner-grid reveal">
+    <!-- Left Content Column (52% width) -->
+    <div class="banner-content">
+      <h2 class="font-script text-script-section banner-title">
+        Need a grown-up?
+      </h2>
+      <p class="banner-desc">
+        Janelle MCs events, hosts panels and turns corporate rooms into actual fun.
+      </p>
+      <div class="banner-actions">
+        <button type="button" class="btn btn-outline-warm banner-btn" id="mc-enquire-btn" data-booking-trigger>
+          <span>MC & EVENT ENQUIRIES</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Photo Column (48% width) -->
+    <div class="banner-media">
+      <img
+        src={imageSrc}
+        alt="Janelle Koenig hosting an event at the podium"
+        width="900"
+        height="550"
+        loading="lazy"
+        class="banner-img"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .corporate-banner-section {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    border: none;
+    display: block;
+    line-height: 0;
+    position: relative;
+    background-color: #ebd8cd;
+    overflow: hidden;
+  }
+
+  .banner-grid {
+    display: grid;
+    grid-template-columns: 54% 46%;
+    align-items: stretch;
+    min-height: 165px;
+    height: 165px;
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 850px) {
+    .banner-grid {
+      grid-template-columns: 52% 48%;
+      height: 176px;
+      min-height: 176px;
+      max-height: 176px;
+    }
+
+    .banner-media::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 100px;
+      background: linear-gradient(to right, #ebd8cd 0%, rgba(235, 216, 205, 0) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+  }
+
+  .banner-content {
+    line-height: normal;
+    padding-left: var(--container-gutter);
+    padding-right: clamp(1rem, 2vw, 2.5rem);
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 2;
+  }
+
+  .banner-title {
+    color: var(--colour-primary);
+    transform: rotate(-1.5deg);
+    display: inline-block;
+    font-size: clamp(1.4rem, 2vw, 1.7rem);
+    line-height: 1.1;
+    margin: 0 0 13px 0;
+  }
+
+  .banner-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+    line-height: 1.4;
+    color: var(--colour-ink);
+    max-width: 345px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .banner-actions {
+    margin-top: 17px;
+  }
+
+  .banner-btn {
+    border: 1.5px solid var(--colour-ink);
+    color: var(--colour-ink);
+    background-color: transparent;
+    height: 34px;
+    min-height: 34px;
+    padding: 0.35rem 0.95rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .banner-btn:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .banner-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Independent focal-position for MC image */
+  .banner-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    --mc-focal-x: 20%;
+    --mc-focal-y: 12%;
+    object-position: var(--mc-focal-x) var(--mc-focal-y);
+    transform: scale(1.06);
+    transform-origin: var(--mc-focal-x) var(--mc-focal-y);
+  }
+
+  @media (max-width: 600px) {
+    .banner-grid {
+      grid-template-columns: 55% 45%;
+      height: 165px;
+      min-height: 165px;
+    }
+
+    .banner-content {
+      padding-left: var(--container-gutter);
+      padding-right: 0.5rem;
+    }
+
+    .banner-title {
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+    }
+
+    .banner-desc {
+      font-size: 0.72rem;
+      line-height: 1.35;
+      max-width: 100%;
+    }
+
+    .banner-actions {
+      margin-top: 10px;
+    }
+
+    .banner-btn {
+      height: 30px;
+      min-height: 30px;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.65rem;
+    }
+
+    .banner-img {
+      object-position: center 10%;
+      transform: none;
+    }
+  }
+</style>

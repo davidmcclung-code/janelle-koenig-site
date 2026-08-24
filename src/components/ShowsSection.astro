@@ -1,0 +1,95 @@
+---
+import events from '../data/events.json';
+import EventList from './EventList.astro';
+import VideoCard from './VideoCard.astro';
+import type { EventItem } from '../types';
+
+const typedEvents = events as EventItem[];
+---
+
+<section class="shows-section" id="shows" aria-label="Upcoming Shows and Video">
+  <div class="container reveal">
+    <!-- 1.8:1 Column Relationship: Left column and Video column start on the same top line -->
+    <div class="shows-grid">
+      <div class="shows-list-col">
+        <!-- Section Heading in Cursive Script -->
+        <div class="shows-header">
+          <h2 class="font-script text-script-section shows-title">
+            Leaving the house soon
+          </h2>
+        </div>
+        <EventList events={typedEvents} />
+      </div>
+
+      <div class="shows-video-col" id="watch">
+        <VideoCard />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .shows-section {
+    padding-top: clamp(1rem, 2vw, 1.65rem);
+    padding-bottom: clamp(1.25rem, 2.2vw, 1.85rem);
+  }
+
+  :global(.js .reveal:not(.is-visible)) .shows-header {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  .shows-header {
+    margin-bottom: var(--space-3);
+    transition: opacity 500ms var(--ease-out),
+                transform 500ms var(--ease-out);
+    transition-delay: 0ms;
+  }
+
+  :global(.reveal.is-visible) .shows-header {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shows-header,
+    :global(.js .reveal:not(.is-visible)) .shows-header {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  .shows-title {
+    color: var(--colour-primary);
+    transform: rotate(-1.5deg);
+    display: inline-block;
+    font-size: 1.75rem;
+    line-height: 1.1;
+  }
+
+  .shows-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  /* 1.8:1 Ratio and 60px Column Gap at Desktop */
+  @media (min-width: 850px) {
+    .shows-grid {
+      grid-template-columns: 1.8fr 1fr;
+      gap: clamp(45px, 5.8vw, 65px);
+      align-items: start;
+    }
+  }
+
+  .shows-list-col {
+    width: 100%;
+  }
+
+  .shows-video-col {
+    width: 100%;
+    align-self: start;
+  }
+</style>

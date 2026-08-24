@@ -1,0 +1,356 @@
+---
+import { siteConfig } from '../data/siteConfig';
+
+interface Props {
+  imageSrc?: string;
+}
+
+const {
+  imageSrc = '/images/social/janelle-placeholder-substack.png',
+} = Astro.props;
+---
+
+<section class="substack-section" id="about" aria-label="Janelle's Substack Writing">
+  <div class="substack-grid reveal">
+    <!-- Left Content Column (~50% width) -->
+    <div class="substack-content">
+      <div class="substack-content-inner">
+        <!-- Large Illustrated "Indoors Club" Mug with 3 Red Burst Lines -->
+        <div class="mug-illustration-wrapper" aria-hidden="true">
+          <svg class="mug-svg" width="84" height="96" viewBox="0 0 90 100" fill="none">
+            <!-- 3 Radiant Red Burst Lines -->
+            <g class="burst-lines" stroke="var(--colour-primary)" stroke-width="3.5" stroke-linecap="round">
+              <line x1="26" y1="18" x2="16" y2="6" />
+              <line x1="38" y1="15" x2="38" y2="2" />
+              <line x1="50" y1="18" x2="59" y2="6" />
+            </g>
+            <!-- Illustrated Ceramic Mug Body -->
+            <rect x="12" y="24" width="52" height="60" rx="8" fill="#ffffff" stroke="#121212" stroke-width="3.5" />
+            <!-- Mug Handle -->
+            <path d="M64 34 C76 34 82 42 82 54 C82 66 76 74 64 74" fill="none" stroke="#121212" stroke-width="3.5" stroke-linecap="round" />
+            <!-- Mug Text -->
+            <text x="38" y="52" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="#121212" text-anchor="middle" letter-spacing="0.6">INDOORS</text>
+            <text x="38" y="65" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="#121212" text-anchor="middle" letter-spacing="0.6">CLUB</text>
+          </svg>
+        </div>
+
+        <!-- Text Block Beside the Mug -->
+        <div class="substack-text-block">
+          <h2 class="font-script text-script-section substack-title">
+            Apparently she writes too.
+          </h2>
+
+          <p class="substack-desc">
+            More Janelle, but with considerably<br class="desc-break" />less standing up.
+          </p>
+
+          <div class="substack-actions">
+            <a
+              href={siteConfig.substackUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary substack-btn"
+            >
+              <span>READ THE SUBSTACK</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <!-- Substack Underline Flourish -->
+            <svg class="substack-underline" viewBox="0 0 160 8" fill="none" aria-hidden="true">
+              <path class="underline-path" d="M3 5C45 2.5 115 2.5 157 5" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Media Column (~50% width) -->
+    <div class="substack-media">
+      <img
+        src={imageSrc}
+        alt="Janelle Koenig sitting at a table writing with coffee"
+        width="900"
+        height="550"
+        loading="lazy"
+        class="substack-img"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .substack-section {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    border: none;
+    display: block;
+    line-height: 0;
+    position: relative;
+    background-color: #faf0e7;
+    overflow: hidden;
+  }
+
+  .substack-grid {
+    display: grid;
+    grid-template-columns: 54% 46%;
+    align-items: stretch;
+    min-height: 175px;
+    height: 175px;
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 850px) {
+    .substack-grid {
+      grid-template-columns: 50% 50%;
+      height: 190px;
+      min-height: 190px;
+      max-height: 190px;
+    }
+
+    .substack-media::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 100px;
+      background: linear-gradient(to right, #faf0e7 0%, rgba(250, 240, 231, 0) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+  }
+
+  .substack-content {
+    line-height: normal;
+    padding-left: var(--container-gutter);
+    padding-right: clamp(1rem, 2vw, 2.5rem);
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 2;
+  }
+
+  .substack-content-inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 2vw, 24px);
+  }
+
+  /* Large Illustrated Indoors Club Mug */
+  .mug-illustration-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mug-svg {
+    width: clamp(68px, 6.8vw, 84px);
+    height: auto;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.06));
+  }
+
+  .substack-text-block {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .substack-title {
+    color: var(--colour-primary);
+    transform: rotate(-1deg);
+    display: inline-block;
+    font-size: clamp(1.4rem, 2vw, 1.7rem);
+    line-height: 1.1;
+    margin: 0 0 14px 0;
+  }
+
+  .substack-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+    line-height: 1.4;
+    color: var(--colour-ink-subtle);
+    font-weight: 500;
+    max-width: 335px;
+    margin: 0;
+  }
+
+  .desc-break {
+    display: inline;
+  }
+
+  .substack-actions {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 17px;
+  }
+
+  .substack-btn {
+    height: 34px;
+    min-height: 34px;
+    padding: 0.35rem 0.95rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .substack-underline {
+    display: block;
+    width: 100%;
+    max-width: 165px;
+    height: 6px;
+    margin-top: 3px;
+    overflow: visible;
+  }
+
+  .underline-path {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 0;
+  }
+
+  :global(.js .reveal:not(.is-visible)) .underline-path {
+    stroke-dashoffset: 160;
+  }
+
+  :global(.reveal.is-visible) .underline-path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 520ms var(--ease-out) 100ms;
+  }
+
+  /* Right Media Column */
+  .substack-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Independent focal-position for Substack image */
+  .substack-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    --substack-focal-x: 50%;
+    --substack-focal-y: 26%;
+    object-position: var(--substack-focal-x) var(--substack-focal-y);
+    transform: scale(1.04);
+    transform-origin: var(--substack-focal-x) var(--substack-focal-y);
+  }
+
+  @media (max-width: 849px) {
+    .mug-illustration-wrapper {
+      display: none;
+    }
+
+    .substack-content-inner {
+      gap: 0;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .substack-grid {
+      grid-template-columns: 55% 45%;
+      height: 165px;
+      min-height: 165px;
+    }
+
+    .substack-content {
+      padding-left: var(--container-gutter);
+      padding-right: 0.5rem;
+    }
+
+    .substack-text-block {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .substack-title {
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+    }
+
+    .substack-desc {
+      font-size: 0.72rem;
+      line-height: 1.35;
+      max-width: 100%;
+    }
+
+    .substack-actions {
+      margin-top: 10px;
+      max-width: 100%;
+    }
+
+    .substack-btn {
+      height: 30px;
+      min-height: 30px;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.65rem;
+      gap: 5px;
+      letter-spacing: 0.04em;
+    }
+
+    .substack-btn svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    .substack-underline {
+      max-width: 120px;
+      width: 100%;
+      margin-top: 2px;
+      height: 5px;
+    }
+
+    :global(.reveal.is-visible) .underline-path {
+      transition-duration: 450ms;
+      transition-delay: 80ms;
+    }
+
+    .substack-img {
+      object-position: 50% 15%;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .substack-title {
+      font-size: 1.15rem;
+      margin-bottom: 5px;
+    }
+
+    .substack-desc {
+      font-size: 0.68rem;
+    }
+
+    .substack-btn {
+      font-size: 0.6rem;
+      padding: 0.2rem 0.55rem;
+    }
+
+    .substack-underline {
+      max-width: 110px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .underline-path,
+    :global(.js .reveal:not(.is-visible)) .underline-path {
+      stroke-dashoffset: 0 !important;
+      transition: none !important;
+    }
+  }
+</style>

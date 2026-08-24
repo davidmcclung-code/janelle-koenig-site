@@ -1,0 +1,210 @@
+---
+import type { EventItem } from '../types';
+
+interface Props {
+  event: EventItem;
+  index?: number;
+}
+
+const { event, index = 0 } = Astro.props;
+---
+
+<li class="event-row" style={`--row-index: ${index};`}>
+  <!-- Date Badge -->
+  <div class="event-date">
+    <span class="event-day">{event.day}</span>
+    <span class="event-month">{event.month}</span>
+  </div>
+
+  <!-- Title & Venue -->
+  <div class="event-details">
+    <h3 class="event-title">{event.title}</h3>
+    <p class="event-venue">{event.venue}, {event.location}</p>
+  </div>
+
+  <!-- Action: Right Aligned -->
+  <div class="event-action">
+    {
+      event.isSoldOut ? (
+        <span class="event-badge sold-out">SOLD OUT</span>
+      ) : (
+        <a href={event.ticketUrl} class="event-ticket-link" aria-label={`Get tickets for ${event.title}`}>
+          <span>TICKETS</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      )
+    }
+  </div>
+</li>
+
+<style>
+  :global(.js .reveal:not(.is-visible)) .event-row {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  .event-row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: opacity 500ms var(--ease-out),
+                transform 500ms var(--ease-out);
+    transition-delay: calc(70ms + var(--row-index, 0) * 70ms);
+    will-change: opacity, transform;
+  }
+
+  :global(.reveal.is-visible) .event-row {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .event-row:first-child {
+    padding-top: 0;
+  }
+
+  .event-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* Date Badge */
+  .event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1;
+  }
+
+  .event-day {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--colour-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .event-month {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    color: var(--colour-ink);
+    letter-spacing: 0.05em;
+    margin-top: 1px;
+  }
+
+  /* Event Details */
+  .event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  .event-title {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 800;
+    color: var(--colour-ink);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .event-venue {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: #555555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Ticket Link: Consistently Aligned to Right Margin of Column */
+  .event-action {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .event-ticket-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--colour-primary);
+    transition: transform var(--motion-fast) var(--ease-out),
+                color var(--motion-fast) var(--ease-out);
+  }
+
+  .event-ticket-link:hover {
+    color: var(--colour-primary-hover);
+    transform: translateX(2px);
+  }
+
+  .event-badge.sold-out {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.45rem;
+    background-color: var(--colour-muted);
+    color: #ffffff;
+    border-radius: var(--radius-xs);
+  }
+
+  @media (max-width: 580px) {
+    .event-row {
+      grid-template-columns: 36px 1fr auto;
+      gap: 10px;
+      padding: 0.5rem 0;
+      transition-duration: 400ms;
+      transition-delay: calc(50ms + var(--row-index, 0) * 60ms);
+    }
+
+    .event-day {
+      font-size: 1.35rem;
+    }
+
+    .event-month {
+      font-size: 0.625rem;
+    }
+
+    .event-title {
+      font-size: 0.8125rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .event-venue {
+      font-size: 0.6875rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .event-ticket-link {
+      font-size: 0.6875rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .event-row,
+    :global(.js .reveal:not(.is-visible)) .event-row {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>

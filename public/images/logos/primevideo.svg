@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 45" fill="currentColor" aria-label="Prime Video">
+  <text x="0" y="28" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="25" letter-spacing="-0.5">prime video</text>
+  <!-- Smile arrow underneath -->
+  <path d="M12,36 Q45,46 80,36" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M76,32 L84,36 L78,41 Z" fill="currentColor"/>
+</svg>

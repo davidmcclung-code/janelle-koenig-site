@@ -1,0 +1,194 @@
+---
+---
+
+<dialog id="video-modal" class="modal-dialog" aria-labelledby="video-modal-title">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="video-modal-title" class="font-script modal-title">Watch Janelle Work</h3>
+      <button type="button" class="modal-close-btn" id="video-modal-close" aria-label="Close video modal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="video-container">
+        <!-- Video Player Placeholder Frame -->
+        <div class="video-player-placeholder">
+          <img
+            src="/images/performance/janelle-placeholder-comedy.png"
+            alt="Janelle Koenig live standup performance"
+            class="video-poster"
+          />
+          <div class="video-demo-overlay">
+            <div class="video-live-badge">SHOWREEL</div>
+            <p class="video-caption-text">
+              "Smart stand-up that gets the room laughing without making HR nervous."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .modal-dialog {
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: transparent;
+    max-width: 900px;
+    width: calc(100% - 2rem);
+    margin: auto;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-dialog::backdrop {
+    background-color: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(6px);
+  }
+
+  .modal-card {
+    background-color: #121212;
+    color: #ffffff;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .modal-title {
+    color: var(--colour-primary);
+    font-size: 1.75rem;
+    margin: 0;
+  }
+
+  .modal-close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--motion-fast) var(--ease-out);
+  }
+
+  .modal-close-btn:hover {
+    background-color: var(--colour-primary);
+  }
+
+  .modal-body {
+    padding: var(--space-4);
+  }
+
+  .video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000000;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .video-player-placeholder {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.65;
+  }
+
+  .video-demo-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    text-align: center;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
+  }
+
+  .video-live-badge {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    background-color: var(--colour-primary);
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-xs);
+  }
+
+  .video-caption-text {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: #ffffff;
+    max-width: 500px;
+    font-weight: 500;
+    line-height: var(--lh-snug);
+  }
+</style>
+
+<script>
+  const videoModal = document.getElementById('video-modal') as HTMLDialogElement | null;
+  const videoCloseBtn = document.getElementById('video-modal-close');
+  const videoTriggers = document.querySelectorAll('[data-video-trigger]');
+
+  function openVideoModal() {
+    if (videoModal && typeof videoModal.showModal === 'function') {
+      videoModal.showModal();
+    }
+  }
+
+  function closeVideoModal() {
+    if (videoModal && typeof videoModal.close === 'function') {
+      videoModal.close();
+    }
+  }
+
+  videoTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', openVideoModal);
+  });
+
+  videoCloseBtn?.addEventListener('click', closeVideoModal);
+
+  // Close when clicking dialog backdrop
+  videoModal?.addEventListener('click', (e) => {
+    const dialogDimensions = videoModal.getBoundingClientRect();
+    if (
+      e.clientX < dialogDimensions.left ||
+      e.clientX > dialogDimensions.right ||
+      e.clientY < dialogDimensions.top ||
+      e.clientY > dialogDimensions.bottom
+    ) {
+      closeVideoModal();
+    }
+  });
+</script>

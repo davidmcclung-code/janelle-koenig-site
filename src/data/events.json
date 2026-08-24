@@ -1,0 +1,46 @@
+[
+  {
+    "id": "perth-gala-2025",
+    "day": "07",
+    "month": "JUN",
+    "year": "2025",
+    "title": "Perth Comedy Festival Gala",
+    "venue": "State Theatre Centre",
+    "location": "Perth WA",
+    "ticketUrl": "#tickets-placeholder",
+    "status": "onsale"
+  },
+  {
+    "id": "brisbane-comedy-2025",
+    "day": "21",
+    "month": "JUN",
+    "year": "2025",
+    "title": "Brisbane Comedy Night",
+    "venue": "Powerhouse Theatre",
+    "location": "Brisbane QLD",
+    "ticketUrl": "#tickets-placeholder",
+    "status": "onsale"
+  },
+  {
+    "id": "micf-2025",
+    "day": "05",
+    "month": "JUL",
+    "year": "2025",
+    "title": "Melbourne International Comedy Festival",
+    "venue": "Various Venues",
+    "location": "Melbourne VIC",
+    "ticketUrl": "#tickets-placeholder",
+    "status": "onsale"
+  },
+  {
+    "id": "adelaide-cabaret-2025",
+    "day": "12",
+    "month": "JUL",
+    "year": "2025",
+    "title": "Adelaide Cabaret Festival",
+    "venue": "The Garden of Unearthly Delights",
+    "location": "Adelaide SA",
+    "ticketUrl": "#tickets-placeholder",
+    "status": "onsale"
+  }
+]

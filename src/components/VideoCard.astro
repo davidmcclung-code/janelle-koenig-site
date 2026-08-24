@@ -1,0 +1,191 @@
+---
+interface Props {
+  thumbnailSrc?: string;
+  title?: string;
+  description?: string;
+}
+
+const {
+  thumbnailSrc = '/images/performance/janelle-placeholder-comedy.png',
+  title = 'Watch Janelle',
+  description = 'Stand-up, interviews and questionable life choices.',
+} = Astro.props;
+---
+
+<div class="video-card">
+  <!-- Video Thumbnail with Centered Play Button Overlay -->
+  <div class="video-thumbnail-container" id="video-card-trigger" data-video-trigger role="button" tabindex="0" aria-label="Play showreel video">
+    <img
+      src={thumbnailSrc}
+      alt="Janelle Koenig performing comedy live on stage"
+      width="640"
+      height="400"
+      loading="lazy"
+      class="video-thumbnail"
+    />
+    <div class="play-overlay">
+      <div class="play-button">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <polygon points="9 6 18 12 9 18 9 6" fill="#ffffff"></polygon>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Below Thumbnail with calibrated breathing room -->
+  <div class="video-card-content">
+    <h3 class="font-script video-card-title">{title}</h3>
+    <p class="video-card-desc">{description}</p>
+    <button type="button" class="video-card-cta" data-video-trigger>
+      <span>WATCH NOW</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .video-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  @media (max-width: 849px) {
+    .video-card {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+
+  .video-thumbnail-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #000000;
+  }
+
+  .video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform var(--motion-fast) var(--ease-out),
+                opacity var(--motion-fast) var(--ease-out);
+  }
+
+  .video-thumbnail-container:hover .video-thumbnail {
+    transform: scale(1.02);
+    opacity: 0.92;
+  }
+
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+  }
+
+  .play-button {
+    width: 54px;
+    height: 54px;
+    border-radius: var(--radius-pill);
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--motion-fast) var(--ease-out),
+                background-color var(--motion-fast) var(--ease-out);
+  }
+
+  .play-button svg {
+    margin-left: 2px;
+  }
+
+  .video-thumbnail-container:hover .play-button {
+    transform: scale(1.08);
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+  }
+
+  /* Content Below Thumbnail: 14px gap from image, 7px to desc, 1.4 line-height, 11px to CTA */
+  .video-card-content {
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 849px) {
+    .video-card-content {
+      padding-top: 0;
+      justify-content: center;
+    }
+
+    .video-card-title {
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+
+    .video-card-desc {
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .video-card-cta {
+      font-size: 0.6875rem;
+    }
+  }
+
+  .video-card-title {
+    font-size: 1.625rem;
+    color: var(--colour-primary);
+    line-height: 1.1;
+    transform: rotate(-1.5deg);
+    display: inline-block;
+    margin-bottom: 7px;
+  }
+
+  .video-card-desc {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--colour-ink-subtle);
+    line-height: 1.4;
+    margin-bottom: 11px;
+    max-width: 280px;
+  }
+
+  .video-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--colour-primary);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: fit-content;
+    transition: transform var(--motion-fast) var(--ease-out),
+                color var(--motion-fast) var(--ease-out);
+  }
+
+  .video-card-cta:hover {
+    color: var(--colour-primary-hover);
+    transform: translateX(2px);
+  }
+</style>

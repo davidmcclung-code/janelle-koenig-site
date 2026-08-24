@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 60" fill="currentColor" aria-label="Channel 9">
+  <!-- 9 Dots (3x3 grid) -->
+  <circle cx="10" cy="12" r="5.5"/>
+  <circle cx="27" cy="12" r="5.5"/>
+  <circle cx="44" cy="12" r="5.5"/>
+  <circle cx="10" cy="30" r="5.5"/>
+  <circle cx="27" cy="30" r="5.5"/>
+  <circle cx="44" cy="30" r="5.5"/>
+  <circle cx="10" cy="48" r="5.5"/>
+  <circle cx="27" cy="48" r="5.5"/>
+  <circle cx="44" cy="48" r="5.5"/>
+  <!-- The 9 numeral -->
+  <path d="M78,6 C63,6 55,17 55,31 C55,47 64,54 77,54 C91,54 99,44 99,28 C99,12 89,6 78,6 Z M78,16 C83,16 87,20 87,28 C87,32 85,36 82,38 C79,40 76,40 73,39 C67,37 66,31 66,27 C66,19 71,16 78,16 Z M78,44 C72,44 68,41 68,36 C72,37 77,37 81,35 C86,33 87,28 87,28 C87,38 83,44 78,44 Z" fill-rule="evenodd"/>
+</svg>

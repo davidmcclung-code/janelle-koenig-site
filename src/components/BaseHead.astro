@@ -1,0 +1,77 @@
+---
+import { siteConfig } from '../data/siteConfig';
+import events from '../data/events.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = `${siteConfig.name} — ${siteConfig.role}`,
+  description = `${siteConfig.name} is an Australian comedian, professional MC, and panel host. Quick wit. Calm hands. Zero beige.`,
+  image = '/images/hero/janelle-placeholder-hero.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://janellekoenig.com');
+
+// JSON-LD Structured Data
+const jsonLdPerson = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteConfig.name,
+  jobTitle: ['Comedian', 'Master of Ceremonies', 'Panel Moderator', 'Writer'],
+  description: siteConfig.heroSubhead,
+  url: canonicalURL.toString(),
+  sameAs: siteConfig.socialLinks.map((s) => s.url),
+};
+
+const jsonLdEvents = events.map((event) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${siteConfig.name} at ${event.title}`,
+  startDate: `2025-${event.month === 'JUN' ? '06' : '07'}-${event.day}`,
+  location: {
+    '@type': 'Place',
+    name: event.venue,
+    address: event.location,
+  },
+  performer: {
+    '@type': 'Person',
+    name: siteConfig.name,
+  },
+}));
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="canonical" href={canonicalURL} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, canonicalURL)} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, canonicalURL)} />
+
+<!-- Google Fonts Preconnect -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLdPerson)} />
+<script type="application/ld+json" set:html={JSON.stringify(jsonLdEvents)} />
