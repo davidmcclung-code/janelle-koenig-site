@@ -17,11 +17,11 @@ const {
       <h2 class="font-script text-script-section banner-title">
         Need a grown-up?
       </h2>
-      <p class="banner-desc">
+      <p class="banner-desc wrap-break">
         Janelle MCs events, hosts panels and turns corporate rooms into actual fun.
       </p>
       <div class="banner-actions">
-        <button type="button" class="btn btn-outline-warm banner-btn" id="mc-enquire-btn" data-booking-trigger>
+        <button type="button" class="btn banner-btn" id="mc-enquire-btn" data-booking-trigger>
           <span>MC & EVENT ENQUIRIES</span>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -102,6 +102,7 @@ const {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    min-width: 0;
     z-index: 2;
   }
 
@@ -130,17 +131,21 @@ const {
 
   .banner-btn {
     border: 1.5px solid var(--colour-ink);
-    color: var(--colour-ink);
-    background-color: transparent;
+    color: #ffffff;
+    background-color: var(--colour-ink);
     height: 34px;
     min-height: 34px;
     padding: 0.35rem 0.95rem;
     font-size: 0.72rem;
     letter-spacing: 0.04em;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   }
 
   .banner-btn:hover {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+    color: #ffffff;
+    box-shadow: var(--shadow-button-hover);
     transform: translateY(-1px);
   }
 

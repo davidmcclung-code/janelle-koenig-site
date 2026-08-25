@@ -2,7 +2,7 @@
 import { asset } from '../utils/paths';
 ---
 
-<dialog id="video-modal" class="modal-dialog" aria-labelledby="video-modal-title">
+<dialog id="video-modal" class="modal-dialog" aria-labelledby="video-modal-title" aria-modal="true">
   <div class="modal-card">
     <div class="modal-header">
       <h3 id="video-modal-title" class="font-script modal-title">Watch Janelle Work</h3>
@@ -16,8 +16,17 @@ import { asset } from '../utils/paths';
 
     <div class="modal-body">
       <div class="video-container">
-        <!-- Video Player Placeholder Frame -->
-        <div class="video-player-placeholder">
+        <!-- Video Player / Embed with explicit playsinline=1 & autoplay=1 policy -->
+        <iframe
+          id="video-player-iframe"
+          class="video-iframe"
+          data-src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1"
+          title="Janelle Koenig Comedy Showreel"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+        <!-- Video Player Placeholder Frame Fallback -->
+        <div class="video-player-placeholder" id="video-placeholder">
           <img
             src={asset('/images/performance/janelle-placeholder-comedy.png')}
             alt="Janelle Koenig live standup performance"
@@ -25,7 +34,7 @@ import { asset } from '../utils/paths';
           />
           <div class="video-demo-overlay">
             <div class="video-live-badge">SHOWREEL</div>
-            <p class="video-caption-text">
+            <p class="video-caption-text wrap-break">
               "Smart stand-up that gets the room laughing without making HR nervous."
             </p>
           </div>
@@ -47,9 +56,31 @@ import { asset } from '../utils/paths';
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
   }
 
+  .modal-dialog[open] {
+    animation: modalScaleIn 260ms var(--ease-out) forwards;
+  }
+
   .modal-dialog::backdrop {
     background-color: rgba(10, 10, 10, 0.75);
-    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  @keyframes modalScaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal-dialog[open] {
+      animation: none !important;
+    }
   }
 
   .modal-card {
@@ -107,6 +138,15 @@ import { asset } from '../utils/paths';
     position: relative;
   }
 
+  .video-iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 2;
+  }
+
   .video-player-placeholder {
     width: 100%;
     height: 100%;
@@ -114,6 +154,7 @@ import { asset } from '../utils/paths';
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
   }
 
   .video-poster {
@@ -161,16 +202,33 @@ import { asset } from '../utils/paths';
   const videoModal = document.getElementById('video-modal') as HTMLDialogElement | null;
   const videoCloseBtn = document.getElementById('video-modal-close');
   const videoTriggers = document.querySelectorAll('[data-video-trigger]');
+  const videoIframe = document.getElementById('video-player-iframe') as HTMLIFrameElement | null;
 
-  function openVideoModal() {
+  let lastActiveVideoTrigger: HTMLElement | null = null;
+  let isVideoBackdropMousedown = false;
+
+  function openVideoModal(e?: Event) {
+    if (e?.currentTarget instanceof HTMLElement) {
+      lastActiveVideoTrigger = e.currentTarget;
+    }
     if (videoModal && typeof videoModal.showModal === 'function') {
+      if (videoIframe && videoIframe.dataset.src) {
+        videoIframe.src = videoIframe.dataset.src;
+      }
       videoModal.showModal();
+      requestAnimationFrame(() => {
+        videoCloseBtn?.focus();
+      });
     }
   }
 
   function closeVideoModal() {
     if (videoModal && typeof videoModal.close === 'function') {
+      if (videoIframe) {
+        videoIframe.src = '';
+      }
       videoModal.close();
+      lastActiveVideoTrigger?.focus();
     }
   }
 
@@ -180,16 +238,47 @@ import { asset } from '../utils/paths';
 
   videoCloseBtn?.addEventListener('click', closeVideoModal);
 
-  // Close when clicking dialog backdrop
-  videoModal?.addEventListener('click', (e) => {
-    const dialogDimensions = videoModal.getBoundingClientRect();
-    if (
-      e.clientX < dialogDimensions.left ||
-      e.clientX > dialogDimensions.right ||
-      e.clientY < dialogDimensions.top ||
-      e.clientY > dialogDimensions.bottom
-    ) {
+  // Safe backdrop click handling
+  videoModal?.addEventListener('mousedown', (e) => {
+    isVideoBackdropMousedown = e.target === videoModal;
+  });
+
+  videoModal?.addEventListener('mouseup', (e) => {
+    if (isVideoBackdropMousedown && e.target === videoModal) {
       closeVideoModal();
+    }
+    isVideoBackdropMousedown = false;
+  });
+
+  videoModal?.addEventListener('close', () => {
+    if (videoIframe) {
+      videoIframe.src = '';
+    }
+    lastActiveVideoTrigger?.focus();
+  });
+
+  // Focus trap inside video modal
+  videoModal?.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      const focusable = videoModal.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+
+      const firstElement = focusable[0];
+      const lastElement = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          lastElement.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          firstElement.focus();
+          e.preventDefault();
+        }
+      }
     }
   });
 </script>

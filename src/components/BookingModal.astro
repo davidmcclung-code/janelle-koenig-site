@@ -2,7 +2,7 @@
 import { siteConfig } from '../data/siteConfig';
 ---
 
-<dialog id="booking-modal" class="booking-dialog" aria-labelledby="booking-modal-title">
+<dialog id="booking-modal" class="booking-dialog" aria-labelledby="booking-modal-title" aria-modal="true">
   <div class="booking-card">
     <!-- Header -->
     <div class="booking-header">
@@ -20,7 +20,7 @@ import { siteConfig } from '../data/siteConfig';
 
     <!-- Body / Form -->
     <div class="booking-body">
-      <p class="booking-intro">
+      <p class="booking-intro wrap-break">
         Tell Janelle what you're planning, who's in the room and how much trouble she's allowed to get into.
       </p>
 
@@ -28,20 +28,46 @@ import { siteConfig } from '../data/siteConfig';
         <div class="form-grid">
           <!-- Name -->
           <div class="form-group">
-            <label for="booking-name" class="form-label">Your Name <span class="required-star">*</span></label>
-            <input type="text" id="booking-name" name="name" required class="form-input" placeholder="e.g. Sarah Mitchell" />
+            <label for="booking-name" class="form-label">Your Name <span class="required-star" aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="booking-name"
+              name="name"
+              required
+              maxlength="100"
+              autocomplete="name"
+              class="form-input"
+              placeholder="e.g. Sarah Mitchell"
+            />
           </div>
 
           <!-- Email -->
           <div class="form-group">
-            <label for="booking-email" class="form-label">Email Address <span class="required-star">*</span></label>
-            <input type="email" id="booking-email" name="email" required class="form-input" placeholder="sarah@example.com" />
+            <label for="booking-email" class="form-label">Email Address <span class="required-star" aria-hidden="true">*</span></label>
+            <input
+              type="email"
+              id="booking-email"
+              name="email"
+              required
+              maxlength="120"
+              autocomplete="email"
+              class="form-input"
+              placeholder="sarah@example.com"
+            />
           </div>
 
           <!-- Organisation -->
           <div class="form-group">
             <label for="booking-org" class="form-label">Organisation / Agency <span class="optional-tag">(optional)</span></label>
-            <input type="text" id="booking-org" name="organisation" class="form-input" placeholder="Company or Event Name" />
+            <input
+              type="text"
+              id="booking-org"
+              name="organisation"
+              maxlength="120"
+              autocomplete="organization"
+              class="form-input"
+              placeholder="Company or Event Name"
+            />
           </div>
 
           <!-- Service Type -->
@@ -63,24 +89,60 @@ import { siteConfig } from '../data/siteConfig';
 
           <div class="form-group">
             <label for="booking-location" class="form-label">Location / City <span class="optional-tag">(optional)</span></label>
-            <input type="text" id="booking-location" name="location" class="form-input" placeholder="e.g. Perth, Melbourne" />
+            <input
+              type="text"
+              id="booking-location"
+              name="location"
+              maxlength="100"
+              autocomplete="address-level2"
+              class="form-input"
+              placeholder="e.g. Perth, Melbourne"
+            />
           </div>
 
           <!-- Message -->
           <div class="form-group full-width">
-            <label for="booking-message" class="form-label">Event Details & Brief <span class="required-star">*</span></label>
-            <textarea id="booking-message" name="message" rows="4" required class="form-textarea" placeholder="Tell us about the audience, timing, and what you need from Janelle..."></textarea>
+            <label for="booking-message" class="form-label">Event Details & Brief <span class="required-star" aria-hidden="true">*</span></label>
+            <textarea
+              id="booking-message"
+              name="message"
+              rows="4"
+              required
+              maxlength="2500"
+              class="form-textarea"
+              placeholder="Tell us about the audience, timing, and what you need from Janelle..."
+            ></textarea>
           </div>
         </div>
 
         <!-- Form Submission Footer -->
         <div class="form-footer">
-          <button type="submit" class="btn btn-primary form-submit-btn">
+          <button type="submit" id="booking-submit-btn" class="btn btn-primary form-submit-btn">
             SEND ENQUIRY
           </button>
-          <p class="direct-contact-note">
-            Prefer direct email? Reach Janelle at <a href={`mailto:${siteConfig.email}`} class="direct-link">{siteConfig.email}</a>
-          </p>
+          <div class="direct-contact-container">
+            <p class="direct-contact-note wrap-break">
+              Prefer direct email? Reach Janelle at <a href={`mailto:${siteConfig.email}`} class="direct-link">{siteConfig.email}</a>
+              <button
+                type="button"
+                class="modal-copy-btn"
+                data-copy-email={siteConfig.email}
+                aria-label="Copy email address"
+                title="Copy email to clipboard"
+              >
+                <svg class="copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <svg class="check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </p>
+            <span class="modal-copy-toast" role="status" aria-live="polite">
+              Copied! (Zero small talk required)
+            </span>
+          </div>
         </div>
       </form>
     </div>
@@ -99,9 +161,31 @@ import { siteConfig } from '../data/siteConfig';
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
   }
 
+  .booking-dialog[open] {
+    animation: modalScaleIn 260ms var(--ease-out) forwards;
+  }
+
   .booking-dialog::backdrop {
     background-color: rgba(10, 10, 10, 0.75);
-    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  @keyframes modalScaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .booking-dialog[open] {
+      animation: none !important;
+    }
   }
 
   .booking-card {
@@ -190,6 +274,7 @@ import { siteConfig } from '../data/siteConfig';
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
+    min-width: 0;
   }
 
   .form-label {
@@ -252,11 +337,25 @@ import { siteConfig } from '../data/siteConfig';
     font-size: 1rem;
   }
 
+  .direct-contact-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
   .direct-contact-note {
     font-family: var(--font-body);
     font-size: 0.8125rem;
     color: var(--colour-muted);
     text-align: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 0;
   }
 
   .direct-link {
@@ -264,22 +363,127 @@ import { siteConfig } from '../data/siteConfig';
     font-weight: 600;
     text-decoration: underline;
   }
+
+  .modal-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--colour-border);
+    border-radius: var(--radius-xs);
+    color: var(--colour-ink);
+    cursor: pointer;
+    margin-left: 2px;
+    transition: background-color var(--motion-fast) var(--ease-out),
+                border-color var(--motion-fast) var(--ease-out),
+                color var(--motion-fast) var(--ease-out),
+                transform var(--motion-fast) var(--ease-out);
+  }
+
+  .modal-copy-btn:hover {
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .modal-copy-btn .copy-icon {
+    display: block;
+  }
+
+  .modal-copy-btn .check-icon {
+    display: none;
+  }
+
+  .modal-copy-btn.is-copied {
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+    color: #ffffff;
+  }
+
+  .modal-copy-btn.is-copied .copy-icon {
+    display: none;
+  }
+
+  .modal-copy-btn.is-copied .check-icon {
+    display: block;
+  }
+
+  .modal-copy-toast {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    background-color: var(--colour-ink);
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 5px 9px;
+    border-radius: var(--radius-xs);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .modal-copy-toast.is-visible {
+    display: block;
+    animation: toastFadeIn 200ms var(--ease-out) forwards;
+  }
+
+  @keyframes toastFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal-copy-toast.is-visible {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 </style>
 
 <script>
   const bookingModal = document.getElementById('booking-modal') as HTMLDialogElement | null;
   const bookingCloseBtn = document.getElementById('booking-modal-close');
   const bookingTriggers = document.querySelectorAll('[data-booking-trigger]');
+  const bookingForm = document.getElementById('booking-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('booking-submit-btn') as HTMLButtonElement | null;
 
-  function openBookingModal() {
+  let lastActiveElement: HTMLElement | null = null;
+  let isBackdropMousedown = false;
+
+  function openBookingModal(e?: Event) {
+    if (e?.currentTarget instanceof HTMLElement) {
+      lastActiveElement = e.currentTarget;
+    }
     if (bookingModal && typeof bookingModal.showModal === 'function') {
       bookingModal.showModal();
+      // Focus first input smoothly after modal renders
+      requestAnimationFrame(() => {
+        const firstInput = bookingModal.querySelector<HTMLElement>('input, button, select, textarea');
+        firstInput?.focus();
+      });
     }
   }
 
   function closeBookingModal() {
     if (bookingModal && typeof bookingModal.close === 'function') {
       bookingModal.close();
+      lastActiveElement?.focus();
     }
   }
 
@@ -289,15 +493,96 @@ import { siteConfig } from '../data/siteConfig';
 
   bookingCloseBtn?.addEventListener('click', closeBookingModal);
 
-  bookingModal?.addEventListener('click', (e) => {
-    const dialogDimensions = bookingModal.getBoundingClientRect();
-    if (
-      e.clientX < dialogDimensions.left ||
-      e.clientX > dialogDimensions.right ||
-      e.clientY < dialogDimensions.top ||
-      e.clientY > dialogDimensions.bottom
-    ) {
+  // Safe backdrop click handling (prevents inadvertent close on text selection drag)
+  bookingModal?.addEventListener('mousedown', (e) => {
+    isBackdropMousedown = e.target === bookingModal;
+  });
+
+  bookingModal?.addEventListener('mouseup', (e) => {
+    if (isBackdropMousedown && e.target === bookingModal) {
       closeBookingModal();
+    }
+    isBackdropMousedown = false;
+  });
+
+  bookingModal?.addEventListener('close', () => {
+    lastActiveElement?.focus();
+  });
+
+  // Focus trapping within modal
+  bookingModal?.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      const focusable = bookingModal.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+
+      const firstElement = focusable[0];
+      const lastElement = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          lastElement.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          firstElement.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
+
+  // Double submit prevention
+  bookingForm?.addEventListener('submit', () => {
+    if (submitBtn) {
+      submitBtn.setAttribute('disabled', 'true');
+      submitBtn.textContent = 'OPENING EMAIL CLIENT...';
+      setTimeout(() => {
+        submitBtn.removeAttribute('disabled');
+        submitBtn.textContent = 'SEND ENQUIRY';
+        closeBookingModal();
+      }, 1500);
+    }
+  });
+
+  // Modal Copy Email
+  const modalCopyBtn = document.querySelector<HTMLButtonElement>('.modal-copy-btn[data-copy-email]');
+  modalCopyBtn?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const text = modalCopyBtn.getAttribute('data-copy-email') || '';
+    if (!text) return;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+
+      modalCopyBtn.classList.add('is-copied');
+      const toast = modalCopyBtn.closest('.direct-contact-container')?.querySelector('.modal-copy-toast');
+      if (toast) {
+        toast.classList.add('is-visible');
+      }
+
+      setTimeout(() => {
+        modalCopyBtn.classList.remove('is-copied');
+        if (toast) {
+          toast.classList.remove('is-visible');
+        }
+      }, 2400);
+    } catch (err) {
+      console.error('Failed to copy email in modal:', err);
     }
   });
 </script>

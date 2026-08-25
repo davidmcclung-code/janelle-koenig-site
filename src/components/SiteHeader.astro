@@ -27,7 +27,7 @@ import BrandLogo from './BrandLogo.astro';
 
     <!-- Header CTA button aligned to right margin -->
     <div class="header-action">
-      <a href="#shows" class="btn btn-primary header-cta">
+      <a href="#shows" class="btn btn-secondary header-cta">
         SEE JANELLE LIVE
       </a>
     </div>
@@ -323,6 +323,7 @@ import BrandLogo from './BrandLogo.astro';
     mobileMenu.setAttribute('aria-hidden', 'false');
     menuToggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
+    menuClose?.focus();
   }
 
   function closeMenu() {
@@ -331,11 +332,51 @@ import BrandLogo from './BrandLogo.astro';
     mobileMenu.setAttribute('aria-hidden', 'true');
     menuToggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
+    menuToggle.focus();
   }
 
   menuToggle?.addEventListener('click', openMenu);
   menuClose?.addEventListener('click', closeMenu);
   mobileLinks.forEach((link) => {
     link.addEventListener('click', closeMenu);
+  });
+
+  // Escape key listener to close menu
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && mobileMenu?.classList.contains('is-open')) {
+      closeMenu();
+    }
+  });
+
+  // Focus trapping within mobile drawer
+  mobileMenu?.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Tab' && mobileMenu.classList.contains('is-open')) {
+      const focusable = mobileMenu.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+
+      const firstElement = focusable[0];
+      const lastElement = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          lastElement.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          firstElement.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
+
+  // Viewport resize safeguard (e.g. device rotation or desktop resize)
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 850 && mobileMenu?.classList.contains('is-open')) {
+      closeMenu();
+    }
   });
 </script>

@@ -4,6 +4,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import VideoModal from '../components/VideoModal.astro';
 import BookingModal from '../components/BookingModal.astro';
+import { siteConfig } from '../data/siteConfig';
 import '../styles/global.css';
 
 interface Props {
@@ -64,6 +65,17 @@ const { title, description } = Astro.props;
         // Fallback or reduced-motion
         reveals.forEach((el) => el.classList.add('is-visible'));
       }
+    </script>
+
+    <!-- Developer Console Easter Egg -->
+    <script define:vars={{ email: siteConfig.email }}>
+      console.log(
+        '%c👋 Hello Australia!\n%cInspecting the source code? Janelle approves of your indoor hobbies.\n\n%cNeed a comic, MC, or panel host? %c' + email,
+        'color: #c92a2a; font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 16px; font-weight: 800; padding: 4px 0;',
+        'color: #121212; font-family: system-ui, sans-serif; font-size: 12px; font-weight: 500; line-height: 1.5;',
+        'color: #666666; font-family: system-ui, sans-serif; font-size: 11px;',
+        'color: #c92a2a; font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; text-decoration: underline;'
+      );
     </script>
   </body>
 </html>

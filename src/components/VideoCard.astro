@@ -37,7 +37,7 @@ const {
   <!-- Content Below Thumbnail with calibrated breathing room -->
   <div class="video-card-content">
     <h3 class="font-script video-card-title">{title}</h3>
-    <p class="video-card-desc">{description}</p>
+    <p class="video-card-desc wrap-break">{description}</p>
     <button type="button" class="video-card-cta" data-video-trigger>
       <span>WATCH NOW</span>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -48,11 +48,25 @@ const {
   </div>
 </div>
 
+<script>
+  const videoThumbTrigger = document.getElementById('video-card-trigger');
+  videoThumbTrigger?.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const videoModal = document.getElementById('video-modal') as HTMLDialogElement | null;
+      if (videoModal && typeof videoModal.showModal === 'function') {
+        videoModal.showModal();
+      }
+    }
+  });
+</script>
+
 <style>
   .video-card {
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 0;
   }
 
   @media (max-width: 849px) {
@@ -101,14 +115,20 @@ const {
     width: 54px;
     height: 54px;
     border-radius: var(--radius-pill);
-    background-color: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(4px);
-    border: 2px solid rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 2px solid #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     transition: transform var(--motion-fast) var(--ease-out),
-                background-color var(--motion-fast) var(--ease-out);
+                background-color var(--motion-fast) var(--ease-out),
+                border-color var(--motion-fast) var(--ease-out);
+  }
+
+  .play-button svg polygon {
+    fill: var(--colour-ink);
+    transition: fill var(--motion-fast) var(--ease-out);
   }
 
   .play-button svg {
@@ -121,11 +141,16 @@ const {
     border-color: var(--colour-primary);
   }
 
+  .video-thumbnail-container:hover .play-button svg polygon {
+    fill: #ffffff;
+  }
+
   /* Content Below Thumbnail: 14px gap from image, 7px to desc, 1.4 line-height, 11px to CTA */
   .video-card-content {
     padding-top: 14px;
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
   @media (max-width: 849px) {

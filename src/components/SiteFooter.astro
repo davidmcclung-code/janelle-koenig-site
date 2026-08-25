@@ -13,7 +13,7 @@ const currentYear = new Date().getFullYear();
         <a href="#" class="footer-logo-link" aria-label="Janelle Koenig Home">
           <BrandLogo variant="light" />
         </a>
-        <p class="footer-bio">
+        <p class="footer-bio wrap-break">
           Comedian. Writer. Indoors enthusiast.<br />
           Noodle aficionado.
         </p>
@@ -81,9 +81,29 @@ const currentYear = new Date().getFullYear();
       <div class="footer-contact-col">
         <h3 class="footer-heading">ENQUIRIES</h3>
         <div class="footer-contact-links">
-          <a href={`mailto:${siteConfig.email}`} class="footer-contact-link">
-            {siteConfig.email}
-          </a>
+          <div class="footer-email-row">
+            <a href={`mailto:${siteConfig.email}`} class="footer-contact-link wrap-break">
+              {siteConfig.email}
+            </a>
+            <button
+              type="button"
+              class="footer-copy-btn"
+              data-copy-email={siteConfig.email}
+              aria-label="Copy email address"
+              title="Copy email to clipboard"
+            >
+              <svg class="copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <svg class="check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <span class="footer-copy-toast" role="status" aria-live="polite">
+              Copied! (Zero small talk required)
+            </span>
+          </div>
           <a href={`tel:${siteConfig.phone.replace(/\s/g, '')}`} class="footer-contact-link">
             {siteConfig.phone}
           </a>
@@ -93,11 +113,19 @@ const currentYear = new Date().getFullYear();
 
     <!-- Bottom Colophon / Copyright Bar -->
     <div class="footer-bottom">
-      <p class="copyright-text">
+      <p class="copyright-text wrap-break">
         &copy; {currentYear} {siteConfig.name}. All rights reserved.
       </p>
-      <p class="studio-credit">
-        {siteConfig.studioCredit.text}
+      <p class="studio-credit wrap-break">
+        {
+          siteConfig.studioCredit.url ? (
+            <a href={siteConfig.studioCredit.url} target="_blank" rel="noopener noreferrer" class="credit-link">
+              {siteConfig.studioCredit.text}
+            </a>
+          ) : (
+            siteConfig.studioCredit.text
+          )
+        }
       </p>
     </div>
   </div>
@@ -314,4 +342,172 @@ const currentYear = new Date().getFullYear();
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.75rem;
   }
+
+  .credit-link {
+    color: inherit;
+    text-decoration: underline;
+    transition: color var(--motion-fast) var(--ease-out);
+  }
+
+  .credit-link:hover {
+    color: #ffffff;
+  }
+
+  /* Copy Email Button & Micro-Toast */
+  .footer-email-row {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+  }
+
+  .footer-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-xs);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    line-height: 1;
+    transition: background-color var(--motion-fast) var(--ease-out),
+                border-color var(--motion-fast) var(--ease-out),
+                color var(--motion-fast) var(--ease-out),
+                transform var(--motion-fast) var(--ease-out);
+  }
+
+  .footer-copy-btn:hover {
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .footer-copy-btn .copy-icon {
+    display: block;
+  }
+
+  .footer-copy-btn .check-icon {
+    display: none;
+  }
+
+  .footer-copy-btn.is-copied {
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+    color: #ffffff;
+  }
+
+  .footer-copy-btn.is-copied .copy-icon {
+    display: none;
+  }
+
+  .footer-copy-btn.is-copied .check-icon {
+    display: block;
+  }
+
+  .footer-copy-toast {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 5px 9px;
+    border-radius: var(--radius-xs);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .footer-copy-toast.is-visible {
+    display: block;
+    animation: toastFadeIn 200ms var(--ease-out) forwards;
+  }
+
+  @keyframes toastFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .footer-copy-toast {
+      left: auto;
+      right: 0;
+      font-size: 0.68rem;
+      padding: 4px 7px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer-copy-toast.is-visible {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 </style>
+
+<script>
+  function setupFooterCopy() {
+    const copyBtns = document.querySelectorAll<HTMLButtonElement>('.footer-copy-btn[data-copy-email]');
+    copyBtns.forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const text = btn.getAttribute('data-copy-email') || '';
+        if (!text) return;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+          }
+
+          btn.classList.add('is-copied');
+          const toast = btn.parentElement?.querySelector('.footer-copy-toast');
+          if (toast) {
+            toast.classList.add('is-visible');
+          }
+
+          setTimeout(() => {
+            btn.classList.remove('is-copied');
+            if (toast) {
+              toast.classList.remove('is-visible');
+            }
+          }, 2400);
+        } catch (err) {
+          console.error('Failed to copy email:', err);
+        }
+      });
+    });
+  }
+
+  setupFooterCopy();
+  document.addEventListener('astro:page-load', setupFooterCopy);
+</script>

@@ -18,12 +18,12 @@ const {
       <div class="substack-content-inner">
         <!-- Large Illustrated "Indoors Club" Mug with 3 Red Burst Lines -->
         <div class="mug-illustration-wrapper" aria-hidden="true">
-          <svg class="mug-svg" width="84" height="96" viewBox="0 0 90 100" fill="none">
-            <!-- 3 Radiant Red Burst Lines -->
-            <g class="burst-lines" stroke="var(--colour-primary)" stroke-width="3.5" stroke-linecap="round">
-              <line x1="26" y1="18" x2="16" y2="6" />
-              <line x1="38" y1="15" x2="38" y2="2" />
-              <line x1="50" y1="18" x2="59" y2="6" />
+          <svg class="mug-svg" width="84" height="96" viewBox="0 -10 90 110" fill="none">
+            <!-- 3 Radiant Red Steam Lines -->
+            <g class="burst-lines" stroke="var(--colour-primary)" stroke-width="3.2" stroke-linecap="round">
+              <path class="steam-line steam-left" d="M26 21 C24 16 19 14 17 9" />
+              <path class="steam-line steam-center" d="M38 19 C39 15 37 11 38 7" />
+              <path class="steam-line steam-right" d="M50 21 C52 16 57 14 59 9" />
             </g>
             <!-- Illustrated Ceramic Mug Body -->
             <rect x="12" y="24" width="52" height="60" rx="8" fill="#ffffff" stroke="#121212" stroke-width="3.5" />
@@ -37,11 +37,11 @@ const {
 
         <!-- Text Block Beside the Mug -->
         <div class="substack-text-block">
-          <h2 class="font-script text-script-section substack-title">
+          <h2 class="font-script text-script-section substack-title wrap-break">
             Apparently she writes too.
           </h2>
 
-          <p class="substack-desc">
+          <p class="substack-desc wrap-break">
             More Janelle, but with considerably<br class="desc-break" />less standing up.
           </p>
 
@@ -132,12 +132,13 @@ const {
     line-height: normal;
     padding-left: var(--container-gutter);
     padding-right: clamp(1rem, 2vw, 2.5rem);
-    padding-top: var(--space-3);
-    padding-bottom: var(--space-3);
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    min-width: 0;
     z-index: 2;
   }
 
@@ -153,12 +154,77 @@ const {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    overflow: visible;
   }
 
   .mug-svg {
     width: clamp(68px, 6.8vw, 84px);
     height: auto;
+    overflow: visible;
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.06));
+    transition: transform var(--motion-fast) var(--ease-out);
+    transform-origin: bottom center;
+  }
+
+  .substack-content:hover .mug-svg {
+    transform: rotate(-2deg) scale(1.02);
+  }
+
+  .burst-lines {
+    transition: transform var(--motion-fast) var(--ease-out);
+    transform-origin: 38px 24px;
+  }
+
+  .steam-line {
+    transform-origin: 38px 24px;
+    will-change: transform, opacity;
+  }
+
+  /* Gentle staggered steam waft when in view */
+  :global(.reveal.is-visible) .steam-left {
+    animation: steamWaft 2.6s ease-in-out infinite;
+    animation-delay: 0ms;
+  }
+
+  :global(.reveal.is-visible) .steam-center {
+    animation: steamWaft 2.6s ease-in-out infinite;
+    animation-delay: 450ms;
+  }
+
+  :global(.reveal.is-visible) .steam-right {
+    animation: steamWaft 2.6s ease-in-out infinite;
+    animation-delay: 900ms;
+  }
+
+  @keyframes steamWaft {
+    0%, 100% {
+      transform: translateY(0) scaleY(0.95);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateY(-2px) scaleY(1.08);
+      opacity: 1;
+    }
+  }
+
+  .substack-content:hover .burst-lines,
+  .mug-illustration-wrapper:hover .burst-lines {
+    transform: translateY(-1px);
+  }
+
+  .substack-content:hover .steam-left,
+  .mug-illustration-wrapper:hover .steam-left {
+    animation-duration: 1.8s;
+  }
+
+  .substack-content:hover .steam-center,
+  .mug-illustration-wrapper:hover .steam-center {
+    animation-duration: 1.8s;
+  }
+
+  .substack-content:hover .steam-right,
+  .mug-illustration-wrapper:hover .steam-right {
+    animation-duration: 1.8s;
   }
 
   .substack-text-block {
@@ -252,13 +318,22 @@ const {
   }
 
   @media (max-width: 849px) {
-    .mug-illustration-wrapper {
-      display: none;
+    .substack-content-inner {
+      gap: clamp(10px, 1.8vw, 16px);
+      width: 100%;
     }
 
-    .substack-content-inner {
-      gap: 0;
-      width: 100%;
+    .mug-svg {
+      width: clamp(48px, 6.5vw, 56px);
+    }
+
+    .substack-title {
+      font-size: clamp(1.3rem, 2.2vw, 1.55rem);
+      margin-bottom: 8px;
+    }
+
+    .substack-actions {
+      margin-top: 12px;
     }
   }
 
@@ -327,6 +402,16 @@ const {
     }
   }
 
+  @media (max-width: 540px) {
+    .mug-illustration-wrapper {
+      display: none;
+    }
+
+    .substack-content-inner {
+      gap: 0;
+    }
+  }
+
   @media (max-width: 380px) {
     .substack-title {
       font-size: 1.15rem;
@@ -352,6 +437,18 @@ const {
     :global(.js .reveal:not(.is-visible)) .underline-path {
       stroke-dashoffset: 0 !important;
       transition: none !important;
+    }
+
+    .steam-line,
+    .steam-left,
+    .steam-center,
+    .steam-right,
+    :global(.reveal.is-visible) .steam-left,
+    :global(.reveal.is-visible) .steam-center,
+    :global(.reveal.is-visible) .steam-right {
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
     }
   }
 </style>

@@ -28,21 +28,34 @@ const jsonLdPerson = {
   sameAs: siteConfig.socialLinks.map((s) => s.url),
 };
 
-const jsonLdEvents = events.map((event) => ({
-  '@context': 'https://schema.org',
-  '@type': 'Event',
-  name: `${siteConfig.name} at ${event.title}`,
-  startDate: `2025-${event.month === 'JUN' ? '06' : '07'}-${event.day}`,
-  location: {
-    '@type': 'Place',
-    name: event.venue,
-    address: event.location,
-  },
-  performer: {
-    '@type': 'Person',
-    name: siteConfig.name,
-  },
-}));
+const monthMap: Record<string, string> = {
+  JAN: '01', FEB: '02', MAR: '03', APR: '04', MAY: '05', JUN: '06',
+  JUL: '07', AUG: '08', SEP: '09', OCT: '10', NOV: '11', DEC: '12',
+};
+
+const currentYear = new Date().getFullYear();
+
+const jsonLdEvents = Array.isArray(events)
+  ? events.map((event) => {
+      const monthNum = monthMap[event.month?.toUpperCase()] || '06';
+      const dayNum = String(event.day || '01').padStart(2, '0');
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: `${siteConfig.name} at ${event.title}`,
+        startDate: `${currentYear}-${monthNum}-${dayNum}`,
+        location: {
+          '@type': 'Place',
+          name: event.venue,
+          address: event.location,
+        },
+        performer: {
+          '@type': 'Person',
+          name: siteConfig.name,
+        },
+      };
+    })
+  : [];
 ---
 
 <meta charset="utf-8" />

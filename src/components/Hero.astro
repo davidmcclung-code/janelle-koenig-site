@@ -20,7 +20,7 @@ import { asset } from '../utils/paths';
       </h1>
 
       <!-- Supporting Copy: 3 distinct lines, constrained to ~320px -->
-      <p class="hero-subhead">
+      <p class="hero-subhead wrap-break">
         Stand-up comedian, writer and<br />
         indoors enthusiast.<br />
         See Janelle live around Australia.
@@ -85,6 +85,7 @@ import { asset } from '../utils/paths';
     position: relative;
     z-index: 3;
     max-width: 480px;
+    min-width: 0;
     padding-top: 56px;
     padding-bottom: 3.5rem;
     display: flex;
@@ -149,6 +150,7 @@ import { asset } from '../utils/paths';
   .hero-actions {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     gap: 14px;
   }
@@ -262,13 +264,12 @@ import { asset } from '../utils/paths';
 
     .hero-btn-live,
     .hero-btn-watch {
-      height: 38px;
-      min-height: 38px;
+      height: 44px;
+      min-height: 44px;
       min-width: 145px;
       width: fit-content;
-      max-width: 165px;
-      font-size: 0.72rem;
-      padding: 0.35rem 0.85rem;
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
     }
 
     .hero-burst-mark {
@@ -328,16 +329,18 @@ import { asset } from '../utils/paths';
     }
 
     .hero-actions {
-      gap: 7px;
+      gap: 8px;
+      width: 100%;
     }
 
     .hero-btn-live,
     .hero-btn-watch {
-      height: 34px;
-      min-height: 34px;
-      min-width: 135px;
-      font-size: 0.6875rem;
-      padding: 0.3rem 0.75rem;
+      height: 44px;
+      min-height: 44px;
+      min-width: 140px;
+      font-size: 0.75rem;
+      line-height: 1.2;
+      padding: 0.5rem 0.95rem;
     }
 
     .hero-burst-mark {

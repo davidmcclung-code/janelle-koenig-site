@@ -11,7 +11,7 @@ const { events } = Astro.props;
 
 <div class="event-list-wrapper">
   {
-    events && events.length > 0 ? (
+    Array.isArray(events) && events.length > 0 ? (
       <ul class="event-list" aria-label="Upcoming Shows">
         {events.map((event, index) => (
           <EventRow event={event} index={index} />
@@ -21,6 +21,9 @@ const { events } = Astro.props;
       <div class="events-empty-state">
         <p class="empty-text">No upcoming public shows currently announced.</p>
         <p class="empty-subtext">Check back soon or enquire for private & corporate bookings.</p>
+        <button type="button" class="btn btn-primary empty-enquire-btn" data-booking-trigger>
+          BOOK JANELLE
+        </button>
       </div>
     )
   }
@@ -56,5 +59,10 @@ const { events } = Astro.props;
     font-family: var(--font-body);
     font-size: 0.9375rem;
     color: var(--colour-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .empty-enquire-btn {
+    margin-inline: auto;
   }
 </style>
