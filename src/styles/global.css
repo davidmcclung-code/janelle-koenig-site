@@ -142,7 +142,7 @@ ul, ol {
 /* Scroll Reveal System */
 .js .reveal:not(.is-visible) {
   opacity: 0;
-  transform: translateY(var(--motion-distance, 18px));
+  transform: translateY(var(--motion-distance, 24px));
 }
 
 .reveal {
@@ -157,7 +157,7 @@ ul, ol {
 
 @media (max-width: 600px) {
   .reveal {
-    transition-duration: 450ms;
+    transition-duration: 600ms;
   }
 }
 

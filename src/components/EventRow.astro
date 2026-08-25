@@ -43,7 +43,7 @@ const { event, index = 0 } = Astro.props;
 <style>
   :global(.js .reveal:not(.is-visible)) .event-row {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(18px);
   }
 
   .event-row {
@@ -53,9 +53,9 @@ const { event, index = 0 } = Astro.props;
     gap: var(--space-4);
     padding: 0.55rem 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    transition: opacity 500ms var(--ease-out),
-                transform 500ms var(--ease-out);
-    transition-delay: calc(70ms + var(--row-index, 0) * 70ms);
+    transition: opacity 700ms var(--ease-out),
+                transform 700ms var(--ease-out);
+    transition-delay: calc(85ms + var(--row-index, 0) * 85ms);
     will-change: opacity, transform;
   }
 
@@ -168,8 +168,8 @@ const { event, index = 0 } = Astro.props;
       grid-template-columns: 36px 1fr auto;
       gap: 10px;
       padding: 0.5rem 0;
-      transition-duration: 400ms;
-      transition-delay: calc(50ms + var(--row-index, 0) * 60ms);
+      transition-duration: 550ms;
+      transition-delay: calc(60ms + var(--row-index, 0) * 70ms);
     }
 
     .event-day {

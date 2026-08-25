@@ -366,7 +366,7 @@ import { asset } from '../utils/paths';
   @keyframes heroFadeIn {
     from {
       opacity: 0;
-      transform: translateY(var(--motion-distance, 18px));
+      transform: translateY(var(--motion-distance, 24px));
     }
     to {
       opacity: 1;
@@ -376,28 +376,28 @@ import { asset } from '../utils/paths';
 
   .hero-greeting-wrapper,
   .hero-title {
-    animation: heroFadeIn var(--motion-standard, 600ms) var(--ease-out) 0ms both;
+    animation: heroFadeIn var(--motion-standard, 800ms) var(--ease-out) 0ms both;
   }
 
   .hero-subhead,
   .hero-actions,
   .hero-media,
   .hero-burst-mark {
-    animation: heroFadeIn var(--motion-standard, 600ms) var(--ease-out) var(--motion-stagger, 100ms) both;
+    animation: heroFadeIn var(--motion-standard, 800ms) var(--ease-out) var(--motion-stagger, 100ms) both;
   }
 
   @media (max-width: 600px) {
     .hero-greeting-wrapper,
     .hero-title {
-      animation-duration: 450ms;
+      animation-duration: 600ms;
     }
 
     .hero-subhead,
     .hero-actions,
     .hero-media,
     .hero-burst-mark {
-      animation-duration: 450ms;
-      animation-delay: 80ms;
+      animation-duration: 600ms;
+      animation-delay: 90ms;
     }
   }
 

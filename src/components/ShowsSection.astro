@@ -36,13 +36,13 @@ const typedEvents = events as EventItem[];
 
   :global(.js .reveal:not(.is-visible)) .shows-header {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(18px);
   }
 
   .shows-header {
     margin-bottom: var(--space-3);
-    transition: opacity 500ms var(--ease-out),
-                transform 500ms var(--ease-out);
+    transition: opacity var(--motion-standard) var(--ease-out),
+                transform var(--motion-standard) var(--ease-out);
     transition-delay: 0ms;
   }
 

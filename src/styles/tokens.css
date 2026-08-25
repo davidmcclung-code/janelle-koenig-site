@@ -57,9 +57,9 @@
 
   /* Motion */
   --motion-fast: 200ms;
-  --motion-standard: 600ms;
-  --motion-slow: 750ms;
-  --motion-distance: 18px;
+  --motion-standard: 800ms;
+  --motion-slow: 950ms;
+  --motion-distance: 24px;
   --motion-stagger: 100ms;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
