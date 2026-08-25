@@ -281,23 +281,23 @@ import { asset } from '../utils/paths';
 
     .hero-media {
       position: absolute;
-      width: 52%;
-      max-width: 320px;
-      height: 100%;
-      top: 0;
+      width: 54%;
+      max-width: 350px;
+      top: -12px;
       bottom: 0;
       right: 0;
       display: flex;
-      align-items: flex-end;
+      align-items: flex-start;
       justify-content: flex-end;
+      pointer-events: none;
     }
 
     .hero-portrait-img {
       width: 100%;
       height: 100%;
       max-height: none;
-      object-fit: contain;
-      object-position: bottom right;
+      object-fit: cover;
+      object-position: top right;
       filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
     }
   }
@@ -350,18 +350,20 @@ import { asset } from '../utils/paths';
     }
 
     .hero-media {
-      width: 50%;
-      max-width: 250px;
+      width: 52%;
+      max-width: 270px;
       right: 0;
-      top: 0;
+      top: -8px;
       bottom: 0;
+      pointer-events: none;
     }
 
     .hero-portrait-img {
+      width: 100%;
       height: 100%;
       max-height: none;
-      object-fit: contain;
-      object-position: bottom right;
+      object-fit: cover;
+      object-position: top right;
     }
   }
 
