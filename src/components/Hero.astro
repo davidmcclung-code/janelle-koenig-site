@@ -482,22 +482,28 @@ import { asset } from '../utils/paths';
     }
 
     .hero-media {
-      width: 52%;
-      max-width: 250px;
-      right: 0;
+      position: absolute;
+      top: -12px;
       bottom: 0;
-      top: auto;
-      height: auto;
+      right: -8px;
+      width: auto;
+      max-width: none;
+      height: calc(100% + 12px);
+      display: flex;
       align-items: flex-end;
       justify-content: flex-end;
+      pointer-events: none;
+      z-index: 1;
     }
 
     .hero-portrait-img {
-      width: 100%;
-      height: auto;
-      max-height: none;
+      height: 100%;
+      width: auto;
+      max-width: none;
+      display: block;
       object-fit: contain;
       object-position: bottom right;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
     }
   }
 
