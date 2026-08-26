@@ -1,5 +1,15 @@
 ---
 import { asset } from '../utils/paths';
+
+interface Props {
+  videoSrc?: string;
+  posterSrc?: string;
+}
+
+const {
+  videoSrc = asset('/video/watch_janelle_placeholder_video.mp4'),
+  posterSrc = asset('/images/performance/watch-janelle-thumbnail.png'),
+} = Astro.props;
 ---
 
 <dialog id="video-modal" class="modal-dialog" aria-labelledby="video-modal-title" aria-modal="true">
@@ -16,29 +26,18 @@ import { asset } from '../utils/paths';
 
     <div class="modal-body">
       <div class="video-container">
-        <!-- Video Player / Embed with explicit playsinline=1 & autoplay=1 policy -->
-        <iframe
-          id="video-player-iframe"
-          class="video-iframe"
-          data-src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1"
-          title="Janelle Koenig Comedy Showreel"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-        <!-- Video Player Placeholder Frame Fallback -->
-        <div class="video-player-placeholder" id="video-placeholder">
-          <img
-            src={asset('/images/performance/janelle-placeholder-comedy.png')}
-            alt="Janelle Koenig live standup performance"
-            class="video-poster"
-          />
-          <div class="video-demo-overlay">
-            <div class="video-live-badge">SHOWREEL</div>
-            <p class="video-caption-text wrap-break">
-              "Smart stand-up that gets the room laughing without making HR nervous."
-            </p>
-          </div>
-        </div>
+        <!-- Native HTML5 Video Player -->
+        <video
+          id="video-player-element"
+          class="video-player"
+          controls
+          playsinline
+          preload="metadata"
+          poster={posterSrc}
+        >
+          <source src={videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   </div>
@@ -138,63 +137,13 @@ import { asset } from '../utils/paths';
     position: relative;
   }
 
-  .video-iframe {
+  .video-player {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    border: none;
-    z-index: 2;
-  }
-
-  .video-player-placeholder {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-  }
-
-  .video-poster {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.65;
-  }
-
-  .video-demo-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    padding: var(--space-6);
-    text-align: center;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
-  }
-
-  .video-live-badge {
-    font-family: var(--font-display);
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    background-color: var(--colour-primary);
-    color: #ffffff;
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-xs);
-  }
-
-  .video-caption-text {
-    font-family: var(--font-body);
-    font-size: 1.125rem;
-    color: #ffffff;
-    max-width: 500px;
-    font-weight: 500;
-    line-height: var(--lh-snug);
+    object-fit: contain;
+    background: #000000;
   }
 </style>
 
@@ -202,7 +151,7 @@ import { asset } from '../utils/paths';
   const videoModal = document.getElementById('video-modal') as HTMLDialogElement | null;
   const videoCloseBtn = document.getElementById('video-modal-close');
   const videoTriggers = document.querySelectorAll('[data-video-trigger]');
-  const videoIframe = document.getElementById('video-player-iframe') as HTMLIFrameElement | null;
+  const videoElement = document.getElementById('video-player-element') as HTMLVideoElement | null;
 
   let lastActiveVideoTrigger: HTMLElement | null = null;
   let isVideoBackdropMousedown = false;
@@ -212,10 +161,13 @@ import { asset } from '../utils/paths';
       lastActiveVideoTrigger = e.currentTarget;
     }
     if (videoModal && typeof videoModal.showModal === 'function') {
-      if (videoIframe && videoIframe.dataset.src) {
-        videoIframe.src = videoIframe.dataset.src;
-      }
       videoModal.showModal();
+      if (videoElement) {
+        videoElement.currentTime = 0;
+        videoElement.play().catch(() => {
+          // Autoplay browser policy fallback
+        });
+      }
       requestAnimationFrame(() => {
         videoCloseBtn?.focus();
       });
@@ -224,8 +176,9 @@ import { asset } from '../utils/paths';
 
   function closeVideoModal() {
     if (videoModal && typeof videoModal.close === 'function') {
-      if (videoIframe) {
-        videoIframe.src = '';
+      if (videoElement) {
+        videoElement.pause();
+        videoElement.currentTime = 0;
       }
       videoModal.close();
       lastActiveVideoTrigger?.focus();
@@ -251,8 +204,9 @@ import { asset } from '../utils/paths';
   });
 
   videoModal?.addEventListener('close', () => {
-    if (videoIframe) {
-      videoIframe.src = '';
+    if (videoElement) {
+      videoElement.pause();
+      videoElement.currentTime = 0;
     }
     lastActiveVideoTrigger?.focus();
   });

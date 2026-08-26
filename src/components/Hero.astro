@@ -43,10 +43,10 @@ import { asset } from '../utils/paths';
 
     <!-- Red 3-Line Emphasis Mark Immediately to the Left of Janelle's Head -->
     <div class="hero-burst-mark" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 46 46" fill="none">
-        <line x1="10" y1="36" x2="2" y2="40" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="14" y1="23" x2="2" y2="19" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="22" y1="12" x2="14" y2="2" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round"/>
+      <svg class="hero-burst-svg" width="44" height="44" viewBox="0 0 46 46" fill="none">
+        <line class="burst-ray ray-bottom" x1="10" y1="36" x2="2" y2="40" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round"/>
+        <line class="burst-ray ray-middle" x1="14" y1="23" x2="2" y2="19" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round"/>
+        <line class="burst-ray ray-top" x1="22" y1="12" x2="14" y2="2" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round"/>
       </svg>
     </div>
 
@@ -195,17 +195,149 @@ import { asset } from '../utils/paths';
     display: block;
     position: absolute;
     left: clamp(440px, 44vw, 570px);
-    top: clamp(95px, 10vw, 125px);
+    top: clamp(85px, 9.5vw, 115px);
     z-index: 2;
   }
 
-  /* Oversized Dominant Hero Portrait: Scaled and anchored with head clearance */
+  .hero-burst-svg {
+    overflow: visible;
+    transform-origin: 30px 30px;
+    animation: giggleWrapper 4.2s ease-in-out infinite;
+  }
+
+  .burst-ray {
+    transform-box: view-box;
+    will-change: transform, opacity;
+  }
+
+  .ray-bottom {
+    transform-origin: 10px 36px;
+    animation: giggleBottom 4.2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  }
+
+  .ray-middle {
+    transform-origin: 14px 23px;
+    animation: giggleMiddle 4.2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  }
+
+  .ray-top {
+    transform-origin: 22px 12px;
+    animation: giggleTop 4.2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  }
+
+  @keyframes giggleWrapper {
+    0% {
+      transform: rotate(0deg);
+    }
+    3% {
+      transform: rotate(-2.5deg);
+    }
+    6% {
+      transform: rotate(2deg);
+    }
+    10% {
+      transform: rotate(-1.5deg);
+    }
+    14% {
+      transform: rotate(1deg);
+    }
+    18%, 100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes giggleBottom {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    2.5% {
+      transform: scale(1.24);
+      opacity: 1;
+    }
+    5.5% {
+      transform: scale(0.92);
+      opacity: 0.85;
+    }
+    8.5% {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+    13% {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+    18%, 100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes giggleMiddle {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    3.5% {
+      transform: scale(0.9);
+      opacity: 0.85;
+    }
+    6.5% {
+      transform: scale(1.28);
+      opacity: 1;
+    }
+    10% {
+      transform: scale(0.95);
+      opacity: 0.85;
+    }
+    14% {
+      transform: scale(1.22);
+      opacity: 1;
+    }
+    19%, 100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes giggleTop {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    2% {
+      transform: scale(0.94);
+      opacity: 0.85;
+    }
+    5% {
+      transform: scale(1.22);
+      opacity: 1;
+    }
+    8% {
+      transform: scale(0.9);
+      opacity: 0.85;
+    }
+    12% {
+      transform: scale(1.32);
+      opacity: 1;
+    }
+    17% {
+      transform: scale(0.96);
+      opacity: 0.9;
+    }
+    21%, 100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  /* Oversized Dominant Hero Portrait: Scaled 1.6-1.8x, anchored to top, cropped at waist/thigh */
   .hero-media {
     position: absolute;
     right: clamp(15px, 3.5vw, 65px);
-    top: 12px;
-    width: clamp(520px, 52vw, 680px);
-    max-width: 680px;
+    top: -32px;
+    width: clamp(540px, 54vw, 700px);
+    max-width: 700px;
     height: auto;
     display: flex;
     align-items: flex-start;
@@ -235,7 +367,7 @@ import { asset } from '../utils/paths';
     .hero-content {
       padding-top: 1.5rem;
       padding-bottom: 2rem;
-      max-width: 52%;
+      max-width: 58%;
       z-index: 2;
     }
 
@@ -273,42 +405,42 @@ import { asset } from '../utils/paths';
     }
 
     .hero-burst-mark {
-      left: clamp(48%, 51vw, 57%);
-      top: 26px;
+      left: 50%;
+      top: 32px;
       transform: scale(0.75);
       transform-origin: top left;
     }
 
     .hero-media {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      right: -20px;
+      width: 52%;
+      max-width: 340px;
+      height: auto;
+      top: -12px;
+      bottom: auto;
+      right: 0;
       display: flex;
-      align-items: flex-end;
+      align-items: flex-start;
       justify-content: flex-end;
-      pointer-events: none;
-      z-index: 1;
     }
 
     .hero-portrait-img {
-      height: 100%;
-      width: auto;
-      max-width: none;
-      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
       object-fit: contain;
-      object-position: bottom right;
+      object-position: top right;
       filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
     }
   }
 
   @media (max-width: 480px) {
     .hero-container {
-      min-height: 420px;
+      min-height: 410px;
     }
 
     .hero-content {
-      max-width: 52%;
+      max-width: 58%;
       padding-top: 1.25rem;
       padding-bottom: 1.5rem;
     }
@@ -324,7 +456,7 @@ import { asset } from '../utils/paths';
 
     .hero-subhead {
       font-size: 0.75rem;
-      max-width: 185px;
+      max-width: 190px;
       margin-bottom: 14px;
     }
 
@@ -344,30 +476,27 @@ import { asset } from '../utils/paths';
     }
 
     .hero-burst-mark {
-      left: clamp(47%, 50vw, 55%);
-      top: 14px;
+      left: 50%;
+      top: 24px;
       transform: scale(0.65);
     }
 
     .hero-media {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: -24px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      pointer-events: none;
-      z-index: 1;
+      width: 52%;
+      max-width: 260px;
+      right: 0;
+      top: -8px;
+      bottom: auto;
+      height: auto;
+      align-items: flex-start;
     }
 
     .hero-portrait-img {
-      height: 100%;
-      width: auto;
-      max-width: none;
-      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
       object-fit: contain;
-      object-position: bottom right;
+      object-position: top right;
     }
   }
 
@@ -416,7 +545,9 @@ import { asset } from '../utils/paths';
     .hero-subhead,
     .hero-actions,
     .hero-media,
-    .hero-burst-mark {
+    .hero-burst-mark,
+    .hero-burst-svg,
+    .burst-ray {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
