@@ -98,17 +98,26 @@ const currentYear = new Date().getFullYear();
       <p class="copyright-text wrap-break">
         &copy; {currentYear} {siteConfig.name}. All rights reserved.
       </p>
-      <p class="studio-credit wrap-break">
-        {
-          siteConfig.studioCredit.url ? (
-            <a href={siteConfig.studioCredit.url} target="_blank" rel="noopener noreferrer" class="credit-link">
-              {siteConfig.studioCredit.text}
-            </a>
-          ) : (
-            siteConfig.studioCredit.text
-          )
-        }
-      </p>
+      <div class="studio-credit wrap-break">
+        <a
+          href={siteConfig.studioCredit.url || 'https://www.mcclung.com.au'}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="credit-link"
+          aria-label="Website by David McClung (opens in new tab)"
+        >
+          <span class="credit-label">{siteConfig.studioCredit.text}</span>
+          <img
+            src={asset('/images/logos/david-mcclung-logo.png')}
+            alt="David McClung"
+            class="credit-logo"
+            width="84"
+            height="48"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+      </div>
     </div>
   </div>
 </footer>
@@ -170,6 +179,12 @@ const currentYear = new Date().getFullYear();
       text-align: center;
       margin-top: 1.25rem;
       padding-bottom: 0.25rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .credit-link {
+      align-items: center;
     }
   }
 
@@ -300,7 +315,7 @@ const currentYear = new Date().getFullYear();
   .footer-bottom {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--space-3);
     margin-top: clamp(1.25rem, 1.75vw, 1.5rem);
     font-size: 0.75rem;
     line-height: 1.4;
@@ -321,17 +336,54 @@ const currentYear = new Date().getFullYear();
   }
 
   .studio-credit {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
   }
 
   .credit-link {
-    color: inherit;
-    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    line-height: 1;
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+
+  .credit-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
     transition: color var(--motion-fast) var(--ease-out);
+    white-space: nowrap;
+  }
+
+  .credit-logo {
+    display: block;
+    width: auto;
+    height: 28px;
+    max-height: 30px;
+    filter: brightness(0) invert(1);
+    opacity: 0.75;
+    transition: opacity var(--motion-fast) var(--ease-out),
+                transform var(--motion-fast) var(--ease-out);
   }
 
   .credit-link:hover {
-    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .credit-link:hover .credit-label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .credit-link:hover .credit-logo {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .credit-link:hover {
+      transform: none;
+    }
   }
 </style>

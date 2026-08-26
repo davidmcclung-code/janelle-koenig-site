@@ -50,7 +50,7 @@ export const siteConfig: SiteConfig = {
     { platform: 'tiktok', label: 'TikTok', url: 'https://tiktok.com/@janellekoenig' },
   ],
   studioCredit: {
-    text: 'Website by David McClung',
+    text: 'Website by',
     url: 'https://www.mcclung.com.au',
   },
 };
