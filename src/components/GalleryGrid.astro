@@ -1,0 +1,474 @@
+---
+/**
+ * GalleryGrid.astro
+ * 4x5 flush editorial contact sheet on desktop; clean 2-column grid on mobile.
+ */
+import { Image } from 'astro:assets';
+
+import img01 from '../assets/photos/gallery-comedy-stage-01.webp';
+import img02 from '../assets/photos/gallery-comedy-stage-02.webp';
+import img03 from '../assets/photos/gallery-editorial-portrait-01.webp';
+import img04 from '../assets/photos/gallery-backstage-01.webp';
+import img05 from '../assets/photos/gallery-comedy-stage-03.webp';
+import img06 from '../assets/photos/gallery-audience-01.webp';
+import img07 from '../assets/photos/gallery-comedy-stage-01.webp'; // Feature photo
+import img08 from '../assets/photos/gallery-mc-lectern-01.webp';
+import img09 from '../assets/photos/gallery-panel-host-01.webp';
+import img10 from '../assets/photos/gallery-dressing-room-01.webp';
+import img11 from '../assets/photos/gallery-event-arrival-01.webp';
+import img12 from '../assets/photos/gallery-backstage-02.webp';
+import img13 from '../assets/photos/gallery-theatre-wide-01.webp';
+import img14 from '../assets/photos/gallery-venue-detail-01.webp';
+import img15 from '../assets/photos/gallery-green-room-01.webp';
+import img16 from '../assets/photos/gallery-event-interview-01.webp';
+
+interface GalleryItem {
+  id: string;
+  image: ImageMetadata;
+  title: string;
+  location: string;
+  caption: string;
+  alt: string;
+  spanClass: string;
+  isFeature?: boolean;
+}
+
+const galleryItems: GalleryItem[] = [
+  // Row 1 (4 standard cells)
+  {
+    id: 'comedy-stage-01',
+    image: img01,
+    title: 'Perth Comedy Festival Gala',
+    location: 'State Theatre Centre, Perth',
+    caption: 'Opening night on the main stage.',
+    alt: 'Janelle Koenig performing at the Perth Comedy Festival Gala',
+    spanClass: 'tile-r1c1',
+  },
+  {
+    id: 'comedy-stage-02',
+    image: img02,
+    title: 'Stand-up Comedy Live',
+    location: 'Comedy Lounge, Perth',
+    caption: 'Live stand-up in the floral dress.',
+    alt: 'Janelle Koenig performing stand-up in a floral dress',
+    spanClass: 'tile-r1c2',
+  },
+  {
+    id: 'editorial-portrait-01',
+    image: img03,
+    title: 'Editorial Studio Portrait',
+    location: 'Perth Studio Session',
+    caption: 'Casual pose, professional indoors enthusiast.',
+    alt: 'Informal seated portrait of Janelle Koenig',
+    spanClass: 'tile-r1c3',
+  },
+  {
+    id: 'backstage-01',
+    image: img04,
+    title: 'Dressing Room 2',
+    location: 'Regal Theatre, Subiaco',
+    caption: 'Tea, nerves and mug holding.',
+    alt: 'Janelle Koenig in dressing room with mug',
+    spanClass: 'tile-r1c4',
+  },
+
+  // Rows 2 & 3
+  {
+    id: 'comedy-stage-03',
+    image: img05,
+    title: 'Sparkly Jumpsuit Stand-up',
+    location: 'State Theatre Centre',
+    caption: 'Big laughs in black sequins.',
+    alt: 'Janelle Koenig performing in sparkly black outfit',
+    spanClass: 'tile-r2c1',
+  },
+  {
+    id: 'audience-01',
+    image: img06,
+    title: 'Crowd Work & Banter',
+    location: 'The Rechabite, Northbridge',
+    caption: 'Finding out who in row two made poor life choices.',
+    alt: 'Janelle Koenig engaging with the comedy audience',
+    spanClass: 'tile-r2c2',
+  },
+  {
+    id: 'feature-gala-01',
+    image: img07,
+    title: 'Perth Comedy Festival Gala',
+    location: 'State Theatre Centre, Perth',
+    caption: 'Trying to look employable between jokes.',
+    alt: 'Janelle Koenig performing under stage lighting at the Perth Comedy Festival Gala',
+    spanClass: 'tile-feature',
+    isFeature: true,
+  },
+  {
+    id: 'mc-lectern-01',
+    image: img08,
+    title: 'Corporate Gala Awards Night',
+    location: 'Crown Perth, Burswood',
+    caption: 'Hosting without dropping the mic or the running sheet.',
+    alt: 'Janelle Koenig hosting an event at a lectern with microphone',
+    spanClass: 'tile-r3c1',
+  },
+  {
+    id: 'panel-host-01',
+    image: img09,
+    title: 'Writers & Ideas Festival Panel',
+    location: 'State Library of WA',
+    caption: 'Moderating very smart people while maintaining zero beige.',
+    alt: 'Janelle Koenig moderating a live panel discussion',
+    spanClass: 'tile-r3c2',
+  },
+
+  // Rows 4 & 5
+  {
+    id: 'dressing-room-01',
+    image: img10,
+    title: 'Backstage Mirror Lights',
+    location: "His Majesty's Theatre",
+    caption: 'Strategic lighting adjustments and pre-show banter.',
+    alt: 'Janelle Koenig by dressing room mirror',
+    spanClass: 'tile-r4c1',
+  },
+  {
+    id: 'event-arrival-01',
+    image: img11,
+    title: 'Industry Awards Red Carpet',
+    location: 'Crown Palladium, Melbourne',
+    caption: 'Arriving in glitter before the heels come off.',
+    alt: 'Janelle Koenig arriving on the media wall red carpet',
+    spanClass: 'tile-tall',
+  },
+  {
+    id: 'hallway-coffee-01',
+    image: img12,
+    title: 'Backstage Corridor Walk',
+    location: 'Heath Ledger Theatre',
+    caption: 'Coffee in hand, ready for stage.',
+    alt: 'Janelle Koenig backstage in hallway',
+    spanClass: 'tile-r4c3',
+  },
+  {
+    id: 'theatre-wide-01',
+    image: img13,
+    title: 'State Theatre Centre Auditorium',
+    location: 'Heath Ledger Theatre, Perth',
+    caption: 'View from the stage to a packed full house.',
+    alt: 'Wide view from stage overlooking the full theatre audience',
+    spanClass: 'tile-r4c4',
+  },
+  {
+    id: 'venue-detail-01',
+    image: img14,
+    title: 'Theatre Marquee Lights',
+    location: 'State Theatre Centre, Perth',
+    caption: 'Name in lights, proving she indeed left the house.',
+    alt: 'Theatre exterior marquee with Perth Comedy Festival Gala billing',
+    spanClass: 'tile-r5c1',
+  },
+  {
+    id: 'green-room-01',
+    image: img15,
+    title: 'Green Room Pre-Show',
+    location: 'Comedy Lounge, Perth',
+    caption: 'Candid laughs with the line-up before doors open.',
+    alt: 'Janelle Koenig laughing in the green room before performing',
+    spanClass: 'tile-r5c3',
+  },
+  {
+    id: 'event-interview-01',
+    image: img16,
+    title: 'Main Stage Stand-up Encore',
+    location: 'Astor Theatre, Mt Lawley',
+    caption: 'Closing out the festival season with maximum joy.',
+    alt: 'Janelle Koenig performing comedy on stage',
+    spanClass: 'tile-r5c4',
+  },
+];
+---
+
+<section class="gallery-grid-section" aria-label="Photo Gallery Grid">
+  <div class="container gallery-grid-container">
+    <div class="gallery-grid">
+      {
+        galleryItems.map((item, index) => (
+          <button
+            type="button"
+            class:list={['gallery-tile', item.spanClass, { 'is-feature': item.isFeature }]}
+            data-gallery-tile
+            data-index={index}
+            data-src={item.image.src}
+            data-alt={item.alt}
+            data-title={item.title}
+            data-location={item.location}
+            data-caption={item.caption}
+            aria-haspopup="dialog"
+            aria-label={`Open photo view: ${item.title}`}
+          >
+            <div class="tile-inner">
+              <Image
+                src={item.image}
+                alt={item.alt}
+                width={item.isFeature ? 960 : 600}
+                height={item.isFeature ? 720 : 600}
+                loading={index < 4 ? 'eager' : 'lazy'}
+                decoding="async"
+                class="tile-img"
+              />
+
+              <!-- Bottom Caption Overlay (Hover/Focus on Desktop, Default on Feature) -->
+              <div class="tile-overlay">
+                <div class="overlay-content">
+                  <h3 class="overlay-title">{item.title}</h3>
+                  <p class="overlay-location">{item.location}</p>
+                  <p class="overlay-caption">{item.caption}</p>
+                </div>
+              </div>
+            </div>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .gallery-grid-section {
+    background-color: var(--colour-footer);
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .gallery-grid-container {
+    width: 100%;
+  }
+
+  /* Base Grid Setup */
+  .gallery-grid {
+    display: grid;
+    gap: clamp(8px, 1.2vw, 14px);
+    width: 100%;
+  }
+
+  /* Desktop 4x5 Flush Rectangular Grid (1024px and above) */
+  @media (min-width: 1024px) {
+    .gallery-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      aspect-ratio: 4 / 5;
+    }
+
+    /* Row 1 */
+    .tile-r1c1 { grid-column: 1; grid-row: 1; }
+    .tile-r1c2 { grid-column: 2; grid-row: 1; }
+    .tile-r1c3 { grid-column: 3; grid-row: 1; }
+    .tile-r1c4 { grid-column: 4; grid-row: 1; }
+
+    /* Rows 2 & 3 */
+    .tile-r2c1 { grid-column: 1; grid-row: 2; }
+    .tile-r2c2 { grid-column: 2; grid-row: 2; }
+    .tile-feature {
+      grid-column: 3 / span 2;
+      grid-row: 2 / span 2;
+    }
+    .tile-r3c1 { grid-column: 1; grid-row: 3; }
+    .tile-r3c2 { grid-column: 2; grid-row: 3; }
+
+    /* Rows 4 & 5 */
+    .tile-r4c1 { grid-column: 1; grid-row: 4; }
+    .tile-tall {
+      grid-column: 2;
+      grid-row: 4 / span 2;
+    }
+    .tile-r4c3 { grid-column: 3; grid-row: 4; }
+    .tile-r4c4 { grid-column: 4; grid-row: 4; }
+
+    .tile-r5c1 { grid-column: 1; grid-row: 5; }
+    .tile-r5c3 { grid-column: 3; grid-row: 5; }
+    .tile-r5c4 { grid-column: 4; grid-row: 5; }
+  }
+
+  /* Tablet & Mobile Clean 2-Column Grid (< 1024px) */
+  @media (max-width: 1023px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .tile-r1c1, .tile-r1c2, .tile-r1c3, .tile-r1c4,
+    .tile-r2c1, .tile-r2c2, .tile-r3c1, .tile-r3c2,
+    .tile-r4c1, .tile-r4c3, .tile-r4c4,
+    .tile-r5c1, .tile-r5c3, .tile-r5c4 {
+      grid-column: span 1;
+      aspect-ratio: 1 / 1;
+    }
+
+    .tile-feature {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 11;
+    }
+
+    .tile-tall {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 11;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery-grid {
+      gap: 8px;
+    }
+  }
+
+  /* Gallery Tile Button */
+  .gallery-tile {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: #181818;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    overflow: visible;
+    text-align: left;
+    outline: none;
+    z-index: 1;
+    transition: transform var(--motion-fast) var(--ease-out),
+                box-shadow var(--motion-fast) var(--ease-out),
+                z-index 0s;
+    touch-action: manipulation;
+  }
+
+  .tile-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: #1a1a1a;
+  }
+
+  .tile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform var(--motion-standard) var(--ease-out);
+  }
+
+  /* Desktop Hover & Focus State - Restrained Scale without reflow */
+  @media (min-width: 1024px) {
+    .gallery-tile:hover,
+    .gallery-tile:focus-visible {
+      transform: scale(1.04);
+      z-index: 10;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+    }
+
+    .gallery-tile:hover .tile-img,
+    .gallery-tile:focus-visible .tile-img {
+      transform: scale(1.03);
+    }
+
+    .gallery-tile:focus-visible {
+      outline: 3px solid var(--colour-primary);
+      outline-offset: 3px;
+    }
+  }
+
+  /* Overlay & Caption */
+  .tile-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-4);
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.94) 0%,
+      rgba(10, 10, 10, 0.72) 45%,
+      rgba(10, 10, 10, 0) 100%
+    );
+    opacity: 0;
+    transition: opacity var(--motion-fast) var(--ease-out);
+    pointer-events: none;
+  }
+
+  /* Always show overlay on feature tile or when hovered/focused on desktop */
+  @media (min-width: 1024px) {
+    .gallery-tile:hover .tile-overlay,
+    .gallery-tile:focus-visible .tile-overlay,
+    .gallery-tile.is-feature .tile-overlay {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    /* On mobile, show caption overlay only on the prominent feature card */
+    .gallery-tile.is-feature .tile-overlay {
+      opacity: 1;
+      background: linear-gradient(
+        to top,
+        rgba(10, 10, 10, 0.92) 0%,
+        rgba(10, 10, 10, 0.65) 50%,
+        rgba(10, 10, 10, 0) 100%
+      );
+    }
+  }
+
+  .overlay-content {
+    max-width: 100%;
+  }
+
+  .overlay-title {
+    font-family: var(--font-display);
+    font-size: clamp(0.875rem, 1.1vw, 1.0625rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin: 0 0 2px 0;
+    letter-spacing: -0.01em;
+  }
+
+  .overlay-location {
+    font-family: var(--font-body);
+    font-size: clamp(0.6875rem, 0.85vw, 0.75rem);
+    font-weight: 600;
+    color: var(--colour-primary-light);
+    line-height: 1.2;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .overlay-caption {
+    font-family: var(--font-body);
+    font-size: clamp(0.75rem, 0.9vw, 0.8125rem);
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-tile,
+    .tile-img,
+    .tile-overlay {
+      transition: none !important;
+      transform: none !important;
+    }
+
+    .gallery-tile:hover,
+    .gallery-tile:focus-visible {
+      transform: none !important;
+    }
+  }
+</style>

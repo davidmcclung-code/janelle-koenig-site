@@ -1,12 +1,16 @@
 ---
 import { siteConfig } from '../data/siteConfig';
 import BrandLogo from './BrandLogo.astro';
+import { asset } from '../utils/paths';
+
+const pathname = Astro.url.pathname;
+const isPhotosActive = pathname.endsWith('/photos') || pathname.endsWith('/photos/');
 ---
 
 <header class="site-header" id="site-header">
   <div class="container header-inner">
     <!-- Brand Logo aligned to left margin -->
-    <a href="#" class="logo-link" aria-label="Janelle Koenig Home">
+    <a href={asset('/')} class="logo-link" aria-label="Janelle Koenig Home">
       <BrandLogo variant="dark" />
     </a>
 
@@ -14,20 +18,28 @@ import BrandLogo from './BrandLogo.astro';
     <nav class="nav-desktop" aria-label="Main Navigation">
       <ul class="nav-list">
         {
-          siteConfig.navItems.map((item) => (
-            <li>
-              <a href={item.href} class="nav-link">
-                {item.label}
-              </a>
-            </li>
-          ))
+          siteConfig.navItems.map((item) => {
+            const isActive = item.href.includes('/photos') ? isPhotosActive : false;
+            const href = item.href.startsWith('/') ? asset(item.href) : item.href;
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={['nav-link', { 'is-active': isActive }]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
     </nav>
 
     <!-- Header CTA button aligned to right margin -->
     <div class="header-action">
-      <a href="#shows" class="btn btn-secondary header-cta">
+      <a href={asset('/#shows')} class="btn btn-secondary header-cta">
         SEE JANELLE LIVE
       </a>
     </div>
@@ -53,7 +65,7 @@ import BrandLogo from './BrandLogo.astro';
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <div class="mobile-menu-inner">
       <div class="mobile-menu-header">
-        <a href="#" class="logo-link" aria-label="Janelle Koenig Home" id="mobile-logo">
+        <a href={asset('/')} class="logo-link" aria-label="Janelle Koenig Home" id="mobile-logo">
           <BrandLogo variant="dark" />
         </a>
         <button
@@ -72,17 +84,25 @@ import BrandLogo from './BrandLogo.astro';
       <nav class="mobile-nav" aria-label="Mobile Navigation">
         <ul class="mobile-nav-list">
           {
-            siteConfig.navItems.map((item) => (
-              <li>
-                <a href={item.href} class="mobile-nav-link">
-                  {item.label}
-                </a>
-              </li>
-            ))
+            siteConfig.navItems.map((item) => {
+              const isActive = item.href.includes('/photos') ? isPhotosActive : false;
+              const href = item.href.startsWith('/') ? asset(item.href) : item.href;
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class:list={['mobile-nav-link', { 'is-active': isActive }]}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })
           }
         </ul>
         <div class="mobile-menu-cta">
-          <a href="#shows" class="btn btn-primary mobile-btn" id="mobile-cta-btn">
+          <a href={asset('/#shows')} class="btn btn-primary mobile-btn" id="mobile-cta-btn">
             SEE JANELLE LIVE
           </a>
         </div>
@@ -167,11 +187,13 @@ import BrandLogo from './BrandLogo.astro';
     transition: width var(--motion-fast) var(--ease-out);
   }
 
-  .nav-link:hover {
+  .nav-link:hover,
+  .nav-link.is-active {
     color: var(--colour-primary);
   }
 
-  .nav-link:hover::after {
+  .nav-link:hover::after,
+  .nav-link.is-active::after {
     width: 100%;
   }
 
@@ -296,8 +318,15 @@ import BrandLogo from './BrandLogo.astro';
     transition: color var(--motion-fast) var(--ease-out);
   }
 
-  .mobile-nav-link:hover {
+  .mobile-nav-link:hover,
+  .mobile-nav-link.is-active {
     color: var(--colour-primary);
+  }
+
+  .mobile-nav-link.is-active {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
   }
 
   .mobile-menu-cta {

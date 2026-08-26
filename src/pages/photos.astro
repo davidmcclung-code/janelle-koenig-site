@@ -1,0 +1,408 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryGrid from '../components/GalleryGrid.astro';
+import GalleryLightbox from '../components/GalleryLightbox.astro';
+import { asset } from '../utils/paths';
+
+const pageTitle = 'Photos | Janelle Koenig';
+const pageDescription = 'Photos of Janelle Koenig performing comedy, hosting events and appearing on stage around Australia.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- Gallery Page Introduction -->
+  <section class="gallery-intro-section" aria-labelledby="gallery-page-title">
+    <div class="container gallery-intro-container">
+      <!-- Left Content Block -->
+      <div class="gallery-intro-content reveal">
+        <!-- Handwritten Eyebrow -->
+        <span class="font-script text-script-section gallery-eyebrow">
+          Proof she left the house.
+        </span>
+
+        <!-- Main Display Heading -->
+        <h1 id="gallery-page-title" class="gallery-heading">
+          GALLERY
+        </h1>
+
+        <!-- Supporting Intro Copy (Wrapped after 'and' on desktop) -->
+        <p class="gallery-intro-text wrap-break">
+          Gigs, green rooms, good rooms and<br class="desktop-break" />the occasional flattering angle.
+        </p>
+      </div>
+
+      <!-- Right Media Block: Compact Janelle Camera Cutout + Burst Mark -->
+      <div class="gallery-intro-media reveal">
+        <div class="gallery-intro-burst" aria-hidden="true">
+          <svg class="burst-svg" width="44" height="44" viewBox="0 0 46 46" fill="none">
+            <line class="burst-ray" x1="10" y1="36" x2="2" y2="40" stroke="var(--colour-primary)" stroke-width="3.2" stroke-linecap="round"/>
+            <line class="burst-ray" x1="14" y1="23" x2="2" y2="19" stroke="var(--colour-primary)" stroke-width="3.2" stroke-linecap="round"/>
+            <line class="burst-ray" x1="22" y1="12" x2="14" y2="2" stroke="var(--colour-primary)" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <img
+          src={asset('/images/photos/janelle-camera-bust.png')}
+          alt="Janelle Koenig smiling while holding a camera"
+          width="320"
+          height="340"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="gallery-intro-cutout-img"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo Grid -->
+  <GalleryGrid />
+
+  <!-- Full-Bleed Warm Enquiry CTA Banner -->
+  <section class="gallery-enquiry-section" aria-label="Book Janelle Koenig">
+    <div class="enquiry-lockup reveal">
+      <!-- Left Media / Portrait Cutout -->
+      <div class="enquiry-media">
+        <img
+          src={asset('/images/photos/janelle-enquiry-waist.png')}
+          alt="Janelle Koenig smiling and gesturing"
+          width="260"
+          height="205"
+          loading="lazy"
+          decoding="async"
+          class="enquiry-cutout-img"
+        />
+      </div>
+
+      <!-- Right Content Block -->
+      <div class="enquiry-content">
+        <h2 class="font-script enquiry-heading">
+          Need Janelle at your thing?
+        </h2>
+        <p class="enquiry-desc">
+          MC, panel hosting, brand work and<br class="desktop-break" />light corporate damage.
+        </p>
+        <div class="enquiry-actions">
+          <button
+            type="button"
+            class="btn btn-primary enquiry-btn"
+            id="gallery-cta-btn"
+            data-booking-trigger
+            aria-haspopup="dialog"
+          >
+            <span>MAKE AN ENQUIRY</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full-Screen Lightbox Modal -->
+  <GalleryLightbox />
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     Introduction Header Section
+     ========================================================================== */
+  .gallery-intro-section {
+    background-color: var(--colour-page);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .gallery-intro-container {
+    width: 100%;
+    position: relative;
+    min-height: clamp(200px, 18vw, 240px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: clamp(1.5rem, 2.5vw, 2.25rem);
+    padding-bottom: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  .gallery-intro-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    max-width: 620px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .gallery-eyebrow {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.1;
+    color: var(--colour-primary);
+    margin-bottom: 4px;
+  }
+
+  .gallery-heading {
+    font-family: var(--font-display);
+    font-size: clamp(3.75rem, 7.5vw, 5.75rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    color: var(--colour-ink);
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+
+  .burst-svg {
+    display: block;
+    width: clamp(36px, 3.8vw, 44px);
+    height: clamp(36px, 3.8vw, 44px);
+  }
+
+  .gallery-intro-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+    line-height: 1.45;
+    color: var(--colour-ink);
+    font-weight: 500;
+    max-width: 500px;
+    margin: 0;
+  }
+
+  .desktop-break {
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    .desktop-break {
+      display: inline;
+    }
+  }
+
+  /* Right Media Block - Compact Janelle Holding Camera with Burst */
+  .gallery-intro-media {
+    position: absolute;
+    right: var(--container-gutter);
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    line-height: 0;
+    margin-bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .gallery-intro-burst {
+    position: absolute;
+    top: 15%;
+    left: -18px;
+    z-index: 2;
+    transform: rotate(-10deg);
+  }
+
+  .gallery-intro-cutout-img {
+    height: auto;
+    max-height: clamp(170px, 17vw, 230px);
+    width: auto;
+    max-width: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: bottom right;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.07));
+    transform: translateY(1px); /* Eliminate subpixel gap before the dark gallery grid */
+  }
+
+  /* Tablet Responsiveness (768px - 1023px) */
+  @media (max-width: 1023px) {
+    .gallery-intro-container {
+      min-height: 190px;
+      padding-bottom: 1.25rem;
+    }
+
+    .gallery-intro-content {
+      max-width: 60%;
+    }
+
+    .gallery-intro-cutout-img {
+      max-height: clamp(155px, 18vw, 195px);
+    }
+  }
+
+  /* Mobile Responsiveness (< 768px) */
+  @media (max-width: 767px) {
+    .gallery-intro-container {
+      min-height: 175px;
+      padding-top: 1.25rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .gallery-intro-content {
+      max-width: 62%;
+    }
+
+    .gallery-heading {
+      font-size: clamp(2.5rem, 10vw, 3.5rem);
+    }
+
+    .gallery-intro-burst {
+      top: 8%;
+      left: -12px;
+      transform: scale(0.85) rotate(-10deg);
+    }
+
+    .gallery-intro-cutout-img {
+      max-height: clamp(140px, 28vw, 175px);
+    }
+  }
+
+  @media (max-width: 440px) {
+    .gallery-intro-container {
+      min-height: 165px;
+    }
+
+    .gallery-intro-content {
+      max-width: 60%;
+    }
+
+    .gallery-intro-burst {
+      top: 6%;
+      left: -10px;
+      transform: scale(0.75) rotate(-10deg);
+    }
+
+    .gallery-intro-cutout-img {
+      max-height: clamp(130px, 32vw, 155px);
+    }
+  }
+
+  /* ==========================================================================
+     Bottom Enquiry Banner - Full Bleed Warm Background, Compact Ribbon
+     ========================================================================== */
+  .gallery-enquiry-section {
+    background-color: #ebd8cd;
+    width: 100%;
+    margin: 0;
+    padding: 0 var(--container-gutter);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(170px, 16vw, 210px);
+    line-height: normal;
+  }
+
+  .enquiry-lockup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(20px, 3.5vw, 42px);
+    max-width: 860px;
+    width: 100%;
+    margin-inline: auto;
+    position: relative;
+    padding-top: 0.5rem;
+    padding-bottom: 0;
+  }
+
+  .enquiry-media {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 0;
+    height: clamp(170px, 16vw, 210px);
+  }
+
+  .enquiry-cutout-img {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    max-height: clamp(170px, 16vw, 210px);
+    width: auto;
+    object-fit: contain;
+    object-position: bottom center;
+    display: block;
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.07));
+  }
+
+  .enquiry-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 2;
+    min-width: 0;
+  }
+
+  .enquiry-heading {
+    font-family: var(--font-script);
+    font-size: clamp(2rem, 3.2vw, 2.75rem);
+    color: var(--colour-primary);
+    line-height: 1.05;
+    margin: 0 0 6px 0;
+    transform: rotate(-1deg);
+  }
+
+  .enquiry-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.875rem, 1.05vw, 0.9375rem);
+    line-height: 1.4;
+    color: var(--colour-ink);
+    font-weight: 500;
+    margin: 0 0 14px 0;
+  }
+
+  .enquiry-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .enquiry-btn {
+    padding: 0.55rem 1.25rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Focus and Active States */
+  .enquiry-btn:focus-visible {
+    outline: 2.5px solid var(--colour-primary);
+    outline-offset: 3px;
+  }
+
+  /* Tablet and Mobile Responsiveness */
+  @media (max-width: 767px) {
+    .gallery-enquiry-section {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      min-height: auto;
+    }
+
+    .enquiry-lockup {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.25rem;
+      padding: 0;
+    }
+
+    .enquiry-media {
+      display: none;
+    }
+
+    .enquiry-content {
+      align-items: center;
+      text-align: center;
+    }
+
+    .enquiry-heading {
+      font-size: clamp(1.85rem, 7vw, 2.35rem);
+    }
+
+    .enquiry-desc {
+      font-size: 0.875rem;
+    }
+  }
+</style>

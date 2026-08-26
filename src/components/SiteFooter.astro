@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from '../data/siteConfig';
 import BrandLogo from './BrandLogo.astro';
+import { asset } from '../utils/paths';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -10,7 +11,7 @@ const currentYear = new Date().getFullYear();
     <div class="footer-grid">
       <!-- Brand & Bio Column -->
       <div class="footer-brand-col">
-        <a href="#" class="footer-logo-link" aria-label="Janelle Koenig Home">
+        <a href={asset('/')} class="footer-logo-link" aria-label="Janelle Koenig Home">
           <BrandLogo variant="light" />
         </a>
         <p class="footer-bio wrap-break">
@@ -23,10 +24,11 @@ const currentYear = new Date().getFullYear();
       <div class="footer-nav-col">
         <h3 class="footer-heading">EXPLORE</h3>
         <ul class="footer-links">
-          <li><a href="#shows" class="footer-link">Shows</a></li>
-          <li><a href="#watch" class="footer-link">Watch</a></li>
-          <li><a href="#about" class="footer-link">About</a></li>
-          <li><a href="#mc-events" class="footer-link">MC & Events</a></li>
+          <li><a href={asset('/#shows')} class="footer-link">Shows</a></li>
+          <li><a href={asset('/#watch')} class="footer-link">Watch</a></li>
+          <li><a href={asset('/#about')} class="footer-link">About</a></li>
+          <li><a href={asset('/#mc-events')} class="footer-link">MC & Events</a></li>
+          <li><a href={asset('/photos')} class="footer-link">Gallery</a></li>
         </ul>
       </div>
 

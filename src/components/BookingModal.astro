@@ -467,6 +467,9 @@ import { siteConfig } from '../data/siteConfig';
   let isBackdropMousedown = false;
 
   function openBookingModal(e?: Event) {
+    if (e) {
+      e.preventDefault();
+    }
     if (e?.currentTarget instanceof HTMLElement) {
       lastActiveElement = e.currentTarget;
     }

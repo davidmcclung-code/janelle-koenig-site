@@ -38,10 +38,11 @@ export const siteConfig: SiteConfig = {
   phone: '0400 123 456',
   substackUrl: 'https://janellekoenig.substack.com',
   navItems: [
-    { label: 'SHOWS', href: '#shows' },
-    { label: 'WATCH', href: '#watch' },
-    { label: 'ABOUT', href: '#about' },
-    { label: 'MC & EVENTS', href: '#mc-events' },
+    { label: 'SHOWS', href: '/#shows' },
+    { label: 'WATCH', href: '/#watch' },
+    { label: 'ABOUT', href: '/#about' },
+    { label: 'MC & EVENTS', href: '/#mc-events' },
+    { label: 'GALLERY', href: '/photos' },
   ],
   socialLinks: [
     { platform: 'instagram', label: 'Instagram', url: 'https://instagram.com/janellekoenig' },
