@@ -1,13 +1,25 @@
 ---
-import { asset } from '../utils/paths';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import mcCompactImg from '../assets/photography/mc/janelle-mc-compact.jpg';
+import mcWideImg from '../assets/photography/mc/janelle-mc-wide.png';
 
 interface Props {
   imageSrc?: string;
 }
 
-const {
-  imageSrc = asset('/images/services/janelle-placeholder-mc.png'),
-} = Astro.props;
+const { imageSrc } = Astro.props;
+
+const mcCompactSources = await createResponsiveSourceSet(
+  mcCompactImg,
+  [320, 480, 640, 800],
+  'jpeg'
+);
+
+const mcWideSources = await createResponsiveSourceSet(
+  mcWideImg,
+  [480, 640, 800, 960, 1280],
+  'png'
+);
 ---
 
 <section class="corporate-banner-section" id="mc-events" aria-label="MC and Corporate Event Hosting">
@@ -33,14 +45,61 @@ const {
 
     <!-- Right Photo Column (48% width) -->
     <div class="banner-media">
-      <img
-        src={imageSrc}
-        alt="Janelle Koenig hosting an event at the podium"
-        width="900"
-        height="550"
-        loading="lazy"
-        class="banner-img"
-      />
+      {imageSrc ? (
+        <img
+          src={imageSrc}
+          alt="Janelle Koenig hosting an event with a microphone"
+          width="900"
+          height="550"
+          loading="lazy"
+          decoding="async"
+          class="banner-img"
+        />
+      ) : (
+        <picture class="banner-picture">
+          <!-- Wide variant (850px and above) -->
+          <source
+            media="(min-width: 850px)"
+            type="image/avif"
+            srcset={mcWideSources.avifSrcset}
+            sizes="(min-width: 1280px) 615px, 48vw"
+          />
+          <source
+            media="(min-width: 850px)"
+            type="image/webp"
+            srcset={mcWideSources.webpSrcset}
+            sizes="(min-width: 1280px) 615px, 48vw"
+          />
+          <source
+            media="(min-width: 850px)"
+            srcset={mcWideSources.fallbackSrcset}
+            sizes="(min-width: 1280px) 615px, 48vw"
+          />
+
+          <!-- Compact variant (below 850px) -->
+          <source
+            type="image/avif"
+            srcset={mcCompactSources.avifSrcset}
+            sizes="(min-width: 600px) 46vw, 45vw"
+          />
+          <source
+            type="image/webp"
+            srcset={mcCompactSources.webpSrcset}
+            sizes="(min-width: 600px) 46vw, 45vw"
+          />
+          <img
+            src={mcCompactSources.fallbackSrc}
+            srcset={mcCompactSources.fallbackSrcset}
+            sizes="(min-width: 600px) 46vw, 45vw"
+            alt="Janelle Koenig hosting an event with a microphone"
+            width={mcCompactSources.width}
+            height={mcCompactSources.height}
+            loading="lazy"
+            decoding="async"
+            class="banner-img"
+          />
+        </picture>
+      )}
     </div>
   </div>
 </section>
@@ -156,6 +215,12 @@ const {
     overflow: hidden;
   }
 
+  .banner-picture {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
   /* Independent focal-position for MC image */
   .banner-img {
     position: relative;
@@ -163,11 +228,13 @@ const {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    --mc-focal-x: 20%;
-    --mc-focal-y: 12%;
-    object-position: var(--mc-focal-x) var(--mc-focal-y);
-    transform: scale(1.06);
-    transform-origin: var(--mc-focal-x) var(--mc-focal-y);
+    object-position: 50% 12%;
+  }
+
+  @media (min-width: 850px) {
+    .banner-img {
+      object-position: 50% 18%;
+    }
   }
 
   @media (max-width: 600px) {
@@ -205,8 +272,7 @@ const {
     }
 
     .banner-img {
-      object-position: center 10%;
-      transform: none;
+      object-position: 45% 15%;
     }
   }
 </style>

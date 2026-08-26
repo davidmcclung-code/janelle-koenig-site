@@ -1,14 +1,26 @@
 ---
 import { siteConfig } from '../data/siteConfig';
-import { asset } from '../utils/paths';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import substackCompactImg from '../assets/photography/substack/janelle-substack-compact.jpg';
+import substackWideImg from '../assets/photography/substack/janelle-substack-wide.png';
 
 interface Props {
   imageSrc?: string;
 }
 
-const {
-  imageSrc = asset('/images/social/janelle-placeholder-substack.png'),
-} = Astro.props;
+const { imageSrc } = Astro.props;
+
+const substackCompactSources = await createResponsiveSourceSet(
+  substackCompactImg,
+  [320, 480, 640, 800],
+  'jpeg'
+);
+
+const substackWideSources = await createResponsiveSourceSet(
+  substackWideImg,
+  [480, 640, 800, 960, 1280],
+  'png'
+);
 ---
 
 <section class="substack-section" id="about" aria-label="Janelle's Substack Writing">
@@ -69,14 +81,61 @@ const {
 
     <!-- Right Media Column (~50% width) -->
     <div class="substack-media">
-      <img
-        src={imageSrc}
-        alt="Janelle Koenig sitting at a table writing with coffee"
-        width="900"
-        height="550"
-        loading="lazy"
-        class="substack-img"
-      />
+      {imageSrc ? (
+        <img
+          src={imageSrc}
+          alt="Janelle Koenig writing at a table"
+          width="900"
+          height="550"
+          loading="lazy"
+          decoding="async"
+          class="substack-img"
+        />
+      ) : (
+        <picture class="substack-picture">
+          <!-- Wide variant (720px and above) -->
+          <source
+            media="(min-width: 720px)"
+            type="image/avif"
+            srcset={substackWideSources.avifSrcset}
+            sizes="(min-width: 1280px) 640px, (min-width: 850px) 50vw, 46vw"
+          />
+          <source
+            media="(min-width: 720px)"
+            type="image/webp"
+            srcset={substackWideSources.webpSrcset}
+            sizes="(min-width: 1280px) 640px, (min-width: 850px) 50vw, 46vw"
+          />
+          <source
+            media="(min-width: 720px)"
+            srcset={substackWideSources.fallbackSrcset}
+            sizes="(min-width: 1280px) 640px, (min-width: 850px) 50vw, 46vw"
+          />
+
+          <!-- Compact variant (below 720px) -->
+          <source
+            type="image/avif"
+            srcset={substackCompactSources.avifSrcset}
+            sizes="(min-width: 600px) 46vw, 45vw"
+          />
+          <source
+            type="image/webp"
+            srcset={substackCompactSources.webpSrcset}
+            sizes="(min-width: 600px) 46vw, 45vw"
+          />
+          <img
+            src={substackCompactSources.fallbackSrc}
+            srcset={substackCompactSources.fallbackSrcset}
+            sizes="(min-width: 600px) 46vw, 45vw"
+            alt="Janelle Koenig writing at a table"
+            width={substackCompactSources.width}
+            height={substackCompactSources.height}
+            loading="lazy"
+            decoding="async"
+            class="substack-img"
+          />
+        </picture>
+      )}
     </div>
   </div>
 </section>
@@ -303,6 +362,12 @@ const {
     overflow: hidden;
   }
 
+  .substack-picture {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
   /* Independent focal-position for Substack image */
   .substack-img {
     position: relative;
@@ -310,11 +375,13 @@ const {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    --substack-focal-x: 50%;
-    --substack-focal-y: 26%;
-    object-position: var(--substack-focal-x) var(--substack-focal-y);
-    transform: scale(1.04);
-    transform-origin: var(--substack-focal-x) var(--substack-focal-y);
+    object-position: 55% 30%;
+  }
+
+  @media (max-width: 719px) {
+    .substack-img {
+      object-position: 55% 18%;
+    }
   }
 
   @media (max-width: 849px) {
@@ -397,8 +464,7 @@ const {
     }
 
     .substack-img {
-      object-position: 50% 15%;
-      transform: none;
+      object-position: 52% 20%;
     }
   }
 

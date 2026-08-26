@@ -414,13 +414,13 @@ import { asset } from '../utils/paths';
     .hero-media {
       position: absolute;
       width: 52%;
-      max-width: 340px;
+      max-width: 360px;
       height: auto;
-      top: -12px;
-      bottom: auto;
+      bottom: 0;
+      top: auto;
       right: 0;
       display: flex;
-      align-items: flex-start;
+      align-items: flex-end;
       justify-content: flex-end;
     }
 
@@ -429,14 +429,14 @@ import { asset } from '../utils/paths';
       height: auto;
       max-height: none;
       object-fit: contain;
-      object-position: top right;
+      object-position: bottom right;
       filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
     }
   }
 
   @media (max-width: 480px) {
     .hero-container {
-      min-height: 410px;
+      min-height: 400px;
     }
 
     .hero-content {
@@ -483,12 +483,13 @@ import { asset } from '../utils/paths';
 
     .hero-media {
       width: 52%;
-      max-width: 260px;
+      max-width: 250px;
       right: 0;
-      top: -8px;
-      bottom: auto;
+      bottom: 0;
+      top: auto;
       height: auto;
-      align-items: flex-start;
+      align-items: flex-end;
+      justify-content: flex-end;
     }
 
     .hero-portrait-img {
@@ -496,7 +497,7 @@ import { asset } from '../utils/paths';
       height: auto;
       max-height: none;
       object-fit: contain;
-      object-position: top right;
+      object-position: bottom right;
     }
   }
 
