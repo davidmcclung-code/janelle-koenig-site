@@ -93,26 +93,26 @@ const substackWideSources = await createResponsiveSourceSet(
         />
       ) : (
         <picture class="substack-picture">
-          <!-- Wide variant (720px and above) -->
+          <!-- Wide variant (850px and above) -->
           <source
-            media="(min-width: 720px)"
+            media="(min-width: 850px)"
             type="image/avif"
             srcset={substackWideSources.avifSrcset}
-            sizes="(min-width: 1280px) 640px, (min-width: 850px) 50vw, 46vw"
+            sizes="(min-width: 1280px) 640px, 50vw"
           />
           <source
-            media="(min-width: 720px)"
+            media="(min-width: 850px)"
             type="image/webp"
             srcset={substackWideSources.webpSrcset}
-            sizes="(min-width: 1280px) 640px, (min-width: 850px) 50vw, 46vw"
+            sizes="(min-width: 1280px) 640px, 50vw"
           />
           <source
-            media="(min-width: 720px)"
+            media="(min-width: 850px)"
             srcset={substackWideSources.fallbackSrcset}
-            sizes="(min-width: 1280px) 640px, (min-width: 850px) 50vw, 46vw"
+            sizes="(min-width: 1280px) 640px, 50vw"
           />
 
-          <!-- Compact variant (below 720px) -->
+          <!-- Compact variant (below 850px) -->
           <source
             type="image/avif"
             srcset={substackCompactSources.avifSrcset}
@@ -158,7 +158,7 @@ const substackWideSources = await createResponsiveSourceSet(
     grid-template-columns: 54% 46%;
     align-items: stretch;
     min-height: 175px;
-    height: 175px;
+    height: auto;
     width: 100%;
     max-width: var(--container-max-width);
     margin-inline: auto;
@@ -359,10 +359,13 @@ const substackWideSources = await createResponsiveSourceSet(
     position: relative;
     width: 100%;
     height: 100%;
+    min-height: 100%;
     overflow: hidden;
   }
 
   .substack-picture {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     display: block;
@@ -378,9 +381,9 @@ const substackWideSources = await createResponsiveSourceSet(
     object-position: 55% 30%;
   }
 
-  @media (max-width: 719px) {
+  @media (max-width: 849px) {
     .substack-img {
-      object-position: 55% 18%;
+      object-position: 50% 25%;
     }
   }
 
@@ -407,8 +410,8 @@ const substackWideSources = await createResponsiveSourceSet(
   @media (max-width: 600px) {
     .substack-grid {
       grid-template-columns: 55% 45%;
-      height: 165px;
       min-height: 165px;
+      height: auto;
     }
 
     .substack-content {
