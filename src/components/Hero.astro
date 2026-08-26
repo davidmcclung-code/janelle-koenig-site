@@ -195,17 +195,17 @@ import { asset } from '../utils/paths';
     display: block;
     position: absolute;
     left: clamp(440px, 44vw, 570px);
-    top: clamp(85px, 9.5vw, 115px);
+    top: clamp(95px, 10vw, 125px);
     z-index: 2;
   }
 
-  /* Oversized Dominant Hero Portrait: Scaled 1.6-1.8x, anchored to top, cropped at waist/thigh */
+  /* Oversized Dominant Hero Portrait: Scaled and anchored with head clearance */
   .hero-media {
     position: absolute;
     right: clamp(15px, 3.5vw, 65px);
-    top: -32px;
-    width: clamp(540px, 54vw, 700px);
-    max-width: 700px;
+    top: 12px;
+    width: clamp(520px, 52vw, 680px);
+    max-width: 680px;
     height: auto;
     display: flex;
     align-items: flex-start;
@@ -235,7 +235,7 @@ import { asset } from '../utils/paths';
     .hero-content {
       padding-top: 1.5rem;
       padding-bottom: 2rem;
-      max-width: 58%;
+      max-width: 52%;
       z-index: 2;
     }
 
@@ -273,21 +273,21 @@ import { asset } from '../utils/paths';
     }
 
     .hero-burst-mark {
-      left: 50%;
-      top: 32px;
+      left: clamp(47%, 49vw, 55%);
+      top: 26px;
       transform: scale(0.75);
       transform-origin: top left;
     }
 
     .hero-media {
       position: absolute;
-      width: clamp(280px, 58vw, 420px);
+      width: clamp(320px, 52vw, 430px);
       max-width: none;
-      top: auto;
-      bottom: 0;
-      right: -20px;
+      top: 12px;
+      bottom: auto;
+      right: -10px;
       display: flex;
-      align-items: flex-end;
+      align-items: flex-start;
       justify-content: flex-end;
       pointer-events: none;
       z-index: 1;
@@ -308,7 +308,7 @@ import { asset } from '../utils/paths';
     }
 
     .hero-content {
-      max-width: 54%;
+      max-width: 53%;
       padding-top: 1.25rem;
       padding-bottom: 1.5rem;
     }
@@ -344,17 +344,17 @@ import { asset } from '../utils/paths';
     }
 
     .hero-burst-mark {
-      left: clamp(48%, 52vw, 58%);
-      top: 20px;
+      left: clamp(45%, 48vw, 53%);
+      top: 14px;
       transform: scale(0.65);
     }
 
     .hero-media {
-      width: clamp(250px, 60vw, 320px);
+      width: clamp(270px, 64vw, 340px);
       max-width: none;
-      right: -16px;
-      top: auto;
-      bottom: 0;
+      right: -14px;
+      top: 8px;
+      bottom: auto;
       pointer-events: none;
       z-index: 1;
     }
