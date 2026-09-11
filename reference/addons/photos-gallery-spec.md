@@ -80,7 +80,7 @@ Desktop alignment requirement:
 
 Heading, using the crimson handwritten style:
 
-`Need Janelle at your thing?`
+`Want Janelle at your thing?`
 
 Body:
 
