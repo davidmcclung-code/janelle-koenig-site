@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from '../data/siteConfig';
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
-import substackCompactImg from '../assets/photography/substack/janelle-substack-compact.jpg';
+import substackCompactImg from '../assets/photography/substack/janelle-substack-compact.png';
 import substackWideImg from '../assets/photography/substack/janelle-substack-wide.png';
 
 interface Props {
@@ -13,7 +13,7 @@ const { imageSrc } = Astro.props;
 const substackCompactSources = await createResponsiveSourceSet(
   substackCompactImg,
   [320, 480, 640, 800],
-  'jpeg'
+  'png'
 );
 
 const substackWideSources = await createResponsiveSourceSet(
@@ -50,11 +50,11 @@ const substackWideSources = await createResponsiveSourceSet(
         <!-- Text Block Beside the Mug -->
         <div class="substack-text-block">
           <h2 class="font-script text-script-section substack-title wrap-break">
-            Apparently she writes too.
+            Funny, even sitting down
           </h2>
 
           <p class="substack-desc wrap-break">
-            More Janelle, but with considerably<br class="desc-break" />less standing up.
+            Because some thoughts deserve way more than 280 characters.
           </p>
 
           <div class="substack-actions">
@@ -127,7 +127,7 @@ const substackWideSources = await createResponsiveSourceSet(
             src={substackCompactSources.fallbackSrc}
             srcset={substackCompactSources.fallbackSrcset}
             sizes="(min-width: 600px) 46vw, 45vw"
-            alt="Janelle Koenig writing at a table"
+            alt="Indoors Club - Things I Thought About Instead of Sleeping"
             width={substackCompactSources.width}
             height={substackCompactSources.height}
             loading="lazy"
@@ -149,15 +149,15 @@ const substackWideSources = await createResponsiveSourceSet(
     display: block;
     line-height: 0;
     position: relative;
-    background-color: #faf0e7;
+    background-color: #f4e6db;
     overflow: hidden;
   }
 
   .substack-grid {
     display: grid;
-    grid-template-columns: 54% 46%;
+    grid-template-columns: 52% 48%;
     align-items: stretch;
-    min-height: 175px;
+    min-height: 180px;
     height: auto;
     width: 100%;
     max-width: var(--container-max-width);
@@ -180,8 +180,8 @@ const substackWideSources = await createResponsiveSourceSet(
       top: 0;
       left: 0;
       bottom: 0;
-      width: 100px;
-      background: linear-gradient(to right, #faf0e7 0%, rgba(250, 240, 231, 0) 100%);
+      width: 80px;
+      background: linear-gradient(to right, #f4e6db 0%, rgba(244, 230, 219, 0) 100%);
       z-index: 2;
       pointer-events: none;
     }
@@ -360,6 +360,9 @@ const substackWideSources = await createResponsiveSourceSet(
     width: 100%;
     height: 100%;
     min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     overflow: hidden;
   }
 
@@ -368,23 +371,19 @@ const substackWideSources = await createResponsiveSourceSet(
     inset: 0;
     width: 100%;
     height: 100%;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
-  /* Independent focal-position for Substack image */
+  /* Scale Substack photo without cropping */
   .substack-img {
     position: relative;
     z-index: 1;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: 55% 30%;
-  }
-
-  @media (max-width: 849px) {
-    .substack-img {
-      object-position: 50% 25%;
-    }
+    object-fit: contain;
+    object-position: center right;
   }
 
   @media (max-width: 849px) {
@@ -409,9 +408,9 @@ const substackWideSources = await createResponsiveSourceSet(
 
   @media (max-width: 600px) {
     .substack-grid {
-      grid-template-columns: 55% 45%;
-      min-height: 165px;
-      height: auto;
+      grid-template-columns: 50% 50%;
+      height: 190px;
+      min-height: 190px;
     }
 
     .substack-content {
@@ -464,10 +463,6 @@ const substackWideSources = await createResponsiveSourceSet(
     :global(.reveal.is-visible) .underline-path {
       transition-duration: 600ms;
       transition-delay: 100ms;
-    }
-
-    .substack-img {
-      object-position: 52% 20%;
     }
   }
 

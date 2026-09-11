@@ -7,7 +7,7 @@ import { siteConfig } from '../data/siteConfig';
     <!-- Header -->
     <div class="booking-header">
       <div>
-        <span class="font-script booking-pretitle">Need a grown-up?</span>
+        <span class="font-script booking-pretitle">Need someone to work the room?</span>
         <h3 id="booking-modal-title" class="booking-title">Book Janelle</h3>
       </div>
       <button type="button" class="booking-close-btn" id="booking-modal-close" aria-label="Close booking modal">
@@ -77,6 +77,7 @@ import { siteConfig } from '../data/siteConfig';
               <option value="mc">Professional MC</option>
               <option value="panel">Panel Host / Facilitator</option>
               <option value="comedy">Stand-up Comedy</option>
+              <option value="brand">Brand Partnership / Ambassador</option>
               <option value="other">Other / Custom</option>
             </select>
           </div>
@@ -490,8 +491,12 @@ import { siteConfig } from '../data/siteConfig';
     }
   }
 
-  bookingTriggers.forEach((trigger) => {
-    trigger.addEventListener('click', openBookingModal);
+  // Handle both statically and dynamically rendered booking triggers
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement)?.closest?.('[data-booking-trigger]');
+    if (trigger) {
+      openBookingModal(e);
+    }
   });
 
   bookingCloseBtn?.addEventListener('click', closeBookingModal);

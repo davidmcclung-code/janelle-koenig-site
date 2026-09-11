@@ -3,8 +3,26 @@ import events from '../data/events.json';
 import EventList from './EventList.astro';
 import VideoCard from './VideoCard.astro';
 import type { EventItem } from '../types';
+import { siteConfig } from '../data/siteConfig';
+import { processEventsFromCSV, getSheetCSVUrl } from '../utils/events';
 
-const typedEvents = events as EventItem[];
+let initialEvents: EventItem[] = events as EventItem[];
+const effectiveSheetUrl = getSheetCSVUrl(siteConfig.eventsSheetUrl || '');
+
+if (effectiveSheetUrl) {
+  try {
+    const res = await fetch(effectiveSheetUrl, {
+      signal: AbortSignal.timeout(5000),
+    });
+    if (res.ok) {
+      const csvText = await res.text();
+      const parsed = processEventsFromCSV(csvText);
+      initialEvents = parsed;
+    }
+  } catch (err) {
+    console.warn('Could not fetch Google Sheet events during build, using fallback:', err);
+  }
+}
 ---
 
 <section class="shows-section" id="shows" aria-label="Upcoming Shows and Video">
@@ -15,10 +33,10 @@ const typedEvents = events as EventItem[];
         <!-- Section Heading in Cursive Script -->
         <div class="shows-header">
           <h2 class="font-script text-script-section shows-title">
-            Leaving the house soon
+            Book the babysitter
           </h2>
         </div>
-        <EventList events={typedEvents} />
+        <EventList events={initialEvents} sheetUrl={effectiveSheetUrl} />
       </div>
 
       <div class="shows-video-col" id="watch">

@@ -7,22 +7,17 @@ import { asset } from '../utils/paths';
   <div class="container hero-container">
     <!-- Hero Text Content -->
     <div class="hero-content">
-      <!-- Cursive greeting without stray decorative characters -->
-      <div class="hero-greeting-wrapper">
-        <span class="font-script text-script-hero hero-greeting">{siteConfig.heroGreeting}</span>
-      </div>
-
       <!-- Main Display Headline (calibrated ~67px, ends ~485px from left edge) -->
-      <h1 class="hero-title" aria-label="Comedy. Motherhood. Poor decisions.">
+      <h1 class="hero-title" aria-label="Comedy. Casseroles. Chaos.">
         <span class="title-line">Comedy<span class="red-sq" aria-hidden="true"></span></span>
-        <span class="title-line">Motherhood<span class="red-sq" aria-hidden="true"></span></span>
-        <span class="title-line">Poor decisions<span class="red-sq" aria-hidden="true"></span></span>
+        <span class="title-line">Casseroles<span class="red-sq" aria-hidden="true"></span></span>
+        <span class="title-line">Chaos<span class="red-sq" aria-hidden="true"></span></span>
       </h1>
 
       <!-- Supporting Copy: 3 distinct lines, constrained to ~320px -->
       <p class="hero-subhead wrap-break">
-        Stand-up comedian, writer and<br />
-        indoors enthusiast.<br />
+        Comedian, creator, writer, <br />
+        MC, mum, and indoorsy type.<br />
         See Janelle live around Australia.
       </p>
 
@@ -53,10 +48,10 @@ import { asset } from '../utils/paths';
     <!-- Layered Large Portrait Anchored to Bottom Edge -->
     <div class="hero-media">
       <img
-        src={asset('/images/hero/janelle-placeholder-hero.png')}
-        alt="Janelle Koenig smiling in denim dress"
-        width="796"
-        height="1024"
+        src={asset('/images/hero/janelle-hero.png')}
+        alt="Janelle Koenig smiling with hands on hips in denim dress"
+        width="682"
+        height="770"
         fetchpriority="high"
         loading="eager"
         class="hero-portrait-img"
@@ -86,22 +81,10 @@ import { asset } from '../utils/paths';
     z-index: 3;
     max-width: 480px;
     min-width: 0;
-    padding-top: 56px;
+    padding-top: 118px;
     padding-bottom: 3.5rem;
     display: flex;
     flex-direction: column;
-  }
-
-  .hero-greeting-wrapper {
-    margin-bottom: 4px;
-  }
-
-  .hero-greeting {
-    font-size: 1.625rem;
-    color: var(--colour-primary);
-    transform: rotate(-2deg);
-    display: inline-block;
-    line-height: 1.1;
   }
 
   /* Display Headline: calibrated to match reference */
@@ -331,20 +314,23 @@ import { asset } from '../utils/paths';
     }
   }
 
-  /* Oversized Dominant Hero Portrait: Scaled 1.6-1.8x, anchored to top, cropped at waist/thigh */
+  /* Oversized Dominant Hero Portrait: Scaled and anchored to bottom edge, cropped at mid-thigh */
   .hero-media {
     position: absolute;
-    right: clamp(15px, 3.5vw, 65px);
-    top: -32px;
-    width: clamp(540px, 54vw, 700px);
-    max-width: 700px;
+    right: clamp(15px, 3.5vw, 55px);
+    bottom: 0;
+    top: auto;
+    width: clamp(440px, 45vw, 560px);
+    max-width: 560px;
     height: auto;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: center;
     z-index: 1;
     pointer-events: none;
   }
+
+
 
   .hero-portrait-img {
     width: 100%;
@@ -354,10 +340,40 @@ import { asset } from '../utils/paths';
     filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.08));
   }
 
+  /* Tablet Landscape & Medium Screens (850px - 1149px) */
+  @media (min-width: 850px) and (max-width: 1149px) {
+    .hero-container {
+      min-height: clamp(520px, 54vw, 620px);
+    }
+
+    .hero-content {
+      padding-top: clamp(80px, 9vw, 105px);
+      padding-bottom: 2.5rem;
+    }
+
+    .hero-burst-mark {
+      left: clamp(430px, 45vw, 520px);
+      top: clamp(65px, 7.5vw, 90px);
+    }
+
+    .hero-media {
+      width: clamp(460px, 49vw, 540px);
+      max-width: 540px;
+      height: auto;
+      bottom: 0;
+    }
+
+    .hero-portrait-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
   /* Mobile/Tablet Responsiveness */
   @media (max-width: 849px) {
     .hero-container {
-      min-height: 440px;
+      min-height: clamp(320px, 48vw, 420px);
       display: flex;
       flex-direction: row;
       align-items: flex-start;
@@ -365,18 +381,14 @@ import { asset } from '../utils/paths';
     }
 
     .hero-content {
-      padding-top: 1.5rem;
-      padding-bottom: 2rem;
-      max-width: 58%;
+      padding-top: clamp(2rem, 5vw, 3rem);
+      padding-bottom: clamp(1.25rem, 3vw, 2rem);
+      max-width: 52%;
       z-index: 2;
     }
 
-    .hero-greeting {
-      font-size: 1.35rem;
-    }
-
     .hero-title {
-      font-size: clamp(1.85rem, 6.5vw, 2.5rem);
+      font-size: clamp(1.85rem, 6vw, 2.4rem);
       margin-bottom: 12px;
     }
 
@@ -405,90 +417,21 @@ import { asset } from '../utils/paths';
     }
 
     .hero-burst-mark {
-      left: 50%;
-      top: 32px;
+      left: 47%;
+      top: clamp(14px, 3.5vw, 24px);
       transform: scale(0.75);
       transform-origin: top left;
     }
 
     .hero-media {
       position: absolute;
-      width: 52%;
-      max-width: 360px;
-      height: auto;
       bottom: 0;
       top: auto;
-      right: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-    }
-
-    .hero-portrait-img {
-      width: 100%;
-      height: auto;
-      max-height: none;
-      object-fit: contain;
-      object-position: bottom right;
-      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero-container {
-      min-height: 400px;
-    }
-
-    .hero-content {
-      max-width: 53%;
-      padding-top: 1.25rem;
-      padding-bottom: 1.5rem;
-    }
-
-    .hero-greeting {
-      font-size: 1.2rem;
-    }
-
-    .hero-title {
-      font-size: clamp(1.65rem, 6.2vw, 2.05rem);
-      margin-bottom: 10px;
-    }
-
-    .hero-subhead {
-      font-size: 0.75rem;
-      max-width: 175px;
-      margin-bottom: 14px;
-    }
-
-    .hero-actions {
-      gap: 8px;
-      width: 100%;
-    }
-
-    .hero-btn-live,
-    .hero-btn-watch {
-      height: 44px;
-      min-height: 44px;
-      min-width: 140px;
-      font-size: 0.75rem;
-      line-height: 1.2;
-      padding: 0.5rem 0.95rem;
-    }
-
-    .hero-burst-mark {
-      left: 52%;
-      top: 22px;
-      transform: scale(0.65);
-    }
-
-    .hero-media {
-      position: absolute;
-      top: -12px;
-      bottom: 0;
-      right: clamp(-42px, -8vw, -28px);
+      right: clamp(-10px, 1.5vw, 20px);
+      height: calc(100% - 14px);
+      max-height: 480px;
       width: auto;
-      max-width: none;
-      height: calc(100% + 12px);
+      max-width: clamp(240px, 55vw, 440px);
       display: flex;
       align-items: flex-end;
       justify-content: flex-end;
@@ -499,7 +442,79 @@ import { asset } from '../utils/paths';
     .hero-portrait-img {
       height: 100%;
       width: auto;
-      max-width: none;
+      max-height: none;
+      max-width: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: bottom right;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-container {
+      min-height: 310px;
+    }
+
+    .hero-content {
+      max-width: 50%;
+      padding-top: 1.85rem;
+      padding-bottom: 1.15rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.55rem, 6vw, 1.95rem);
+      margin-bottom: 8px;
+    }
+
+    .hero-subhead {
+      font-size: 0.75rem;
+      max-width: 165px;
+      margin-bottom: 12px;
+    }
+
+    .hero-actions {
+      gap: 8px;
+      width: 100%;
+    }
+
+    .hero-btn-live,
+    .hero-btn-watch {
+      height: 42px;
+      min-height: 42px;
+      min-width: 130px;
+      font-size: 0.75rem;
+      line-height: 1.2;
+      padding: 0.45rem 0.9rem;
+    }
+
+    .hero-burst-mark {
+      left: 48%;
+      top: 12px;
+      transform: scale(0.65);
+    }
+
+    .hero-media {
+      position: absolute;
+      bottom: 0;
+      top: auto;
+      right: clamp(-15px, -2.5vw, -2px);
+      height: calc(100% - 8px);
+      max-height: 380px;
+      width: auto;
+      max-width: 62%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-portrait-img {
+      height: 100%;
+      width: auto;
+      max-height: none;
+      max-width: 100%;
       display: block;
       object-fit: contain;
       object-position: bottom right;
@@ -519,7 +534,6 @@ import { asset } from '../utils/paths';
     }
   }
 
-  .hero-greeting-wrapper,
   .hero-title {
     animation: heroFadeIn var(--motion-standard, 800ms) var(--ease-out) 0ms both;
   }
@@ -532,7 +546,6 @@ import { asset } from '../utils/paths';
   }
 
   @media (max-width: 600px) {
-    .hero-greeting-wrapper,
     .hero-title {
       animation-duration: 600ms;
     }
@@ -547,7 +560,6 @@ import { asset } from '../utils/paths';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-greeting-wrapper,
     .hero-title,
     .hero-subhead,
     .hero-actions,

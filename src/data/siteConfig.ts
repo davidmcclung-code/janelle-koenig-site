@@ -12,13 +12,13 @@ export interface SocialLink {
 export interface SiteConfig {
   name: string;
   role: string;
-  heroGreeting: string;
   heroHeadline: string[];
   heroSubhead: string;
   tagline: string;
   email: string;
   phone: string;
   substackUrl: string;
+  eventsSheetUrl?: string;
   navItems: NavItem[];
   socialLinks: SocialLink[];
   studioCredit: {
@@ -30,13 +30,13 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: 'Janelle Koenig',
   role: 'Comedian | MC | Panel Host',
-  heroGreeting: 'Hello Australia!',
-  heroHeadline: ['Comedy.', 'Motherhood.', 'Poor decisions.'],
-  heroSubhead: 'Stand-up comedian, writer and indoors enthusiast. See Janelle live around Australia.',
+  heroHeadline: ['Comedy.', 'Casseroles.', 'Chaos.'],
+  heroSubhead: 'Comedian, creator, writer, MC, mum, and indoorsy type. See Janelle live around Australia.',
   tagline: 'Quick wit. Calm hands. Zero beige.',
   email: 'hello@janellekoenig.com',
   phone: '0400 123 456',
   substackUrl: 'https://janellekoenig.substack.com',
+  eventsSheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7-WEu9FEEkyIqi3TxtQ4DzrqlWn4dKMcmvki-X2xkPaHQwvdshaupWr-DWcPhiOoQjtO_yRkvzXHy/pub?gid=0&single=true&output=csv',
   navItems: [
     { label: 'SHOWS', href: '/#shows' },
     { label: 'WATCH', href: '/#watch' },

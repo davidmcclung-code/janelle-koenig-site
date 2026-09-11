@@ -8,20 +8,20 @@ interface Props {
 }
 
 const {
-  thumbnailSrc = asset('/images/performance/watch-janelle-thumb-card.png'),
+  thumbnailSrc = asset('/images/performance/debbie-gibson-thumbnail.jpg'),
   title = 'Watch Janelle',
-  description = 'Stand-up, interviews and questionable life choices.',
+  description = 'Janelle catches up with pop icon, Debbie Gibson.',
 } = Astro.props;
 ---
 
 <div class="video-card">
   <!-- Video Thumbnail with Centered Play Button Overlay -->
-  <div class="video-thumbnail-container" id="video-card-trigger" data-video-trigger role="button" tabindex="0" aria-label="Play showreel video">
+  <div class="video-thumbnail-container" id="video-card-trigger" data-video-trigger role="button" tabindex="0" aria-label="Play video: Janelle catches up with pop icon Debbie Gibson">
     <img
       src={thumbnailSrc}
-      alt="Janelle Koenig performing comedy live on stage"
+      alt="Janelle Koenig catches up with pop icon Debbie Gibson"
       width="640"
-      height="400"
+      height="360"
       loading="lazy"
       class="video-thumbnail"
     />
@@ -81,7 +81,7 @@ const {
   .video-thumbnail-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius-md);
     overflow: hidden;
     cursor: pointer;

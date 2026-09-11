@@ -1,7 +1,7 @@
 ---
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
 import mcCompactImg from '../assets/photography/mc/janelle-mc-compact.jpg';
-import mcWideImg from '../assets/photography/mc/janelle-mc-wide.png';
+import mcWideImg from '../assets/photography/mc/janelle-mc-wide.jpg';
 
 interface Props {
   imageSrc?: string;
@@ -18,7 +18,7 @@ const mcCompactSources = await createResponsiveSourceSet(
 const mcWideSources = await createResponsiveSourceSet(
   mcWideImg,
   [480, 640, 800, 960, 1280],
-  'png'
+  'jpeg'
 );
 ---
 
@@ -27,10 +27,10 @@ const mcWideSources = await createResponsiveSourceSet(
     <!-- Left Content Column (52% width) -->
     <div class="banner-content">
       <h2 class="font-script text-script-section banner-title">
-        Need a grown-up?
+        Need someone to work the room?
       </h2>
       <p class="banner-desc wrap-break">
-        Janelle MCs events, hosts panels and turns corporate rooms into actual fun.
+        Janelle keeps the room laughing, the event moving and awkward silences off the agenda.
       </p>
       <div class="banner-actions">
         <button type="button" class="btn banner-btn" id="mc-enquire-btn" data-booking-trigger>
@@ -171,7 +171,7 @@ const mcWideSources = await createResponsiveSourceSet(
     display: inline-block;
     font-size: clamp(1.4rem, 2vw, 1.7rem);
     line-height: 1.1;
-    margin: 0 0 13px 0;
+    margin: 0 0 10px 0;
   }
 
   .banner-desc {
@@ -179,13 +179,13 @@ const mcWideSources = await createResponsiveSourceSet(
     font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
     line-height: 1.4;
     color: var(--colour-ink);
-    max-width: 345px;
+    max-width: 380px;
     font-weight: 500;
     margin: 0;
   }
 
   .banner-actions {
-    margin-top: 17px;
+    margin-top: 14px;
   }
 
   .banner-btn {
