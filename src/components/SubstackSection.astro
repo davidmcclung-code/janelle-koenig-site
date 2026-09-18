@@ -64,9 +64,10 @@ const substackWideSources = await createResponsiveSourceSet(
               target="_blank"
               rel="noopener noreferrer"
               class="btn btn-primary substack-btn"
+              aria-label="Read Janelle's Substack (opens in a new tab)"
             >
               <span>READ THE SUBSTACK</span>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
@@ -325,10 +326,9 @@ const substackWideSources = await createResponsiveSourceSet(
   }
 
   .substack-btn {
-    height: 34px;
-    min-height: 34px;
-    padding: 0.35rem 0.95rem;
-    font-size: 0.72rem;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
     letter-spacing: 0.04em;
   }
 
@@ -410,13 +410,14 @@ const substackWideSources = await createResponsiveSourceSet(
   @media (max-width: 600px) {
     .substack-grid {
       grid-template-columns: 50% 50%;
-      height: 190px;
       min-height: 190px;
     }
 
     .substack-content {
       padding-left: var(--container-gutter);
       padding-right: 0.5rem;
+      padding-top: var(--space-3);
+      padding-bottom: var(--space-3);
     }
 
     .substack-text-block {
@@ -430,7 +431,7 @@ const substackWideSources = await createResponsiveSourceSet(
     }
 
     .substack-desc {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       line-height: 1.35;
       max-width: 100%;
     }
@@ -441,10 +442,9 @@ const substackWideSources = await createResponsiveSourceSet(
     }
 
     .substack-btn {
-      height: 30px;
-      min-height: 30px;
-      padding: 0.25rem 0.65rem;
-      font-size: 0.65rem;
+      min-height: 44px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.72rem;
       gap: 5px;
       letter-spacing: 0.04em;
     }
@@ -484,12 +484,13 @@ const substackWideSources = await createResponsiveSourceSet(
     }
 
     .substack-desc {
-      font-size: 0.68rem;
+      font-size: 0.72rem;
     }
 
     .substack-btn {
-      font-size: 0.6rem;
-      padding: 0.2rem 0.55rem;
+      min-height: 44px;
+      font-size: 0.7rem;
+      padding: 0.4rem 0.75rem;
     }
 
     .substack-underline {

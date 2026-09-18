@@ -223,6 +223,7 @@ import { siteConfig } from '../data/siteConfig';
   }
 
   .booking-close-btn {
+    position: relative;
     width: 36px;
     height: 36px;
     border-radius: var(--radius-pill);
@@ -234,6 +235,16 @@ import { siteConfig } from '../data/siteConfig';
     border: none;
     cursor: pointer;
     transition: background-color var(--motion-fast) var(--ease-out);
+  }
+
+  .booking-close-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .booking-close-btn:hover {
@@ -366,6 +377,7 @@ import { siteConfig } from '../data/siteConfig';
   }
 
   .modal-copy-btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -383,6 +395,16 @@ import { siteConfig } from '../data/siteConfig';
                 border-color var(--motion-fast) var(--ease-out),
                 color var(--motion-fast) var(--ease-out),
                 transform var(--motion-fast) var(--ease-out);
+  }
+
+  .modal-copy-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .modal-copy-btn:hover {

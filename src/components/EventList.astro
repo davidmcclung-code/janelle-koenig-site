@@ -12,19 +12,43 @@ const hasEvents = Array.isArray(events) && events.length > 0;
 ---
 
 <div class="event-list-wrapper" data-sheet-url={sheetUrl}>
-  <!-- Loading state shown initially while syncing live calendar -->
-  <div class="events-loading-state" id="events-loading-state" aria-live="polite">
-    <div class="loading-spinner" aria-hidden="true"></div>
-    <p class="loading-text">Checking Janelle's Diary...</p>
-  </div>
+  <!-- Skeleton rows matching EventRow geometry to guarantee zero layout shift during sync -->
+  <ul class="event-skeleton-list" id="events-skeleton-list" aria-label="Loading upcoming shows" aria-busy="true">
+    <li class="event-skeleton-row" aria-hidden="true">
+      <div class="skeleton-date shimmer"></div>
+      <div class="skeleton-details">
+        <div class="skeleton-title shimmer"></div>
+        <div class="skeleton-venue shimmer"></div>
+      </div>
+      <div class="skeleton-action shimmer"></div>
+    </li>
+    <li class="event-skeleton-row" aria-hidden="true">
+      <div class="skeleton-date shimmer"></div>
+      <div class="skeleton-details">
+        <div class="skeleton-title shimmer"></div>
+        <div class="skeleton-venue shimmer"></div>
+      </div>
+      <div class="skeleton-action shimmer"></div>
+    </li>
+    <li class="event-skeleton-row" aria-hidden="true">
+      <div class="skeleton-date shimmer"></div>
+      <div class="skeleton-details">
+        <div class="skeleton-title shimmer"></div>
+        <div class="skeleton-venue shimmer"></div>
+      </div>
+      <div class="skeleton-action shimmer"></div>
+    </li>
+  </ul>
 
-  <ul class="event-list" aria-label="Upcoming Shows" style="display: none;">
+  <!-- Upcoming Shows List populated once live calendar syncs -->
+  <ul class="event-list" id="event-list" aria-label="Upcoming Shows" style="display: none;">
     {hasEvents && events.map((event, index) => (
       <EventRow event={event} index={index} />
     ))}
   </ul>
 
-  <div class="events-empty-state" style="display: none;">
+  <!-- Empty state displayed if no upcoming public dates are announced -->
+  <div class="events-empty-state" id="events-empty-state" style="display: none;">
     <p class="empty-text">No upcoming public shows currently announced.</p>
     <p class="empty-subtext">Check back soon or enquire for private & corporate bookings.</p>
     <button type="button" class="btn btn-primary empty-enquire-btn" data-booking-trigger>
@@ -38,52 +62,135 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     width: 100%;
   }
 
-  .events-loading-state {
+  /* Skeleton Placeholders matching EventRow geometry */
+  .event-skeleton-list {
     display: flex;
     flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: opacity var(--motion-fast) var(--ease-out);
+  }
+
+  .event-skeleton-row {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    padding: var(--space-7) var(--space-4);
+    gap: var(--space-4);
+    padding: 0.6rem 0.5rem;
+    margin-inline: -0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .event-skeleton-row:first-child {
+    padding-top: 0.25rem;
+  }
+
+  .event-skeleton-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0.25rem;
+  }
+
+  .skeleton-date {
+    width: 48px;
+    height: 40px;
+    border-radius: var(--radius-xs);
     background-color: var(--colour-surface-alt);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--colour-border);
-    text-align: center;
+    flex-shrink: 0;
   }
 
-  .loading-spinner {
-    width: 26px;
-    height: 26px;
-    border: 3px solid rgba(138, 21, 56, 0.15);
-    border-top-color: var(--colour-primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+  .skeleton-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
   }
 
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
+  .skeleton-title {
+    width: clamp(140px, 45%, 260px);
+    height: 16px;
+    border-radius: var(--radius-xs);
+    background-color: var(--colour-surface-alt);
+  }
+
+  .skeleton-venue {
+    width: clamp(110px, 35%, 190px);
+    height: 12px;
+    border-radius: var(--radius-xs);
+    background-color: var(--colour-surface-alt);
+  }
+
+  .skeleton-action {
+    width: 72px;
+    height: 32px;
+    border-radius: var(--radius-xs);
+    background-color: var(--colour-surface-alt);
+    flex-shrink: 0;
+  }
+
+  /* Shimmer pulse effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.04) 25%,
+      rgba(0, 0, 0, 0.08) 50%,
+      rgba(0, 0, 0, 0.04) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmerWave 1.6s ease-in-out infinite;
+  }
+
+  @keyframes shimmerWave {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 
-  .loading-text {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--colour-ink);
-    letter-spacing: -0.01em;
-    margin: 0;
+  @media (max-width: 580px) {
+    .event-skeleton-row {
+      grid-template-columns: 44px 1fr auto;
+      gap: clamp(8px, 2.5vw, 12px);
+      padding: 0.6rem 0;
+      margin-inline: 0;
+    }
+
+    .skeleton-date {
+      width: 44px;
+      height: 36px;
+    }
+
+    .skeleton-title {
+      width: clamp(120px, 50%, 200px);
+      height: 15px;
+    }
+
+    .skeleton-venue {
+      width: clamp(90px, 40%, 150px);
+      height: 11px;
+    }
+
+    .skeleton-action {
+      width: 58px;
+      height: 28px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .loading-spinner {
-      animation: none;
+    .shimmer {
+      animation: none !important;
+      background: var(--colour-surface-alt);
     }
   }
 
   .event-list {
     display: flex;
     flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   .events-empty-state {
@@ -111,6 +218,7 @@ const hasEvents = Array.isArray(events) && events.length > 0;
 
   .empty-enquire-btn {
     margin-inline: auto;
+    min-height: 44px;
   }
 </style>
 
@@ -125,12 +233,17 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     const rawUrl = wrapper.dataset.sheetUrl || '';
     if (!rawUrl) return;
 
-    const loadingEl = wrapper.querySelector<HTMLElement>('.events-loading-state');
-    const listEl = wrapper.querySelector<HTMLElement>('.event-list');
-    const emptyStateEl = wrapper.querySelector<HTMLElement>('.events-empty-state');
+    const skeletonEl = wrapper.querySelector<HTMLElement>('#events-skeleton-list');
+    const listEl = wrapper.querySelector<HTMLElement>('#event-list');
+    const emptyStateEl = wrapper.querySelector<HTMLElement>('#events-empty-state');
 
     function applyEvents(upcomingEvents: EventItem[]) {
-      if (loadingEl) loadingEl.style.display = 'none';
+      if (skeletonEl) {
+        skeletonEl.style.opacity = '0';
+        setTimeout(() => {
+          skeletonEl.style.display = 'none';
+        }, 150);
+      }
 
       if (!upcomingEvents || upcomingEvents.length === 0) {
         if (listEl) {
@@ -185,8 +298,8 @@ const hasEvents = Array.isArray(events) && events.length > 0;
 
     // Safety timeout: if network takes longer than 5 seconds, fallback
     const timeoutId = setTimeout(() => {
-      if (loadingEl && loadingEl.style.display !== 'none') {
-        loadingEl.style.display = 'none';
+      if (skeletonEl && skeletonEl.style.display !== 'none') {
+        skeletonEl.style.display = 'none';
         if (listEl && listEl.children.length > 0) {
           listEl.style.display = '';
         } else if (emptyStateEl) {
@@ -222,7 +335,7 @@ const hasEvents = Array.isArray(events) && events.length > 0;
           (window as any)[callbackName] = undefined;
         }
         scriptEl.remove();
-        if (loadingEl) loadingEl.style.display = 'none';
+        if (skeletonEl) skeletonEl.style.display = 'none';
         if (listEl && listEl.children.length > 0) {
           listEl.style.display = '';
         } else if (emptyStateEl) {
@@ -242,7 +355,7 @@ const hasEvents = Array.isArray(events) && events.length > 0;
         .catch((err) => {
           clearTimeout(timeoutId);
           console.warn('Could not sync events from Google Sheet:', err);
-          if (loadingEl) loadingEl.style.display = 'none';
+          if (skeletonEl) skeletonEl.style.display = 'none';
           if (listEl && listEl.children.length > 0) {
             listEl.style.display = '';
           } else if (emptyStateEl) {

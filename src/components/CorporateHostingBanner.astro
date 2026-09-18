@@ -121,8 +121,8 @@ const mcWideSources = await createResponsiveSourceSet(
     display: grid;
     grid-template-columns: 54% 46%;
     align-items: stretch;
-    min-height: 165px;
     height: 165px;
+    min-height: 165px;
     width: 100%;
     max-width: var(--container-max-width);
     margin-inline: auto;
@@ -189,6 +189,7 @@ const mcWideSources = await createResponsiveSourceSet(
   }
 
   .banner-btn {
+    position: relative;
     border: 1.5px solid var(--colour-ink);
     color: #ffffff;
     background-color: var(--colour-ink);
@@ -198,6 +199,18 @@ const mcWideSources = await createResponsiveSourceSet(
     font-size: 0.72rem;
     letter-spacing: 0.04em;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .banner-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 44px;
+    width: calc(100% + 12px);
+    height: 44px;
   }
 
   .banner-btn:hover {
@@ -269,6 +282,18 @@ const mcWideSources = await createResponsiveSourceSet(
       min-height: 30px;
       padding: 0.25rem 0.65rem;
       font-size: 0.65rem;
+    }
+
+    .banner-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 44px;
+      width: calc(100% + 12px);
+      height: 44px;
     }
 
     .banner-img {
