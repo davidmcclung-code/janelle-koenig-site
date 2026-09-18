@@ -4,7 +4,7 @@ export interface NavItem {
 }
 
 export interface SocialLink {
-  platform: 'instagram' | 'facebook' | 'tiktok';
+  platform: 'instagram' | 'facebook' | 'tiktok' | 'youtube' | 'x';
   label: string;
   url: string;
 }
@@ -35,7 +35,7 @@ export const siteConfig: SiteConfig = {
   tagline: 'Quick wit. Calm hands. Zero beige.',
   email: 'hello@janellekoenig.com',
   phone: '0400 123 456',
-  substackUrl: 'https://janellekoenig.substack.com',
+  substackUrl: 'https://janellekoenig.substack.com/',
   eventsSheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7-WEu9FEEkyIqi3TxtQ4DzrqlWn4dKMcmvki-X2xkPaHQwvdshaupWr-DWcPhiOoQjtO_yRkvzXHy/pub?gid=0&single=true&output=csv',
   navItems: [
     { label: 'SHOWS', href: '/#shows' },
@@ -45,9 +45,11 @@ export const siteConfig: SiteConfig = {
     { label: 'GALLERY', href: '/photos' },
   ],
   socialLinks: [
-    { platform: 'instagram', label: 'Instagram', url: 'https://instagram.com/janellekoenig' },
-    { platform: 'facebook', label: 'Facebook', url: 'https://facebook.com/janellekoenig' },
-    { platform: 'tiktok', label: 'TikTok', url: 'https://tiktok.com/@janellekoenig' },
+    { platform: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/janellekoenig/' },
+    { platform: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/janellekoenigcomedy/' },
+    { platform: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@janellekoenig_comedy' },
+    { platform: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@janellekoenig' },
+    { platform: 'x', label: 'X', url: 'https://x.com/JanelleKoenig' },
   ],
   studioCredit: {
     text: 'Website by',

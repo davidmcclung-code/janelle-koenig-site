@@ -6,9 +6,10 @@ import substackWideImg from '../assets/photography/substack/janelle-substack-wid
 
 interface Props {
   imageSrc?: string;
+  substackUrl?: string;
 }
 
-const { imageSrc } = Astro.props;
+const { imageSrc, substackUrl = siteConfig.substackUrl } = Astro.props;
 
 const substackCompactSources = await createResponsiveSourceSet(
   substackCompactImg,
@@ -59,7 +60,7 @@ const substackWideSources = await createResponsiveSourceSet(
 
           <div class="substack-actions">
             <a
-              href={siteConfig.substackUrl}
+              href={substackUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="btn btn-primary substack-btn"
