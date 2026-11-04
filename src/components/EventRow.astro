@@ -28,7 +28,13 @@ const { event, index = 0 } = Astro.props;
       event.isSoldOut ? (
         <span class="event-badge sold-out">SOLD OUT</span>
       ) : (
-        <a href={event.ticketUrl} class="event-ticket-link" aria-label={`Get tickets for ${event.title}`}>
+        <a
+          href={event.ticketUrl}
+          target={event.ticketUrl.startsWith('http') ? '_blank' : undefined}
+          rel={event.ticketUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+          class="event-ticket-link"
+          aria-label={`Get tickets for ${event.title}`}
+        >
           <span>TICKETS</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>

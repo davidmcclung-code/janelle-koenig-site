@@ -20,11 +20,12 @@ export function getSheetCSVUrl(url: string): string {
 }
 
 /**
- * Parses raw CSV text safely adhering to basic RFC 4180 rules (quoted strings, escaped quotes).
+ * Parses raw CSV text safely adhering to basic RFC 4180 rules (quoted strings, commas inside quotes, escaped quotes).
  */
 export function parseCSV(csvText: string): Record<string, string>[] {
-  const lines: string[] = [];
-  let currentLine = '';
+  const rawRows: string[][] = [];
+  let currentRow: string[] = [];
+  let currentCell = '';
   let inQuotes = false;
 
   for (let i = 0; i < csvText.length; i++) {
@@ -33,67 +34,52 @@ export function parseCSV(csvText: string): Record<string, string>[] {
 
     if (char === '"') {
       if (inQuotes && nextChar === '"') {
-        currentLine += '"';
+        currentCell += '"';
         i++;
       } else {
         inQuotes = !inQuotes;
       }
+    } else if (char === ',' && !inQuotes) {
+      currentRow.push(currentCell.trim());
+      currentCell = '';
     } else if ((char === '\r' || char === '\n') && !inQuotes) {
       if (char === '\r' && nextChar === '\n') {
         i++;
       }
-      if (currentLine.trim().length > 0) {
-        lines.push(currentLine);
+      currentRow.push(currentCell.trim());
+      currentCell = '';
+      if (currentRow.some((cell) => cell.length > 0)) {
+        rawRows.push(currentRow);
       }
-      currentLine = '';
+      currentRow = [];
     } else {
-      currentLine += char;
+      currentCell += char;
     }
   }
 
-  if (currentLine.trim().length > 0) {
-    lines.push(currentLine);
+  if (currentCell.length > 0 || currentRow.length > 0) {
+    currentRow.push(currentCell.trim());
+    if (currentRow.some((cell) => cell.length > 0)) {
+      rawRows.push(currentRow);
+    }
   }
 
-  if (lines.length < 2) return [];
+  if (rawRows.length < 2) return [];
 
-  const parseRow = (line: string): string[] => {
-    const cells: string[] = [];
-    let cell = '';
-    let inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const c = line[i];
-      const nc = line[i + 1];
-      if (c === '"') {
-        if (inQ && nc === '"') {
-          cell += '"';
-          i++;
-        } else {
-          inQ = !inQ;
-        }
-      } else if (c === ',' && !inQ) {
-        cells.push(cell.trim());
-        cell = '';
-      } else {
-        cell += c;
-      }
-    }
-    cells.push(cell.trim());
-    return cells;
-  };
-
-  const rawHeaders = parseRow(lines[0]);
-  const headers = rawHeaders.map((h) => h.trim().toLowerCase().replace(/[\s_-]+/g, ''));
+  const headers = rawRows[0].map((h) =>
+    h.trim().toLowerCase().replace(/[^a-z0-9]+/g, '')
+  );
 
   const rows: Record<string, string>[] = [];
-  for (let i = 1; i < lines.length; i++) {
-    const values = parseRow(lines[i]);
-    // Skip empty lines
+  for (let i = 1; i < rawRows.length; i++) {
+    const values = rawRows[i];
     if (values.every((v) => !v)) continue;
 
     const rowObj: Record<string, string> = {};
     headers.forEach((header, index) => {
-      rowObj[header] = values[index] ?? '';
+      if (header) {
+        rowObj[header] = values[index] ?? '';
+      }
     });
     rows.push(rowObj);
   }
@@ -141,6 +127,13 @@ export function parseEventDate(dateStr: string): Date | null {
   return null;
 }
 
+function normalizeTicketUrl(rawUrl: string): string {
+  const trimmed = (rawUrl || '').trim();
+  if (!trimmed || trimmed === '#') return '#';
+  if (/^(https?:\/\/|\/|#)/i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
 /**
  * Transforms parsed CSV rows into typed, sorted EventItem objects, excluding past events.
  */
@@ -175,23 +168,27 @@ export function processEventsFromCSV(csvText: string, referenceDate: Date = new 
 
     const venue = row['venue'] || '';
     const location = row['location'] || row['city'] || '';
-    const ticketUrl =
+    const ticketUrl = normalizeTicketUrl(
       row['ticketurl'] ||
-      row['tickets'] ||
-      row['ticketlink'] ||
-      row['link'] ||
-      '#';
+        row['tickets'] ||
+        row['ticketlink'] ||
+        row['link'] ||
+        row['url'] ||
+        '#'
+    );
 
     const soldOutRaw = (
       row['soldout'] ||
       row['issoldout'] ||
       row['status'] ||
       ''
-    ).toLowerCase();
+    ).trim().toLowerCase();
 
     const isSoldOut =
       soldOutRaw === 'true' ||
       soldOutRaw === 'yes' ||
+      soldOutRaw === '1' ||
+      soldOutRaw === 'y' ||
       soldOutRaw === 'sold out' ||
       soldOutRaw === 'soldout';
 
@@ -243,7 +240,7 @@ export function processEventsFromGviz(gvizData: any, referenceDate: Date = new D
   }
 
   const cols: string[] = gvizData.table.cols.map((col: any) =>
-    (col.label || col.id || '').trim().toLowerCase().replace(/[\s_-]+/g, '')
+    (col.label || col.id || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '')
   );
 
   const events: (EventItem & { _timestamp: number })[] = [];
@@ -287,23 +284,27 @@ export function processEventsFromGviz(gvizData: any, referenceDate: Date = new D
 
     const venue = rowObj['venue'] || '';
     const location = rowObj['location'] || rowObj['city'] || '';
-    const ticketUrl =
+    const ticketUrl = normalizeTicketUrl(
       rowObj['ticketurl'] ||
-      rowObj['tickets'] ||
-      rowObj['ticketlink'] ||
-      rowObj['link'] ||
-      '#';
+        rowObj['tickets'] ||
+        rowObj['ticketlink'] ||
+        rowObj['link'] ||
+        rowObj['url'] ||
+        '#'
+    );
 
     const soldOutRaw = (
       rowObj['soldout'] ||
       rowObj['issoldout'] ||
       rowObj['status'] ||
       ''
-    ).toLowerCase();
+    ).trim().toLowerCase();
 
     const isSoldOut =
       soldOutRaw === 'true' ||
       soldOutRaw === 'yes' ||
+      soldOutRaw === '1' ||
+      soldOutRaw === 'y' ||
       soldOutRaw === 'sold out' ||
       soldOutRaw === 'soldout';
 
