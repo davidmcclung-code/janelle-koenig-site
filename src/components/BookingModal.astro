@@ -1,20 +1,18 @@
 ---
 import { siteConfig } from '../data/siteConfig';
+import CloseIcon from './CloseIcon.astro';
 ---
 
-<dialog id="booking-modal" class="booking-dialog" aria-labelledby="booking-modal-title" aria-modal="true">
+<dialog id="booking-modal" class="booking-dialog" aria-labelledby="booking-modal-title">
   <div class="booking-card">
     <!-- Header -->
     <div class="booking-header">
       <div>
         <span class="font-script booking-pretitle">Need someone to work the room?</span>
-        <h3 id="booking-modal-title" class="booking-title">Book Janelle</h3>
+        <h2 id="booking-modal-title" class="booking-title">Book Janelle</h2>
       </div>
       <button type="button" class="booking-close-btn" id="booking-modal-close" aria-label="Close booking modal">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
+        <CloseIcon size={22} />
       </button>
     </div>
 
@@ -24,7 +22,7 @@ import { siteConfig } from '../data/siteConfig';
         Tell Janelle what you're planning, who's in the room and how much trouble she's allowed to get into.
       </p>
 
-      <form id="booking-form" class="booking-form" action={`mailto:${siteConfig.email}`} method="POST" enctype="text/plain">
+      <form id="booking-form" class="booking-form" data-email={siteConfig.email} novalidate>
         <div class="form-grid">
           <!-- Name -->
           <div class="form-group">
@@ -36,9 +34,11 @@ import { siteConfig } from '../data/siteConfig';
               required
               maxlength="100"
               autocomplete="name"
+              aria-describedby="booking-name-error"
               class="form-input"
               placeholder="e.g. Sarah Mitchell"
             />
+            <span id="booking-name-error" class="form-error" role="status" aria-live="polite" hidden></span>
           </div>
 
           <!-- Email -->
@@ -51,9 +51,14 @@ import { siteConfig } from '../data/siteConfig';
               required
               maxlength="120"
               autocomplete="email"
+              autocorrect="off"
+              autocapitalize="none"
+              spellcheck="false"
+              aria-describedby="booking-email-error"
               class="form-input"
               placeholder="sarah@example.com"
             />
+            <span id="booking-email-error" class="form-error" role="status" aria-live="polite" hidden></span>
           </div>
 
           <!-- Organisation -->
@@ -110,9 +115,11 @@ import { siteConfig } from '../data/siteConfig';
               rows="4"
               required
               maxlength="2500"
+              aria-describedby="booking-message-error"
               class="form-textarea"
               placeholder="Tell us about the audience, timing, and what you need from Janelle..."
             ></textarea>
+            <span id="booking-message-error" class="form-error" role="status" aria-live="polite" hidden></span>
           </div>
         </div>
 
@@ -121,6 +128,7 @@ import { siteConfig } from '../data/siteConfig';
           <button type="submit" id="booking-submit-btn" class="btn btn-primary form-submit-btn">
             SEND ENQUIRY
           </button>
+          <div id="booking-status" class="booking-status" role="status" aria-live="polite" hidden></div>
           <div class="direct-contact-container">
             <p class="direct-contact-note wrap-break">
               Prefer direct email? Reach Janelle at <a href={`mailto:${siteConfig.email}`} class="direct-link">{siteConfig.email}</a>
@@ -129,13 +137,12 @@ import { siteConfig } from '../data/siteConfig';
                 class="modal-copy-btn"
                 data-copy-email={siteConfig.email}
                 aria-label="Copy email address"
-                title="Copy email to clipboard"
               >
-                <svg class="copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                <svg class="check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
               </button>
@@ -190,6 +197,7 @@ import { siteConfig } from '../data/siteConfig';
   }
 
   .booking-card {
+    contain: layout style paint;
     background-color: var(--colour-page);
     color: var(--colour-ink);
     border-radius: var(--radius-lg);
@@ -255,6 +263,7 @@ import { siteConfig } from '../data/siteConfig';
   .booking-body {
     padding: var(--space-6) var(--space-7);
     max-height: 80vh;
+    max-height: 80dvh;
     overflow-y: auto;
   }
 
@@ -313,27 +322,49 @@ import { siteConfig } from '../data/siteConfig';
   .form-textarea {
     width: 100%;
     padding: 0.75rem 1rem;
-    background-color: #ffffff;
-    border: 1px solid var(--colour-border);
+    background-color: var(--colour-surface);
+    border: 1px solid var(--colour-border-input);
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
-    font-size: 0.9375rem;
+    font-size: 1rem;
     color: var(--colour-ink);
     transition: border-color var(--motion-fast) var(--ease-out),
                 box-shadow var(--motion-fast) var(--ease-out);
   }
 
-  .form-input:focus,
-  .form-select:focus,
-  .form-textarea:focus {
-    outline: none;
+  :where(.form-input, .form-select, .form-textarea):focus-visible {
+    outline: 2.5px solid var(--colour-focus);
+    outline-offset: 1px;
     border-color: var(--colour-primary);
-    box-shadow: 0 0 0 3px var(--colour-primary-light);
+  }
+
+  :where(.form-input, .form-textarea)[aria-invalid="true"] {
+    border-color: var(--colour-error);
+  }
+
+  .form-error {
+    color: var(--colour-error);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-top: 2px;
   }
 
   .form-textarea {
     resize: vertical;
     min-height: 100px;
+  }
+
+  .booking-status {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--colour-surface-alt);
+    border: 1px solid var(--colour-border);
+    color: var(--colour-ink);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.45;
   }
 
   .form-footer {
@@ -366,7 +397,7 @@ import { siteConfig } from '../data/siteConfig';
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 14px;
     margin: 0;
   }
 
@@ -482,21 +513,95 @@ import { siteConfig } from '../data/siteConfig';
 <script>
   const bookingModal = document.getElementById('booking-modal') as HTMLDialogElement | null;
   const bookingCloseBtn = document.getElementById('booking-modal-close');
-  const bookingTriggers = document.querySelectorAll('[data-booking-trigger]');
   const bookingForm = document.getElementById('booking-form') as HTMLFormElement | null;
-  const submitBtn = document.getElementById('booking-submit-btn') as HTMLButtonElement | null;
+  const bookingStatus = document.getElementById('booking-status');
 
-  let lastActiveElement: HTMLElement | null = null;
+  const nameInput = document.getElementById('booking-name') as HTMLInputElement | null;
+  const emailInput = document.getElementById('booking-email') as HTMLInputElement | null;
+  const orgInput = document.getElementById('booking-org') as HTMLInputElement | null;
+  const typeSelect = document.getElementById('booking-type') as HTMLSelectElement | null;
+  const dateInput = document.getElementById('booking-date') as HTMLInputElement | null;
+  const locationInput = document.getElementById('booking-location') as HTMLInputElement | null;
+  const messageInput = document.getElementById('booking-message') as HTMLTextAreaElement | null;
+
+  type ValidatedField = HTMLInputElement | HTMLTextAreaElement;
+
+  const fieldConfigs: Array<{
+    input: ValidatedField | null;
+    errorId: string;
+    validate: (el: ValidatedField) => string;
+  }> = [
+    {
+      input: nameInput,
+      errorId: 'booking-name-error',
+      validate: (el) => (el.value.trim().length > 0 ? '' : 'Please enter your name.'),
+    },
+    {
+      input: emailInput,
+      errorId: 'booking-email-error',
+      validate: (el) => {
+        const val = el.value.trim();
+        if (!val) return 'Please enter a valid email address.';
+        return el.checkValidity() ? '' : 'Please enter a valid email address.';
+      },
+    },
+    {
+      input: messageInput,
+      errorId: 'booking-message-error',
+      validate: (el) =>
+        el.value.trim().length > 0 ? '' : 'Please share a few details about your event.',
+    },
+  ];
+
+  const editedFields = new WeakSet<HTMLElement>();
   let isBackdropMousedown = false;
+
+  function setFieldError(input: ValidatedField, errorId: string, message: string) {
+    const errorEl = document.getElementById(errorId);
+    if (message) {
+      input.setAttribute('aria-invalid', 'true');
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.hidden = false;
+      }
+    } else {
+      input.removeAttribute('aria-invalid');
+      if (errorEl) {
+        errorEl.textContent = '';
+        errorEl.hidden = true;
+      }
+    }
+  }
+
+  fieldConfigs.forEach(({ input, errorId, validate }) => {
+    if (!input) return;
+
+    input.addEventListener('input', () => {
+      editedFields.add(input);
+      if (input.getAttribute('aria-invalid') === 'true') {
+        const errorMsg = validate(input);
+        if (!errorMsg) {
+          setFieldError(input, errorId, '');
+        }
+      }
+    });
+
+    input.addEventListener('blur', () => {
+      if (!editedFields.has(input) && input.getAttribute('aria-invalid') !== 'true') return;
+      const errorMsg = validate(input);
+      setFieldError(input, errorId, errorMsg);
+    });
+  });
 
   function openBookingModal(e?: Event) {
     if (e) {
       e.preventDefault();
     }
-    if (e?.currentTarget instanceof HTMLElement) {
-      lastActiveElement = e.currentTarget;
-    }
     if (bookingModal && typeof bookingModal.showModal === 'function') {
+      if (bookingStatus) {
+        bookingStatus.textContent = '';
+        bookingStatus.hidden = true;
+      }
       bookingModal.showModal();
       // Focus first input smoothly after modal renders
       requestAnimationFrame(() => {
@@ -509,7 +614,6 @@ import { siteConfig } from '../data/siteConfig';
   function closeBookingModal() {
     if (bookingModal && typeof bookingModal.close === 'function') {
       bookingModal.close();
-      lastActiveElement?.focus();
     }
   }
 
@@ -535,46 +639,57 @@ import { siteConfig } from '../data/siteConfig';
     isBackdropMousedown = false;
   });
 
-  bookingModal?.addEventListener('close', () => {
-    lastActiveElement?.focus();
-  });
+  // Validation and mailto handoff without clearing entered data
+  bookingForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  // Focus trapping within modal
-  bookingModal?.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-      const focusable = bookingModal.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusable.length === 0) return;
+    let firstInvalid: ValidatedField | null = null;
 
-      const firstElement = focusable[0];
-      const lastElement = focusable[focusable.length - 1];
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstElement) {
-          lastElement.focus();
-          e.preventDefault();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          firstElement.focus();
-          e.preventDefault();
-        }
+    fieldConfigs.forEach(({ input, errorId, validate }) => {
+      if (!input) return;
+      editedFields.add(input);
+      const errorMsg = validate(input);
+      setFieldError(input, errorId, errorMsg);
+      if (errorMsg && !firstInvalid) {
+        firstInvalid = input;
       }
-    }
-  });
+    });
 
-  // Double submit prevention
-  bookingForm?.addEventListener('submit', () => {
-    if (submitBtn) {
-      submitBtn.setAttribute('disabled', 'true');
-      submitBtn.textContent = 'OPENING EMAIL CLIENT...';
-      setTimeout(() => {
-        submitBtn.removeAttribute('disabled');
-        submitBtn.textContent = 'SEND ENQUIRY';
-        closeBookingModal();
-      }, 1500);
+    if (firstInvalid) {
+      (firstInvalid as ValidatedField).focus();
+      return;
     }
+
+    const recipient = bookingForm.dataset.email || 'hello@janellekoenig.com';
+    const nameVal = nameInput?.value.trim() || '';
+    const emailVal = emailInput?.value.trim() || '';
+    const orgVal = orgInput?.value.trim() || '';
+    const typeLabel = typeSelect?.options[typeSelect.selectedIndex]?.text || typeSelect?.value || '';
+    const dateVal = dateInput?.value.trim() || '';
+    const locationVal = locationInput?.value.trim() || '';
+    const messageVal = messageInput?.value.trim() || '';
+
+    const subject = `Booking Enquiry: ${typeLabel} (${nameVal})`;
+    const bodyLines = [
+      `Name: ${nameVal}`,
+      `Email: ${emailVal}`,
+      orgVal ? `Organisation / Agency: ${orgVal}` : '',
+      `Booking Type: ${typeLabel}`,
+      dateVal ? `Event Date: ${dateVal}` : '',
+      locationVal ? `Location / City: ${locationVal}` : '',
+      '',
+      'Event Details & Brief:',
+      messageVal,
+    ].filter((line, idx, arr) => line !== '' || arr[idx - 1] !== '');
+
+    const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+
+    if (bookingStatus) {
+      bookingStatus.textContent = `Opening your email client with your enquiry pre-filled. If nothing opens, copy your enquiry or email ${recipient} directly.`;
+      bookingStatus.hidden = false;
+    }
+
+    window.location.href = mailtoUrl;
   });
 
   // Modal Copy Email

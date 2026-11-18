@@ -1,15 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap');
-
 :root {
-  /* Font Sizes tuned to 1024px reference */
-  --text-hero: clamp(2.35rem, 5.2vw, 3.75rem);
-  --text-section-title: clamp(1.65rem, 2.8vw, 2.25rem);
-  --text-script-hero: clamp(1.35rem, 2.2vw, 1.75rem);
-  --text-script-section: clamp(1.35rem, 2.2vw, 1.75rem);
-  --text-h2: clamp(1.5rem, 2.5vw, 2rem);
-  --text-h3: clamp(1.125rem, 1.8vw, 1.45rem);
-  --text-intro: clamp(0.9375rem, 1.15vw, 1.0625rem);
-  --text-body: 0.9375rem;
+  /* Font Sizes tuned to 1024px reference with zoom-safe rem + vw clamps */
+  --text-hero: clamp(2.35rem, 1.4rem + 3.8vw, 3.75rem);
+  --text-section-title: clamp(1.65rem, 1.2rem + 1.6vw, 2.25rem);
+  --text-script-hero: clamp(1.35rem, 1.05rem + 1.1vw, 1.75rem);
+  --text-script-section: clamp(1.35rem, 1.05rem + 1.1vw, 1.75rem);
+  --text-h2: clamp(1.5rem, 1.15rem + 1.3vw, 2rem);
+  --text-h3: clamp(1.125rem, 0.95rem + 0.8vw, 1.45rem);
+  --text-intro: clamp(0.9375rem, 0.85rem + 0.35vw, 1.0625rem);
+  --text-body: 1rem;
   --text-sm: 0.8125rem;
   --text-xs: 0.6875rem;
 
@@ -35,7 +33,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   line-height: var(--lh-heading);
   color: var(--colour-ink);
+  text-wrap: balance;
   margin: 0;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 .font-script {

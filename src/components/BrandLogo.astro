@@ -1,27 +1,46 @@
 ---
-import { asset } from '../utils/paths';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import logoDarkImg from '../assets/logos/janelle-koenig-logo.png';
+import logoLightImg from '../assets/logos/janelle-koenig-logo-white.png';
 
 interface Props {
   variant?: 'dark' | 'light';
   class?: string;
+  loading?: 'eager' | 'lazy';
 }
 
-const { variant = 'dark', class: className = '' } = Astro.props;
-const logoSrc = variant === 'light' 
-  ? asset('/images/logos/janelle-koenig-logo-white.png')
-  : asset('/images/logos/janelle-koenig-logo.png');
+const { variant = 'dark', class: className = '', loading = 'eager' } = Astro.props;
+const logoSources = await createResponsiveSourceSet(
+  variant === 'light' ? logoLightImg : logoDarkImg,
+  [125, 250],
+  'png'
+);
 ---
 
 <div class={`brand-logo-container ${className}`}>
-  <img
-    src={logoSrc}
-    alt="Janelle Koenig"
-    width="148"
-    height="78"
-    class="brand-logo-img"
-    loading="eager"
-    decoding="async"
-  />
+  <picture style="display: contents;">
+    <source
+      type="image/avif"
+      srcset={logoSources.avifSrcset}
+      sizes="(max-width: 480px) 105px, 125px"
+    />
+    <source
+      type="image/webp"
+      srcset={logoSources.webpSrcset}
+      sizes="(max-width: 480px) 105px, 125px"
+    />
+    <img
+      src={logoSources.fallbackSrc}
+      srcset={logoSources.fallbackSrcset}
+      sizes="(max-width: 480px) 105px, 125px"
+      alt="Janelle Koenig"
+      width={logoSources.width}
+      height={logoSources.height}
+      class="brand-logo-img"
+      loading={loading}
+      decoding="async"
+    />
+  </picture>
 </div>
 
 <style>

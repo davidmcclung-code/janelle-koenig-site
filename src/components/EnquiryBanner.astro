@@ -1,0 +1,190 @@
+---
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import enquiryCutoutImg from '../assets/photography/photos/janelle-enquiry-cutout.png';
+import ArrowIcon from './ArrowIcon.astro';
+
+interface Props {
+  buttonId?: string;
+}
+
+const { buttonId = 'enquiry-cta-btn' } = Astro.props;
+const enquiryCutoutSources = await createResponsiveSourceSet(enquiryCutoutImg, [180, 280, 420], 'png');
+---
+
+<section class="enquiry-banner-section" aria-label="Book Janelle Koenig">
+  <div class="enquiry-lockup reveal">
+    <div class="enquiry-media">
+      <picture style="display: contents;">
+        <source
+          type="image/avif"
+          srcset={enquiryCutoutSources.avifSrcset}
+          sizes="(min-width: 768px) 145px, 1px"
+        />
+        <source
+          type="image/webp"
+          srcset={enquiryCutoutSources.webpSrcset}
+          sizes="(min-width: 768px) 145px, 1px"
+        />
+        <img
+          src={enquiryCutoutSources.fallbackSrc}
+          srcset={enquiryCutoutSources.fallbackSrcset}
+          sizes="(min-width: 768px) 145px, 1px"
+          alt="Janelle Koenig smiling with arms crossed"
+          width={enquiryCutoutSources.width}
+          height={enquiryCutoutSources.height}
+          loading="lazy"
+          fetchpriority="low"
+          decoding="async"
+          class="enquiry-cutout-img"
+        />
+      </picture>
+    </div>
+
+    <div class="enquiry-content">
+      <h2 class="font-script enquiry-heading">
+        Want Janelle at your thing?
+      </h2>
+      <p class="enquiry-desc">
+        MC, panel hosting, brand work and<br class="desktop-break" />light corporate damage.
+      </p>
+      <div class="enquiry-actions">
+        <button
+          type="button"
+          class="btn btn-primary enquiry-btn"
+          id={buttonId}
+          data-booking-trigger
+          aria-haspopup="dialog"
+        >
+          <span>MAKE AN ENQUIRY</span>
+          <ArrowIcon size={14} />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .enquiry-banner-section {
+    background-color: var(--colour-banner-warm);
+    width: 100%;
+    margin: 0;
+    padding: 0 var(--container-gutter);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(170px, 16vw, 210px);
+    line-height: normal;
+  }
+
+  .enquiry-lockup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(20px, 3.5vw, 42px);
+    max-width: 860px;
+    width: 100%;
+    margin-inline: auto;
+    position: relative;
+    padding-top: 0.5rem;
+    padding-bottom: 0;
+  }
+
+  .enquiry-media {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 0;
+    height: clamp(170px, 16vw, 210px);
+  }
+
+  .enquiry-cutout-img {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    max-height: clamp(170px, 16vw, 210px);
+    width: auto;
+    object-fit: contain;
+    object-position: bottom center;
+    display: block;
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.07));
+  }
+
+  .enquiry-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 2;
+    min-width: 0;
+  }
+
+  .enquiry-heading {
+    font-family: var(--font-script);
+    font-size: clamp(2rem, 1.4rem + 1vw, 2.75rem);
+    color: var(--colour-primary);
+    line-height: 1.05;
+    margin: 0 0 6px 0;
+    transform: rotate(-1deg);
+  }
+
+  .enquiry-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.875rem, 0.8rem + 0.15vw, 0.9375rem);
+    line-height: 1.4;
+    color: var(--colour-ink);
+    font-weight: 500;
+    margin: 0 0 14px 0;
+  }
+
+  .enquiry-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .enquiry-btn {
+    padding: 0.55rem 1.25rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+  }
+
+  .enquiry-btn:focus-visible {
+    outline: 2.5px solid var(--colour-primary);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 767px) {
+    .enquiry-banner-section {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      min-height: auto;
+    }
+
+    .enquiry-lockup {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.25rem;
+      padding: 0;
+    }
+
+    .enquiry-media {
+      display: none;
+    }
+
+    .enquiry-content {
+      align-items: center;
+      text-align: center;
+    }
+
+    .enquiry-heading {
+      font-size: clamp(1.85rem, 1.15rem + 2.5vw, 2.35rem);
+    }
+
+    .enquiry-desc {
+      font-size: 0.875rem;
+    }
+  }
+</style>

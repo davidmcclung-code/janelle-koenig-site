@@ -10,15 +10,31 @@
   --colour-primary: #9e1b32;
   --colour-primary-hover: #831427;
   --colour-primary-light: #faeaed;
-  --colour-secondary: #222222;
+  --colour-primary-on-dark: #e56b7f;
   --colour-border: #e6dfd5;
   --colour-border-light: #ece5dc;
   --colour-border-dark: #121212;
+  --colour-border-input: #8f8579;
+  --colour-banner-warm: #ebd8cd;
+  --colour-banner-peach: #f4e6db;
   --colour-footer: #0a0a0a;
   --colour-footer-muted: #888888;
+  --colour-dark-stage: #090909;
+  --colour-dark-surface: #141414;
+  --colour-dark-tile: #161616;
+  --colour-dark-elevated: #1e1e1e;
+  --colour-dark-elevated-hover: #2a2a2a;
+  --colour-dark-border: #262626;
+  --colour-dark-border-strong: #3a3a3a;
+  --colour-dark-border-hover: #555555;
+  --colour-dark-ink: #f3f3f3;
+  --colour-dark-muted: #9e9e9e;
   --colour-focus: #9e1b32;
+  --colour-focus-on-dark: #faeaed;
   --colour-error: #d32f2f;
   --colour-success: #2e7d32;
+  --gradient-hero-warm: radial-gradient(circle at 72% 38%, #f5e4d5 0%, #f9eee4 38%, #fbf8f4 75%);
+  --gradient-card-warm: radial-gradient(circle at 50% 22%, rgba(255, 252, 248, 0.78) 0%, rgba(239, 224, 212, 0) 68%), linear-gradient(165deg, #f0e1d5 0%, #e3cbbb 100%);
 
   /* Typography Families */
   --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

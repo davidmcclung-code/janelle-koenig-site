@@ -2,7 +2,6 @@
 import BaseHead from '../components/BaseHead.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import VideoModal from '../components/VideoModal.astro';
 import BookingModal from '../components/BookingModal.astro';
 import { siteConfig } from '../data/siteConfig';
 import '../styles/global.css';
@@ -30,14 +29,13 @@ const { title, description } = Astro.props;
 
     <SiteHeader />
 
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
 
     <SiteFooter />
 
     <!-- Accessible Dialogs -->
-    <VideoModal />
     <BookingModal />
 
     <!-- Lightweight Scroll Reveal Observer -->
@@ -71,10 +69,10 @@ const { title, description } = Astro.props;
     <script define:vars={{ email: siteConfig.email }}>
       console.log(
         '%c👋 Hello Australia!\n%cInspecting the source code? Janelle approves of your indoor hobbies.\n\n%cNeed a comic, MC, or panel host? %c' + email,
-        'color: #c92a2a; font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 16px; font-weight: 800; padding: 4px 0;',
+        'color: #9e1b32; font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 16px; font-weight: 800; padding: 4px 0;',
         'color: #121212; font-family: system-ui, sans-serif; font-size: 12px; font-weight: 500; line-height: 1.5;',
         'color: #666666; font-family: system-ui, sans-serif; font-size: 11px;',
-        'color: #c92a2a; font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; text-decoration: underline;'
+        'color: #9e1b32; font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; text-decoration: underline;'
       );
     </script>
   </body>

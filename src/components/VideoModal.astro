@@ -1,26 +1,35 @@
 ---
+import { getImage } from 'astro:assets';
 import { asset } from '../utils/paths';
+import CloseIcon from './CloseIcon.astro';
+import defaultThumbImg from '../assets/photography/performance/debbie-gibson-thumbnail.jpg';
 
 interface Props {
   videoSrc?: string;
   posterSrc?: string;
+  captionsSrc?: string;
 }
+
+const optimizedPoster = await getImage({
+  src: defaultThumbImg,
+  width: 960,
+  format: 'webp',
+  quality: 82,
+});
 
 const {
   videoSrc = asset('/video/debbie-gibson-interview.mp4'),
-  posterSrc = asset('/images/performance/debbie-gibson-thumbnail.jpg'),
+  posterSrc = optimizedPoster.src,
+  captionsSrc = asset('/video/debbie-gibson-interview.vtt'),
 } = Astro.props;
 ---
 
-<dialog id="video-modal" class="modal-dialog" aria-labelledby="video-modal-title" aria-modal="true">
+<dialog id="video-modal" class="modal-dialog" aria-labelledby="video-modal-title">
   <div class="modal-card">
     <div class="modal-header">
-      <h3 id="video-modal-title" class="font-script modal-title">Watch Janelle</h3>
+      <h2 id="video-modal-title" class="font-script modal-title">Watch Janelle</h2>
       <button type="button" class="modal-close-btn" id="video-modal-close" aria-label="Close video modal">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
+        <CloseIcon size={22} />
       </button>
     </div>
 
@@ -30,12 +39,15 @@ const {
         <video
           id="video-player-element"
           class="video-player"
+          width="1280"
+          height="720"
           controls
           playsinline
-          preload="metadata"
-          poster={posterSrc}
+          preload="none"
+          data-poster={posterSrc}
         >
           <source src={videoSrc} type="video/mp4" />
+          <track src={captionsSrc} kind="captions" srclang="en" label="English" />
           Your browser does not support the video tag.
         </video>
       </div>
@@ -45,6 +57,7 @@ const {
 
 <style>
   .modal-dialog {
+    --colour-focus: var(--colour-focus-on-dark);
     padding: 0;
     border: none;
     border-radius: var(--radius-lg);
@@ -83,7 +96,8 @@ const {
   }
 
   .modal-card {
-    background-color: #121212;
+    contain: layout style paint;
+    background-color: var(--colour-dark-surface);
     color: #ffffff;
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -101,7 +115,7 @@ const {
   }
 
   .modal-title {
-    color: var(--colour-primary);
+    color: var(--colour-primary-on-dark);
     font-size: 1.75rem;
     margin: 0;
   }
@@ -141,11 +155,29 @@ const {
 
   .video-container {
     width: 100%;
+    max-height: calc(100vh - 7.5rem);
+    max-height: calc(100dvh - 7.5rem);
     aspect-ratio: 16 / 9;
-    background-color: #000000;
+    margin-inline: auto;
+    background-color: var(--colour-dark-stage);
     border-radius: var(--radius-sm);
     overflow: hidden;
     position: relative;
+  }
+
+  @media (max-height: 540px) {
+    .modal-header {
+      padding: var(--space-2) var(--space-4);
+    }
+
+    .modal-body {
+      padding: var(--space-2);
+    }
+
+    .video-container {
+      max-height: calc(100vh - 4.75rem);
+      max-height: calc(100dvh - 4.75rem);
+    }
   }
 
   .video-player {
@@ -154,7 +186,7 @@ const {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    background: #000000;
+    background: var(--colour-dark-stage);
   }
 </style>
 
@@ -164,16 +196,15 @@ const {
   const videoTriggers = document.querySelectorAll('[data-video-trigger]');
   const videoElement = document.getElementById('video-player-element') as HTMLVideoElement | null;
 
-  let lastActiveVideoTrigger: HTMLElement | null = null;
   let isVideoBackdropMousedown = false;
 
-  function openVideoModal(e?: Event) {
-    if (e?.currentTarget instanceof HTMLElement) {
-      lastActiveVideoTrigger = e.currentTarget;
-    }
+  function openVideoModal() {
     if (videoModal && typeof videoModal.showModal === 'function') {
       videoModal.showModal();
       if (videoElement) {
+        if (!videoElement.poster && videoElement.dataset.poster) {
+          videoElement.poster = videoElement.dataset.poster;
+        }
         videoElement.currentTime = 0;
         videoElement.play().catch(() => {
           // Autoplay browser policy fallback
@@ -192,7 +223,6 @@ const {
         videoElement.currentTime = 0;
       }
       videoModal.close();
-      lastActiveVideoTrigger?.focus();
     }
   }
 
@@ -218,32 +248,6 @@ const {
     if (videoElement) {
       videoElement.pause();
       videoElement.currentTime = 0;
-    }
-    lastActiveVideoTrigger?.focus();
-  });
-
-  // Focus trap inside video modal
-  videoModal?.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-      const focusable = videoModal.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusable.length === 0) return;
-
-      const firstElement = focusable[0];
-      const lastElement = focusable[focusable.length - 1];
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstElement) {
-          lastElement.focus();
-          e.preventDefault();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          firstElement.focus();
-          e.preventDefault();
-        }
-      }
     }
   });
 </script>

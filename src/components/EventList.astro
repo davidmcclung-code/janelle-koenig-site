@@ -13,7 +13,7 @@ const hasEvents = Array.isArray(events) && events.length > 0;
 
 <div class="event-list-wrapper" data-sheet-url={sheetUrl}>
   <!-- Skeleton rows matching EventRow geometry to guarantee zero layout shift during sync -->
-  <ul class="event-skeleton-list" id="events-skeleton-list" aria-label="Loading upcoming shows" aria-busy="true">
+  <ul class="event-skeleton-list" id="events-skeleton-list" aria-label="Loading upcoming shows" aria-busy="true" style="display: none;">
     <li class="event-skeleton-row" aria-hidden="true">
       <div class="skeleton-date shimmer"></div>
       <div class="skeleton-details">
@@ -40,15 +40,15 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     </li>
   </ul>
 
-  <!-- Upcoming Shows List populated once live calendar syncs -->
-  <ul class="event-list" id="event-list" aria-label="Upcoming Shows" style="display: none;">
+  <!-- Upcoming Shows List rendered immediately from SSR and hydrated when live calendar syncs -->
+  <ul class="event-list" id="event-list" role="list" aria-label="Upcoming Shows" style={hasEvents ? undefined : 'display: none;'}>
     {hasEvents && events.map((event, index) => (
       <EventRow event={event} index={index} />
     ))}
   </ul>
 
   <!-- Empty state displayed if no upcoming public dates are announced -->
-  <div class="events-empty-state" id="events-empty-state" style="display: none;">
+  <div class="events-empty-state" id="events-empty-state" aria-live="polite" style={hasEvents ? 'display: none;' : undefined}>
     <p class="empty-text">No upcoming public shows currently announced.</p>
     <p class="empty-subtext">Check back soon or enquire for private & corporate bookings.</p>
     <button type="button" class="btn btn-primary empty-enquire-btn" data-booking-trigger>
@@ -79,6 +79,9 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     gap: var(--space-4);
     padding: 0.6rem 0.5rem;
     margin-inline: -0.5rem;
+  }
+
+  .event-skeleton-row:not(:last-child) {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
 
@@ -87,7 +90,6 @@ const hasEvents = Array.isArray(events) && events.length > 0;
   }
 
   .event-skeleton-row:last-child {
-    border-bottom: none;
     padding-bottom: 0.25rem;
   }
 
@@ -223,19 +225,128 @@ const hasEvents = Array.isArray(events) && events.length > 0;
 </style>
 
 <script>
-  import { processEventsFromCSV, processEventsFromGviz, extractSheetId } from '../utils/events';
+  import { processEventsFromCSV, getSheetCSVUrl } from '../utils/events';
   import type { EventItem } from '../types';
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+
+  function sanitizeUrl(url: string): string {
+    const trimmed = (url || '').trim();
+    if (/^(https?:\/\/|\/|#)/i.test(trimmed)) {
+      return trimmed;
+    }
+    return '#';
+  }
+
+  function createArrowSvgElement(): SVGSVGElement {
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('width', '12');
+    svg.setAttribute('height', '12');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2.5');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+
+    const line = document.createElementNS(SVG_NS, 'line');
+    line.setAttribute('x1', '5');
+    line.setAttribute('y1', '12');
+    line.setAttribute('x2', '19');
+    line.setAttribute('y2', '12');
+
+    const polyline = document.createElementNS(SVG_NS, 'polyline');
+    polyline.setAttribute('points', '12 5 19 12 12 19');
+
+    svg.append(line, polyline);
+    return svg;
+  }
+
+  function createEventRowElement(event: EventItem, index: number): HTMLLIElement {
+    const li = document.createElement('li');
+    li.className = 'event-row';
+    li.dataset.eventId = event.id;
+    li.style.setProperty('--row-index', String(index));
+
+    const dateDiv = document.createElement('div');
+    dateDiv.className = 'event-date';
+
+    const daySpan = document.createElement('span');
+    daySpan.className = 'event-day';
+    daySpan.textContent = event.day;
+
+    const monthSpan = document.createElement('span');
+    monthSpan.className = 'event-month';
+    monthSpan.textContent = event.month;
+
+    dateDiv.append(daySpan, monthSpan);
+
+    const detailsDiv = document.createElement('div');
+    detailsDiv.className = 'event-details';
+
+    const titleHeading = document.createElement('h3');
+    titleHeading.className = 'event-title wrap-break';
+    titleHeading.textContent = event.title;
+
+    const venueP = document.createElement('p');
+    venueP.className = 'event-venue wrap-break';
+    venueP.textContent = event.location ? `${event.venue}, ${event.location}` : event.venue;
+
+    detailsDiv.append(titleHeading, venueP);
+
+    const actionDiv = document.createElement('div');
+    actionDiv.className = 'event-action';
+
+    if (event.isSoldOut) {
+      const badge = document.createElement('span');
+      badge.className = 'event-badge sold-out';
+      badge.textContent = 'SOLD OUT';
+      actionDiv.appendChild(badge);
+    } else {
+      const safeUrl = sanitizeUrl(event.ticketUrl);
+      const link = document.createElement('a');
+      link.href = safeUrl;
+      if (safeUrl.startsWith('http')) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+      link.className = 'event-ticket-link';
+      link.setAttribute('aria-label', `Get tickets for ${event.title}`);
+
+      const linkLabel = document.createElement('span');
+      linkLabel.textContent = 'TICKETS';
+
+      link.append(linkLabel, createArrowSvgElement());
+      actionDiv.appendChild(link);
+    }
+
+    li.append(dateDiv, detailsDiv, actionDiv);
+    return li;
+  }
 
   async function syncEventsFromSheet() {
     const wrapper = document.querySelector<HTMLElement>('.event-list-wrapper[data-sheet-url]');
     if (!wrapper) return;
 
     const rawUrl = wrapper.dataset.sheetUrl || '';
-    if (!rawUrl) return;
+    const csvUrl = getSheetCSVUrl(rawUrl);
+    if (!csvUrl) return;
 
     const skeletonEl = wrapper.querySelector<HTMLElement>('#events-skeleton-list');
     const listEl = wrapper.querySelector<HTMLElement>('#event-list');
     const emptyStateEl = wrapper.querySelector<HTMLElement>('#events-empty-state');
+
+    function revealFallback() {
+      if (skeletonEl) skeletonEl.style.display = 'none';
+      if (listEl && listEl.children.length > 0) {
+        listEl.style.display = '';
+        if (emptyStateEl) emptyStateEl.style.display = 'none';
+      } else {
+        if (listEl) listEl.style.display = 'none';
+        if (emptyStateEl) emptyStateEl.style.display = '';
+      }
+    }
 
     function applyEvents(upcomingEvents: EventItem[]) {
       if (skeletonEl) {
@@ -248,47 +359,14 @@ const hasEvents = Array.isArray(events) && events.length > 0;
       if (!upcomingEvents || upcomingEvents.length === 0) {
         if (listEl) {
           listEl.style.display = 'none';
-          listEl.innerHTML = '';
+          listEl.replaceChildren();
         }
         if (emptyStateEl) emptyStateEl.style.display = '';
         return;
       }
 
-      // Render updated upcoming events with identical styling & attributes
-      const rowsHtml = upcomingEvents
-        .map((event, index) => {
-          const isExternal = event.ticketUrl.startsWith('http');
-          const linkAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-          const actionHtml = event.isSoldOut
-            ? '<span class="event-badge sold-out">SOLD OUT</span>'
-            : `<a href="${escapeHtml(event.ticketUrl)}"${linkAttrs} class="event-ticket-link" aria-label="Get tickets for ${escapeHtml(event.title)}">
-                <span>TICKETS</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </a>`;
-
-          return `
-            <li class="event-row" data-event-id="${escapeHtml(event.id)}" style="--row-index: ${index};">
-              <div class="event-date">
-                <span class="event-day">${escapeHtml(event.day)}</span>
-                <span class="event-month">${escapeHtml(event.month)}</span>
-              </div>
-              <div class="event-details">
-                <h3 class="event-title wrap-break" title="${escapeHtml(event.title)}">${escapeHtml(event.title)}</h3>
-                <p class="event-venue wrap-break" title="${escapeHtml(event.venue)}, ${escapeHtml(event.location)}">${escapeHtml(event.venue)}, ${escapeHtml(event.location)}</p>
-              </div>
-              <div class="event-action">
-                ${actionHtml}
-              </div>
-            </li>
-          `;
-        })
-        .join('');
-
       if (listEl) {
-        listEl.innerHTML = rowsHtml;
+        listEl.replaceChildren(...upcomingEvents.map((event, index) => createEventRowElement(event, index)));
         listEl.style.display = '';
       }
       if (emptyStateEl) {
@@ -296,82 +374,27 @@ const hasEvents = Array.isArray(events) && events.length > 0;
       }
     }
 
-    // Safety timeout: if network takes longer than 5 seconds, fallback
+    const controller = new AbortController();
     const timeoutId = setTimeout(() => {
-      if (skeletonEl && skeletonEl.style.display !== 'none') {
-        skeletonEl.style.display = 'none';
-        if (listEl && listEl.children.length > 0) {
-          listEl.style.display = '';
-        } else if (emptyStateEl) {
-          emptyStateEl.style.display = '';
-        }
-      }
+      controller.abort();
     }, 5000);
 
-    const sheetId = extractSheetId(rawUrl);
-
-    if (sheetId) {
-      // Direct Real-Time Google Visualization API via JSONP (bypasses browser CORS completely)
-      const callbackName = '__gviz_cb_' + Math.floor(Math.random() * 1000000);
-      (window as any)[callbackName] = (data: any) => {
-        clearTimeout(timeoutId);
-        try {
-          delete (window as any)[callbackName];
-        } catch {
-          (window as any)[callbackName] = undefined;
-        }
-        scriptEl.remove();
-        const upcomingEvents = processEventsFromGviz(data);
-        applyEvents(upcomingEvents);
-      };
-
-      const scriptEl = document.createElement('script');
-      scriptEl.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${callbackName}&gid=0&_t=${Date.now()}`;
-      scriptEl.onerror = () => {
-        clearTimeout(timeoutId);
-        try {
-          delete (window as any)[callbackName];
-        } catch {
-          (window as any)[callbackName] = undefined;
-        }
-        scriptEl.remove();
-        if (skeletonEl) skeletonEl.style.display = 'none';
-        if (listEl && listEl.children.length > 0) {
-          listEl.style.display = '';
-        } else if (emptyStateEl) {
-          emptyStateEl.style.display = '';
-        }
-      };
-      document.head.appendChild(scriptEl);
-    } else {
-      // Fallback for standard CSV URL
-      fetch(rawUrl + (rawUrl.includes('?') ? '&' : '?') + '_t=' + Date.now(), { cache: 'no-cache' })
-        .then((r) => r.text())
-        .then((csvText) => {
-          clearTimeout(timeoutId);
-          const upcomingEvents = processEventsFromCSV(csvText);
-          applyEvents(upcomingEvents);
-        })
-        .catch((err) => {
-          clearTimeout(timeoutId);
-          console.warn('Could not sync events from Google Sheet:', err);
-          if (skeletonEl) skeletonEl.style.display = 'none';
-          if (listEl && listEl.children.length > 0) {
-            listEl.style.display = '';
-          } else if (emptyStateEl) {
-            emptyStateEl.style.display = '';
-          }
-        });
+    try {
+      const fetchUrl = `${csvUrl}${csvUrl.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+      const res = await fetch(fetchUrl, {
+        cache: 'no-cache',
+        signal: controller.signal,
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const csvText = await res.text();
+      const upcomingEvents = processEventsFromCSV(csvText);
+      applyEvents(upcomingEvents);
+    } catch (err) {
+      console.warn('Could not sync events from Google Sheet:', err);
+      revealFallback();
+    } finally {
+      clearTimeout(timeoutId);
     }
-  }
-
-  function escapeHtml(str: string): string {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
   }
 
   if (document.readyState === 'loading') {

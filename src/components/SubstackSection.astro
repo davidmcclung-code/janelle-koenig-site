@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from '../data/siteConfig';
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import ArrowIcon from './ArrowIcon.astro';
 import substackCompactImg from '../assets/photography/substack/janelle-substack-compact.png';
 import substackWideImg from '../assets/photography/substack/janelle-substack-wide.png';
 
@@ -24,14 +25,14 @@ const substackWideSources = await createResponsiveSourceSet(
 );
 ---
 
-<section class="substack-section" id="about" aria-label="Janelle's Substack Writing">
+<section class="substack-section" id="substack" aria-label="Janelle's Substack Writing">
   <div class="substack-grid reveal">
     <!-- Left Content Column (~50% width) -->
     <div class="substack-content">
       <div class="substack-content-inner">
         <!-- Large Illustrated "Indoors Club" Mug with 3 Red Burst Lines -->
         <div class="mug-illustration-wrapper" aria-hidden="true">
-          <svg class="mug-svg" width="84" height="96" viewBox="0 -10 90 110" fill="none">
+          <svg class="mug-svg" width="84" height="96" viewBox="0 -10 90 110" fill="none" aria-hidden="true">
             <!-- 3 Radiant Red Steam Lines -->
             <g class="burst-lines" stroke="var(--colour-primary)" stroke-width="3.2" stroke-linecap="round">
               <path class="steam-line steam-left" d="M26 21 C24 16 19 14 17 9" />
@@ -39,12 +40,12 @@ const substackWideSources = await createResponsiveSourceSet(
               <path class="steam-line steam-right" d="M50 21 C52 16 57 14 59 9" />
             </g>
             <!-- Illustrated Ceramic Mug Body -->
-            <rect x="12" y="24" width="52" height="60" rx="8" fill="#ffffff" stroke="#121212" stroke-width="3.5" />
+            <rect x="12" y="24" width="52" height="60" rx="8" fill="var(--colour-surface)" stroke="var(--colour-ink)" stroke-width="3.5" />
             <!-- Mug Handle -->
-            <path d="M64 34 C76 34 82 42 82 54 C82 66 76 74 64 74" fill="none" stroke="#121212" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M64 34 C76 34 82 42 82 54 C82 66 76 74 64 74" fill="none" stroke="var(--colour-ink)" stroke-width="3.5" stroke-linecap="round" />
             <!-- Mug Text -->
-            <text x="38" y="52" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="#121212" text-anchor="middle" letter-spacing="0.6">INDOORS</text>
-            <text x="38" y="65" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="#121212" text-anchor="middle" letter-spacing="0.6">CLUB</text>
+            <text x="38" y="52" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="var(--colour-ink)" text-anchor="middle" letter-spacing="0.6">INDOORS</text>
+            <text x="38" y="65" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="var(--colour-ink)" text-anchor="middle" letter-spacing="0.6">CLUB</text>
           </svg>
         </div>
 
@@ -67,10 +68,7 @@ const substackWideSources = await createResponsiveSourceSet(
               aria-label="Read Janelle's Substack (opens in a new tab)"
             >
               <span>READ THE SUBSTACK</span>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
+              <ArrowIcon size={13} />
             </a>
             <!-- Substack Underline Flourish -->
             <svg class="substack-underline" viewBox="0 0 160 8" fill="none" aria-hidden="true">
@@ -151,7 +149,7 @@ const substackWideSources = await createResponsiveSourceSet(
     display: block;
     line-height: 0;
     position: relative;
-    background-color: #f4e6db;
+    background-color: var(--colour-banner-peach);
     overflow: hidden;
   }
 
@@ -171,9 +169,7 @@ const substackWideSources = await createResponsiveSourceSet(
   @media (min-width: 850px) {
     .substack-grid {
       grid-template-columns: 50% 50%;
-      height: 190px;
       min-height: 190px;
-      max-height: 190px;
     }
 
     .substack-media::before {
@@ -183,7 +179,7 @@ const substackWideSources = await createResponsiveSourceSet(
       left: 0;
       bottom: 0;
       width: 80px;
-      background: linear-gradient(to right, #f4e6db 0%, rgba(244, 230, 219, 0) 100%);
+      background: linear-gradient(to right, var(--colour-banner-peach) 0%, rgba(244, 230, 219, 0) 100%);
       z-index: 2;
       pointer-events: none;
     }
@@ -238,22 +234,21 @@ const substackWideSources = await createResponsiveSourceSet(
 
   .steam-line {
     transform-origin: 38px 24px;
-    will-change: transform, opacity;
   }
 
   /* Gentle staggered steam waft when in view */
   :global(.reveal.is-visible) .steam-left {
-    animation: steamWaft 2.6s ease-in-out infinite;
+    animation: steamWaft 1.8s var(--ease-out) 2;
     animation-delay: 0ms;
   }
 
   :global(.reveal.is-visible) .steam-center {
-    animation: steamWaft 2.6s ease-in-out infinite;
+    animation: steamWaft 1.8s var(--ease-out) 2;
     animation-delay: 450ms;
   }
 
   :global(.reveal.is-visible) .steam-right {
-    animation: steamWaft 2.6s ease-in-out infinite;
+    animation: steamWaft 1.8s var(--ease-out) 2;
     animation-delay: 900ms;
   }
 
@@ -298,14 +293,14 @@ const substackWideSources = await createResponsiveSourceSet(
     color: var(--colour-primary);
     transform: rotate(-1deg);
     display: inline-block;
-    font-size: clamp(1.4rem, 2vw, 1.7rem);
+    font-size: clamp(1.4rem, 1.1rem + 0.5vw, 1.7rem);
     line-height: 1.1;
     margin: 0 0 14px 0;
   }
 
   .substack-desc {
     font-family: var(--font-body);
-    font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+    font-size: clamp(0.8125rem, 0.75rem + 0.15vw, 0.875rem);
     line-height: 1.4;
     color: var(--colour-ink-subtle);
     font-weight: 500;
@@ -398,7 +393,7 @@ const substackWideSources = await createResponsiveSourceSet(
     }
 
     .substack-title {
-      font-size: clamp(1.3rem, 2.2vw, 1.55rem);
+      font-size: clamp(1.3rem, 1rem + 0.6vw, 1.55rem);
       margin-bottom: 8px;
     }
 
@@ -431,7 +426,7 @@ const substackWideSources = await createResponsiveSourceSet(
     }
 
     .substack-desc {
-      font-size: 0.75rem;
+      font-size: 0.8125rem;
       line-height: 1.35;
       max-width: 100%;
     }
@@ -449,7 +444,7 @@ const substackWideSources = await createResponsiveSourceSet(
       letter-spacing: 0.04em;
     }
 
-    .substack-btn svg {
+    .substack-btn :global(svg) {
       width: 11px;
       height: 11px;
     }
@@ -484,7 +479,7 @@ const substackWideSources = await createResponsiveSourceSet(
     }
 
     .substack-desc {
-      font-size: 0.72rem;
+      font-size: 0.8125rem;
     }
 
     .substack-btn {

@@ -1,241 +1,169 @@
 ---
 /**
  * GalleryGrid.astro
- * 4x5 flush editorial contact sheet on desktop; clean 2-column grid on mobile.
+ * Editorial contact sheet: natural-proportion asymmetric rows for live/event
+ * photography, followed by a framed 5-poster archive row.
  */
 import { Image } from 'astro:assets';
-
-import img01 from '../assets/photos/gallery-comedy-stage-01.webp';
-import img02 from '../assets/photos/gallery-comedy-stage-02.webp';
-import img03 from '../assets/photos/gallery-editorial-portrait-01.webp';
-import img04 from '../assets/photos/gallery-backstage-01.webp';
-import img05 from '../assets/photos/gallery-comedy-stage-03.webp';
-import img06 from '../assets/photos/gallery-audience-01.webp';
-import img07 from '../assets/photos/gallery-comedy-stage-01.webp'; // Feature photo
-import img08 from '../assets/photos/gallery-mc-lectern-01.webp';
-import img09 from '../assets/photos/gallery-panel-host-01.webp';
-import img10 from '../assets/photos/gallery-dressing-room-01.webp';
-import img11 from '../assets/photos/gallery-event-arrival-01.webp';
-import img12 from '../assets/photos/gallery-backstage-02.webp';
-import img13 from '../assets/photos/gallery-theatre-wide-01.webp';
-import img14 from '../assets/photos/gallery-venue-detail-01.webp';
-import img15 from '../assets/photos/gallery-green-room-01.webp';
-import img16 from '../assets/photos/gallery-event-interview-01.webp';
-
-interface GalleryItem {
-  id: string;
-  image: ImageMetadata;
-  title: string;
-  location: string;
-  caption: string;
-  alt: string;
-  spanClass: string;
-  isFeature?: boolean;
-}
-
-const galleryItems: GalleryItem[] = [
-  // Row 1 (4 standard cells)
-  {
-    id: 'comedy-stage-01',
-    image: img01,
-    title: 'Perth Comedy Festival Gala',
-    location: 'State Theatre Centre, Perth',
-    caption: 'Opening night on the main stage.',
-    alt: 'Janelle Koenig performing at the Perth Comedy Festival Gala',
-    spanClass: 'tile-r1c1',
-  },
-  {
-    id: 'comedy-stage-02',
-    image: img02,
-    title: 'Stand-up Comedy Live',
-    location: 'Comedy Lounge, Perth',
-    caption: 'Live stand-up in the floral dress.',
-    alt: 'Janelle Koenig performing stand-up in a floral dress',
-    spanClass: 'tile-r1c2',
-  },
-  {
-    id: 'editorial-portrait-01',
-    image: img03,
-    title: 'Editorial Studio Portrait',
-    location: 'Perth Studio Session',
-    caption: 'Casual pose, professional indoors enthusiast.',
-    alt: 'Informal seated portrait of Janelle Koenig',
-    spanClass: 'tile-r1c3',
-  },
-  {
-    id: 'backstage-01',
-    image: img04,
-    title: 'Dressing Room 2',
-    location: 'Regal Theatre, Subiaco',
-    caption: 'Tea, nerves and mug holding.',
-    alt: 'Janelle Koenig in dressing room with mug',
-    spanClass: 'tile-r1c4',
-  },
-
-  // Rows 2 & 3
-  {
-    id: 'comedy-stage-03',
-    image: img05,
-    title: 'Sparkly Jumpsuit Stand-up',
-    location: 'State Theatre Centre',
-    caption: 'Big laughs in black sequins.',
-    alt: 'Janelle Koenig performing in sparkly black outfit',
-    spanClass: 'tile-r2c1',
-  },
-  {
-    id: 'audience-01',
-    image: img06,
-    title: 'Crowd Work & Banter',
-    location: 'The Rechabite, Northbridge',
-    caption: 'Finding out who in row two made poor life choices.',
-    alt: 'Janelle Koenig engaging with the comedy audience',
-    spanClass: 'tile-r2c2',
-  },
-  {
-    id: 'feature-gala-01',
-    image: img07,
-    title: 'Perth Comedy Festival Gala',
-    location: 'State Theatre Centre, Perth',
-    caption: 'Trying to look employable between jokes.',
-    alt: 'Janelle Koenig performing under stage lighting at the Perth Comedy Festival Gala',
-    spanClass: 'tile-feature',
-    isFeature: true,
-  },
-  {
-    id: 'mc-lectern-01',
-    image: img08,
-    title: 'Corporate Gala Awards Night',
-    location: 'Crown Perth, Burswood',
-    caption: 'Hosting without dropping the mic or the running sheet.',
-    alt: 'Janelle Koenig hosting an event at a lectern with microphone',
-    spanClass: 'tile-r3c1',
-  },
-  {
-    id: 'panel-host-01',
-    image: img09,
-    title: 'Writers & Ideas Festival Panel',
-    location: 'State Library of WA',
-    caption: 'Moderating very smart people while maintaining zero beige.',
-    alt: 'Janelle Koenig moderating a live panel discussion',
-    spanClass: 'tile-r3c2',
-  },
-
-  // Rows 4 & 5
-  {
-    id: 'dressing-room-01',
-    image: img10,
-    title: 'Backstage Mirror Lights',
-    location: "His Majesty's Theatre",
-    caption: 'Strategic lighting adjustments and pre-show banter.',
-    alt: 'Janelle Koenig by dressing room mirror',
-    spanClass: 'tile-r4c1',
-  },
-  {
-    id: 'event-arrival-01',
-    image: img11,
-    title: 'Industry Awards Red Carpet',
-    location: 'Crown Palladium, Melbourne',
-    caption: 'Arriving in glitter before the heels come off.',
-    alt: 'Janelle Koenig arriving on the media wall red carpet',
-    spanClass: 'tile-tall',
-  },
-  {
-    id: 'hallway-coffee-01',
-    image: img12,
-    title: 'Backstage Corridor Walk',
-    location: 'Heath Ledger Theatre',
-    caption: 'Coffee in hand, ready for stage.',
-    alt: 'Janelle Koenig backstage in hallway',
-    spanClass: 'tile-r4c3',
-  },
-  {
-    id: 'theatre-wide-01',
-    image: img13,
-    title: 'State Theatre Centre Auditorium',
-    location: 'Heath Ledger Theatre, Perth',
-    caption: 'View from the stage to a packed full house.',
-    alt: 'Wide view from stage overlooking the full theatre audience',
-    spanClass: 'tile-r4c4',
-  },
-  {
-    id: 'venue-detail-01',
-    image: img14,
-    title: 'Theatre Marquee Lights',
-    location: 'State Theatre Centre, Perth',
-    caption: 'Name in lights, proving she indeed left the house.',
-    alt: 'Theatre exterior marquee with Perth Comedy Festival Gala billing',
-    spanClass: 'tile-r5c1',
-  },
-  {
-    id: 'green-room-01',
-    image: img15,
-    title: 'Green Room Pre-Show',
-    location: 'Comedy Lounge, Perth',
-    caption: 'Candid laughs with the line-up before doors open.',
-    alt: 'Janelle Koenig laughing in the green room before performing',
-    spanClass: 'tile-r5c3',
-  },
-  {
-    id: 'event-interview-01',
-    image: img16,
-    title: 'Main Stage Stand-up Encore',
-    location: 'Astor Theatre, Mt Lawley',
-    caption: 'Closing out the festival season with maximum joy.',
-    alt: 'Janelle Koenig performing comedy on stage',
-    spanClass: 'tile-r5c4',
-  },
-];
+import { indexedMainRows, indexedPosters } from '../data/gallery';
 ---
 
-<section class="gallery-grid-section" aria-label="Photo Gallery Grid">
+<section class="gallery-grid-section" aria-label="Photo Gallery">
   <div class="container gallery-grid-container">
-    <div class="gallery-grid">
+    <!-- Primary Contact Sheet: 16 Live, Event & Hosting Photographs -->
+    <div class="gallery-rows">
       {
-        galleryItems.map((item, index) => (
-          <button
-            type="button"
-            class:list={['gallery-tile', item.spanClass, { 'is-feature': item.isFeature }]}
-            data-gallery-tile
-            data-index={index}
-            data-src={item.image.src}
-            data-alt={item.alt}
-            data-title={item.title}
-            data-location={item.location}
-            data-caption={item.caption}
-            aria-haspopup="dialog"
-            aria-label={`Open photo view: ${item.title}`}
+        indexedMainRows.map((row, rowIndex) => (
+          <div
+            class="gallery-row"
+            style={`--row-cols: ${row.cols}; --row-h: ${row.height};`}
           >
-            <div class="tile-inner">
-              <Image
-                src={item.image}
-                alt={item.alt}
-                width={item.isFeature ? 960 : 600}
-                height={item.isFeature ? 720 : 600}
-                loading={index < 4 ? 'eager' : 'lazy'}
-                decoding="async"
-                class="tile-img"
-              />
+            {row.items.map((item) => (
+              <button
+                type="button"
+                class:list={[
+                  'gallery-tile',
+                  { 'is-feature': item.isFeature, 'is-wide-mobile': item.isWideMobile },
+                ]}
+                style={`--stagger-delay: ${item.staggerDelay}ms;`}
+                data-gallery-tile
+                data-index={item.globalIndex}
+                data-src={item.image.src}
+                data-alt={item.alt}
+                data-badge={item.badge}
+                data-category={item.category}
+                data-title={item.title}
+                data-caption={item.caption}
+                aria-haspopup="dialog"
+                aria-label={`Open photo ${item.badge}: ${item.title}`}
+              >
+                <div class="tile-inner">
+                  <span class="tile-badge" aria-hidden="true">{item.badge}</span>
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    width={item.isFeature ? 1100 : 760}
+                    height={item.isFeature ? 730 : 760}
+                    widths={item.isFeature ? [360, 560, 800, 1100] : [240, 360, 520, 760]}
+                    sizes={item.isFeature ? '(min-width: 1024px) 620px, 100vw' : '(min-width: 1024px) 320px, 50vw'}
+                    loading={rowIndex === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    class="tile-img"
+                    style={`object-position: ${item.objectPosition || 'center center'};`}
+                  />
 
-              <!-- Bottom Caption Overlay (Hover/Focus on Desktop, Default on Feature) -->
-              <div class="tile-overlay">
-                <div class="overlay-content">
-                  <h3 class="overlay-title">{item.title}</h3>
-                  <p class="overlay-location">{item.location}</p>
-                  <p class="overlay-caption">{item.caption}</p>
+                  <div class="tile-overlay">
+                    <div class="overlay-content">
+                      <span class="overlay-meta">{item.badge} · {item.title}</span>
+                      <p class="overlay-caption line-clamp-2">“{item.caption}”</p>
+                      <span class="overlay-cta" aria-hidden="true">Click to open Story Lightbox →</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </button>
+              </button>
+            ))}
+          </div>
         ))
       }
+    </div>
+
+    <!-- Secondary Row: Show Posters & Archive -->
+    <div class="gallery-archive-block">
+      <div class="archive-header">
+        <div class="archive-titles">
+          <span class="font-script archive-eyebrow">Proof of range (and 90s eyebrows)</span>
+          <h2 class="archive-heading">SHOW POSTERS &amp; ARCHIVE</h2>
+        </div>
+        <p class="archive-note">Click any poster to read Janelle’s story behind the show.</p>
+      </div>
+
+      <div class="poster-grid">
+        {
+          indexedPosters.map((item) => (
+            <button
+              type="button"
+              class="gallery-tile is-poster"
+              style={`--stagger-delay: ${item.staggerDelay}ms;`}
+              data-gallery-tile
+              data-index={item.globalIndex}
+              data-src={item.image.src}
+              data-alt={item.alt}
+              data-badge={item.badge}
+              data-category={item.category}
+              data-title={item.title}
+              data-caption={item.caption}
+              aria-haspopup="dialog"
+              aria-label={`Open poster ${item.badge}: ${item.title}`}
+            >
+              <div class="tile-inner is-poster-inner">
+                <span class="tile-badge" aria-hidden="true">{item.badge}</span>
+                <Image
+                  src={item.image}
+                  alt={item.alt}
+                  width={600}
+                  height={720}
+                  widths={[220, 320, 480, 600]}
+                  sizes="(min-width: 1024px) 240px, 50vw"
+                  loading="lazy"
+                  decoding="async"
+                  class="tile-img is-poster-img"
+                />
+                <div class="tile-overlay">
+                  <div class="overlay-content">
+                    <span class="overlay-meta">{item.badge} · {item.title}</span>
+                    <p class="overlay-caption line-clamp-2">“{item.caption}”</p>
+                    <span class="overlay-cta" aria-hidden="true">Click to open Story Lightbox →</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
 
+<script>
+  const tiles = Array.from(document.querySelectorAll<HTMLElement>('[data-gallery-tile]'));
+
+  function revealTile(tile: HTMLElement) {
+    if (tile.classList.contains('is-revealed')) return;
+    tile.classList.add('is-revealed');
+    const delayStr = getComputedStyle(tile).getPropertyValue('--stagger-delay').trim();
+    const delayMs = parseFloat(delayStr) || 0;
+    window.setTimeout(() => {
+      tile.classList.add('is-settled');
+    }, 580 + delayMs);
+  }
+
+  if (
+    'IntersectionObserver' in window &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            revealTile(entry.target as HTMLElement);
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+    );
+
+    tiles.forEach((tile) => observer.observe(tile));
+  } else {
+    tiles.forEach((tile) => tile.classList.add('is-revealed', 'is-settled'));
+  }
+</script>
+
 <style>
   .gallery-grid-section {
+    --colour-focus: var(--colour-focus-on-dark);
     background-color: var(--colour-footer);
-    padding-top: clamp(2rem, 4vw, 3.5rem);
+    padding-top: clamp(2rem, 4vw, 3.25rem);
     padding-bottom: clamp(2.5rem, 5vw, 4rem);
     width: 100%;
     position: relative;
@@ -246,103 +174,186 @@ const galleryItems: GalleryItem[] = [
     width: 100%;
   }
 
-  /* Base Grid Setup */
-  .gallery-grid {
-    display: grid;
-    gap: clamp(8px, 1.2vw, 14px);
+  /* ==========================================================================
+     Primary Rows (Desktop: 5 natural-proportion asymmetric rows)
+     ========================================================================== */
+  .gallery-rows {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1.2vw, 12px);
     width: 100%;
   }
 
-  /* Desktop 4x5 Flush Rectangular Grid (1024px and above) */
-  @media (min-width: 1024px) {
-    .gallery-grid {
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-      aspect-ratio: 4 / 5;
-    }
-
-    /* Row 1 */
-    .tile-r1c1 { grid-column: 1; grid-row: 1; }
-    .tile-r1c2 { grid-column: 2; grid-row: 1; }
-    .tile-r1c3 { grid-column: 3; grid-row: 1; }
-    .tile-r1c4 { grid-column: 4; grid-row: 1; }
-
-    /* Rows 2 & 3 */
-    .tile-r2c1 { grid-column: 1; grid-row: 2; }
-    .tile-r2c2 { grid-column: 2; grid-row: 2; }
-    .tile-feature {
-      grid-column: 3 / span 2;
-      grid-row: 2 / span 2;
-    }
-    .tile-r3c1 { grid-column: 1; grid-row: 3; }
-    .tile-r3c2 { grid-column: 2; grid-row: 3; }
-
-    /* Rows 4 & 5 */
-    .tile-r4c1 { grid-column: 1; grid-row: 4; }
-    .tile-tall {
-      grid-column: 2;
-      grid-row: 4 / span 2;
-    }
-    .tile-r4c3 { grid-column: 3; grid-row: 4; }
-    .tile-r4c4 { grid-column: 4; grid-row: 4; }
-
-    .tile-r5c1 { grid-column: 1; grid-row: 5; }
-    .tile-r5c3 { grid-column: 3; grid-row: 5; }
-    .tile-r5c4 { grid-column: 4; grid-row: 5; }
+  .gallery-row {
+    display: grid;
+    grid-template-columns: var(--row-cols);
+    height: var(--row-h);
+    gap: clamp(8px, 1.2vw, 12px);
+    width: 100%;
   }
 
-  /* Tablet & Mobile Clean 2-Column Grid (< 1024px) */
+  /* Tablet & Mobile (< 1024px): dissolve row wrappers into a clean 2-col grid */
   @media (max-width: 1023px) {
-    .gallery-grid {
+    .gallery-rows {
+      display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
 
-    .tile-r1c1, .tile-r1c2, .tile-r1c3, .tile-r1c4,
-    .tile-r2c1, .tile-r2c2, .tile-r3c1, .tile-r3c2,
-    .tile-r4c1, .tile-r4c3, .tile-r4c4,
-    .tile-r5c1, .tile-r5c3, .tile-r5c4 {
-      grid-column: span 1;
-      aspect-ratio: 1 / 1;
+    .gallery-row {
+      display: contents;
     }
 
-    .tile-feature {
-      grid-column: 1 / -1;
-      aspect-ratio: 16 / 11;
+    .gallery-tile {
+      aspect-ratio: 4 / 5;
+      height: auto;
     }
 
-    .tile-tall {
+    .gallery-tile.is-wide-mobile {
       grid-column: 1 / -1;
-      aspect-ratio: 16 / 11;
+      aspect-ratio: 16 / 10;
     }
   }
 
   @media (max-width: 480px) {
-    .gallery-grid {
+    .gallery-rows {
       gap: 8px;
     }
   }
 
-  /* Gallery Tile Button */
+  /* ==========================================================================
+     Show Posters & Archive Sub-Row
+     ========================================================================== */
+  .gallery-archive-block {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 24rem;
+    margin-top: clamp(2.25rem, 4vw, 3.25rem);
+    padding-top: clamp(1.5rem, 2.5vw, 2rem);
+    border-top: 1px solid var(--colour-dark-border);
+  }
+
+  .archive-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    flex-wrap: wrap;
+  }
+
+  .archive-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .archive-eyebrow {
+    font-size: clamp(1.35rem, 1.05rem + 0.5vw, 1.65rem);
+    line-height: 1.1;
+    color: var(--colour-primary-on-dark);
+    margin-bottom: 2px;
+  }
+
+  .archive-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 1.05rem + 0.55vw, 1.75rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  .archive-note {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--colour-dark-muted);
+    margin: 0;
+  }
+
+  .poster-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(8px, 1.2vw, 12px);
+    width: 100%;
+  }
+
+  .gallery-tile.is-poster {
+    aspect-ratio: 4 / 5;
+    height: auto;
+  }
+
+  @media (max-width: 1023px) {
+    .poster-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .poster-grid .gallery-tile.is-poster:last-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .poster-grid {
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 359px) {
+    .gallery-rows,
+    .poster-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery-tile,
+    .gallery-tile.is-wide-mobile,
+    .poster-grid .gallery-tile.is-poster:last-child {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  /* ==========================================================================
+     Gallery Tile Button & Entrance / Hover Transitions
+     ========================================================================== */
   .gallery-tile {
     position: relative;
     display: block;
     width: 100%;
     height: 100%;
+    min-width: 0;
+    min-height: 44px;
     padding: 0;
     margin: 0;
     border: none;
-    background: #181818;
+    background-color: var(--colour-dark-tile);
     border-radius: var(--radius-sm);
     cursor: pointer;
     overflow: visible;
     text-align: left;
     outline: none;
     z-index: 1;
-    transition: transform var(--motion-fast) var(--ease-out),
-                box-shadow var(--motion-fast) var(--ease-out),
-                z-index 0s;
     touch-action: manipulation;
+    transition:
+      opacity 550ms var(--ease-out) var(--stagger-delay, 0ms),
+      transform 550ms var(--ease-out) var(--stagger-delay, 0ms),
+      box-shadow var(--motion-fast) var(--ease-out);
+  }
+
+  :global(.js) .gallery-tile:not(.is-revealed) {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+
+  :global(.js) .gallery-tile.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .gallery-tile.is-settled {
+    transition:
+      transform var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out);
   }
 
   .tile-inner {
@@ -351,49 +362,106 @@ const galleryItems: GalleryItem[] = [
     height: 100%;
     border-radius: var(--radius-sm);
     overflow: hidden;
-    background-color: #1a1a1a;
+    background-color: var(--colour-dark-tile);
+    border: 1px solid var(--colour-dark-border);
+    transition: border-color var(--motion-fast) var(--ease-out);
+  }
+
+  .is-poster-inner {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .tile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
     display: block;
     transition: transform var(--motion-standard) var(--ease-out);
   }
 
-  /* Desktop Hover & Focus State - Restrained Scale without reflow */
+  .is-poster-img {
+    object-fit: contain;
+    border-radius: var(--radius-xs);
+  }
+
+  /* Corner Index Pill */
+  .tile-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    min-height: 22px;
+    height: auto;
+    padding: 0 7px;
+    border-radius: var(--radius-xs);
+    background: rgba(10, 10, 10, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    transition:
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out);
+    pointer-events: none;
+  }
+
+  .gallery-tile:hover .tile-badge,
+  .gallery-tile:focus-visible .tile-badge {
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+  }
+
+  .gallery-tile:focus-visible {
+    outline: 3px solid var(--colour-primary-on-dark);
+    outline-offset: 3px;
+    z-index: 10;
+  }
+
+  .gallery-tile:focus-visible .tile-inner {
+    border-color: var(--colour-primary-on-dark);
+  }
+
+  /* Desktop Hover & Focus State */
   @media (min-width: 1024px) {
     .gallery-tile:hover,
     .gallery-tile:focus-visible {
-      transform: scale(1.04);
+      transform: scale(1.02);
       z-index: 10;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .gallery-tile:hover .tile-inner,
+    .gallery-tile:focus-visible .tile-inner {
+      border-color: var(--colour-primary-on-dark);
     }
 
     .gallery-tile:hover .tile-img,
     .gallery-tile:focus-visible .tile-img {
       transform: scale(1.03);
     }
-
-    .gallery-tile:focus-visible {
-      outline: 3px solid var(--colour-primary);
-      outline-offset: 3px;
-    }
   }
 
-  /* Overlay & Caption */
+  /* Overlay & Teaser Caption (Hover/Focus on Desktop) */
   .tile-overlay {
     position: absolute;
     inset: 0;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: var(--space-4);
     background: linear-gradient(
       to top,
-      rgba(10, 10, 10, 0.94) 0%,
+      rgba(10, 10, 10, 0.95) 0%,
       rgba(10, 10, 10, 0.72) 45%,
       rgba(10, 10, 10, 0) 100%
     );
@@ -402,68 +470,82 @@ const galleryItems: GalleryItem[] = [
     pointer-events: none;
   }
 
-  /* Always show overlay on feature tile or when hovered/focused on desktop */
   @media (min-width: 1024px) {
     .gallery-tile:hover .tile-overlay,
-    .gallery-tile:focus-visible .tile-overlay,
-    .gallery-tile.is-feature .tile-overlay {
+    .gallery-tile:focus-visible .tile-overlay {
       opacity: 1;
     }
   }
 
-  @media (max-width: 1023px) {
-    /* On mobile, show caption overlay only on the prominent feature card */
-    .gallery-tile.is-feature .tile-overlay {
+  @media (max-width: 1023px), (hover: none) {
+    .tile-overlay {
       opacity: 1;
+      padding: var(--space-2) var(--space-3);
       background: linear-gradient(
         to top,
-        rgba(10, 10, 10, 0.92) 0%,
-        rgba(10, 10, 10, 0.65) 50%,
+        rgba(10, 10, 10, 0.88) 0%,
+        rgba(10, 10, 10, 0.45) 55%,
         rgba(10, 10, 10, 0) 100%
       );
+    }
+
+    .overlay-caption,
+    .overlay-cta {
+      display: none;
+    }
+
+    .overlay-meta {
+      font-size: 0.6875rem;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
   .overlay-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     max-width: 100%;
   }
 
-  .overlay-title {
-    font-family: var(--font-display);
-    font-size: clamp(0.875rem, 1.1vw, 1.0625rem);
-    font-weight: 800;
-    color: #ffffff;
-    line-height: 1.2;
-    margin: 0 0 2px 0;
-    letter-spacing: -0.01em;
-  }
-
-  .overlay-location {
+  .overlay-meta {
     font-family: var(--font-body);
-    font-size: clamp(0.6875rem, 0.85vw, 0.75rem);
-    font-weight: 600;
-    color: var(--colour-primary-light);
-    line-height: 1.2;
-    margin: 0 0 4px 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    color: var(--colour-primary-light);
   }
 
   .overlay-caption {
     font-family: var(--font-body);
-    font-size: clamp(0.75rem, 0.9vw, 0.8125rem);
-    line-height: 1.35;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(0.8125rem, 0.75rem + 0.15vw, 0.875rem);
+    line-height: 1.38;
+    color: #ffffff;
     margin: 0;
+  }
+
+  .overlay-cta {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--colour-primary-on-dark);
+    margin-top: 2px;
   }
 
   /* Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
+    :global(.js) .gallery-tile:not(.is-revealed),
     .gallery-tile,
     .tile-img,
+    .tile-inner,
+    .tile-badge,
     .tile-overlay {
-      transition: none !important;
+      opacity: 1 !important;
       transform: none !important;
+      transition: none !important;
     }
 
     .gallery-tile:hover,

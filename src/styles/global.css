@@ -18,6 +18,7 @@ body {
   background-color: var(--colour-page);
   color: var(--colour-ink);
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
@@ -60,6 +61,20 @@ ul, ol {
   outline: 2.5px solid var(--colour-focus);
   outline-offset: 2px;
   border-radius: var(--radius-xs);
+}
+
+#main-content:focus {
+  outline: none;
+}
+
+/* Native Modal Dialog Scroll Containment */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 /* Button System - Compact, Proportional to Mockup */
@@ -165,6 +180,28 @@ ul, ol {
   word-break: break-word;
 }
 
+/* Terminal Crimson Square Punctuation Accent */
+.red-sq {
+  display: inline-block;
+  width: 0.155em;
+  height: 0.155em;
+  background-color: var(--colour-primary);
+  margin-left: 0.08em;
+  vertical-align: 0.04em;
+  flex-shrink: 0;
+}
+
+/* Desktop Line-Break Utility */
+.desktop-break {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .desktop-break {
+    display: inline;
+  }
+}
+
 /* Modern Form Validation States */
 :where(input, select, textarea):user-invalid {
   border-color: var(--colour-error) !important;
@@ -223,6 +260,15 @@ ul, ol {
   .btn-primary {
     background-color: Highlight !important;
     color: HighlightText !important;
+  }
+
+  dialog {
+    border: 2px solid CanvasText !important;
+  }
+
+  .nav-link.is-active {
+    text-decoration: underline !important;
+    text-underline-offset: 6px;
   }
 }
 

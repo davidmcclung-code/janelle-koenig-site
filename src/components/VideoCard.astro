@@ -1,5 +1,7 @@
 ---
-import { asset } from '../utils/paths';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import defaultThumbImg from '../assets/photography/performance/debbie-gibson-thumbnail.jpg';
+import ArrowIcon from './ArrowIcon.astro';
 
 interface Props {
   thumbnailSrc?: string;
@@ -8,23 +10,63 @@ interface Props {
 }
 
 const {
-  thumbnailSrc = asset('/images/performance/debbie-gibson-thumbnail.jpg'),
+  thumbnailSrc,
   title = 'Watch Janelle',
   description = 'Janelle catches up with pop icon, Debbie Gibson.',
 } = Astro.props;
+
+const thumbSources = await createResponsiveSourceSet(
+  defaultThumbImg,
+  [320, 480, 640],
+  'jpeg'
+);
 ---
 
 <div class="video-card">
   <!-- Video Thumbnail with Centered Play Button Overlay -->
-  <div class="video-thumbnail-container" id="video-card-trigger" data-video-trigger role="button" tabindex="0" aria-label="Play video: Janelle catches up with pop icon Debbie Gibson">
-    <img
-      src={thumbnailSrc}
-      alt="Janelle Koenig catches up with pop icon Debbie Gibson"
-      width="640"
-      height="360"
-      loading="lazy"
-      class="video-thumbnail"
-    />
+  <button
+    type="button"
+    class="video-thumbnail-container"
+    id="video-card-trigger"
+    data-video-trigger
+    aria-haspopup="dialog"
+    aria-label="Play video: Janelle catches up with pop icon Debbie Gibson"
+  >
+    {thumbnailSrc ? (
+      <img
+        src={thumbnailSrc}
+        alt="Janelle Koenig catches up with pop icon Debbie Gibson"
+        width="640"
+        height="360"
+        loading="lazy"
+        decoding="async"
+        class="video-thumbnail"
+      />
+    ) : (
+      <picture style="display: contents;">
+        <source
+          type="image/avif"
+          srcset={thumbSources.avifSrcset}
+          sizes="(min-width: 850px) 420px, 50vw"
+        />
+        <source
+          type="image/webp"
+          srcset={thumbSources.webpSrcset}
+          sizes="(min-width: 850px) 420px, 50vw"
+        />
+        <img
+          src={thumbSources.fallbackSrc}
+          srcset={thumbSources.fallbackSrcset}
+          sizes="(min-width: 850px) 420px, 50vw"
+          alt="Janelle Koenig catches up with pop icon Debbie Gibson"
+          width={thumbSources.width}
+          height={thumbSources.height}
+          loading="lazy"
+          decoding="async"
+          class="video-thumbnail"
+        />
+      </picture>
+    )}
     <div class="play-overlay">
       <div class="play-button">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -32,34 +74,18 @@ const {
         </svg>
       </div>
     </div>
-  </div>
+  </button>
 
   <!-- Content Below Thumbnail with calibrated breathing room -->
   <div class="video-card-content">
-    <h3 class="font-script video-card-title">{title}</h3>
+    <h2 class="font-script video-card-title">{title}</h2>
     <p class="video-card-desc wrap-break">{description}</p>
-    <button type="button" class="video-card-cta" data-video-trigger>
+    <button type="button" class="video-card-cta" data-video-trigger aria-haspopup="dialog">
       <span>WATCH NOW</span>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
-      </svg>
+      <ArrowIcon size={12} />
     </button>
   </div>
 </div>
-
-<script>
-  const videoThumbTrigger = document.getElementById('video-card-trigger');
-  videoThumbTrigger?.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      const videoModal = document.getElementById('video-modal') as HTMLDialogElement | null;
-      if (videoModal && typeof videoModal.showModal === 'function') {
-        videoModal.showModal();
-      }
-    }
-  });
-</script>
 
 <style>
   .video-card {
@@ -80,12 +106,16 @@ const {
 
   .video-thumbnail-container {
     position: relative;
+    display: block;
     width: 100%;
+    padding: 0;
+    border: none;
+    text-align: left;
     aspect-ratio: 16 / 9;
     border-radius: var(--radius-md);
     overflow: hidden;
     cursor: pointer;
-    background-color: #000000;
+    background-color: var(--colour-dark-stage);
   }
 
   .video-thumbnail {
@@ -165,13 +195,13 @@ const {
     }
 
     .video-card-desc {
-      font-size: 0.75rem;
+      font-size: 0.8125rem;
       margin-bottom: 8px;
       line-height: 1.35;
     }
 
     .video-card-cta {
-      font-size: 0.6875rem;
+      font-size: 0.75rem;
     }
   }
 
@@ -197,6 +227,7 @@ const {
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    min-height: 44px;
     font-family: var(--font-display);
     font-size: 0.75rem;
     font-weight: 800;

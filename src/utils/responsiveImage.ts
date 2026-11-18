@@ -45,9 +45,10 @@ export async function createResponsiveSourceSet(
     widths.map((w) => getImage({ src: image, width: w, format: resolvedFallbackFormat }))
   );
 
-  const avifSrcset = avifImages.map((img) => `${img.src} ${img.attributes.width}w`).join(', ');
-  const webpSrcset = webpImages.map((img) => `${img.src} ${img.attributes.width}w`).join(', ');
-  const fallbackSrcset = fallbackImages.map((img) => `${img.src} ${img.attributes.width}w`).join(', ');
+  type GeneratedImage = { src: string; attributes: Record<string, any> };
+  const avifSrcset = avifImages.map((img: GeneratedImage) => `${img.src} ${img.attributes.width}w`).join(', ');
+  const webpSrcset = webpImages.map((img: GeneratedImage) => `${img.src} ${img.attributes.width}w`).join(', ');
+  const fallbackSrcset = fallbackImages.map((img: GeneratedImage) => `${img.src} ${img.attributes.width}w`).join(', ');
 
   const defaultFallback = fallbackImages[fallbackImages.length - 1];
 

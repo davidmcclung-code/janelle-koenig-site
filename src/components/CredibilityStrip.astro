@@ -1,15 +1,29 @@
 ---
-import { asset } from '../utils/paths';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import abcImg from '../assets/logos/abc.png';
+import channel9Img from '../assets/logos/channel9.png';
+import network10Img from '../assets/logos/network10.png';
+import sbsImg from '../assets/logos/sbs.png';
+import primevideoImg from '../assets/logos/primevideo.png';
+import theprojectImg from '../assets/logos/theproject.png';
+import nova937Img from '../assets/logos/nova937.png';
 
-const logos = [
-  { name: 'ABC', src: asset('/images/logos/abc.png'), alt: 'Australian Broadcasting Corporation', width: 44, class: 'logo-abc' },
-  { name: 'Channel 9', src: asset('/images/logos/channel9.png'), alt: 'Channel 9', width: 56, class: 'logo-nine' },
-  { name: 'Network 10', src: asset('/images/logos/network10.png'), alt: 'Network 10', width: 34, class: 'logo-ten' },
-  { name: 'SBS', src: asset('/images/logos/sbs.png'), alt: 'SBS Television', width: 56, class: 'logo-sbs' },
-  { name: 'Prime Video', src: asset('/images/logos/primevideo.png'), alt: 'Amazon Prime Video', width: 78, class: 'logo-prime' },
-  { name: 'The Project', src: asset('/images/logos/theproject.png'), alt: 'The Project', width: 70, class: 'logo-project hide-on-mobile' },
-  { name: 'Nova 93.7', src: asset('/images/logos/nova937.png'), alt: 'Nova 93.7', width: 72, class: 'logo-nova hide-on-mobile' },
+const rawLogos = [
+  { name: 'ABC', img: abcImg, alt: 'Australian Broadcasting Corporation', width: 44, class: 'logo-abc' },
+  { name: 'Channel 9', img: channel9Img, alt: 'Channel 9', width: 56, class: 'logo-nine' },
+  { name: 'Network 10', img: network10Img, alt: 'Network 10', width: 34, class: 'logo-ten' },
+  { name: 'SBS', img: sbsImg, alt: 'SBS Television', width: 56, class: 'logo-sbs' },
+  { name: 'Prime Video', img: primevideoImg, alt: 'Amazon Prime Video', width: 78, class: 'logo-prime' },
+  { name: 'The Project', img: theprojectImg, alt: 'The Project', width: 70, class: 'logo-project hide-on-mobile' },
+  { name: 'Nova 93.7', img: nova937Img, alt: 'Nova 93.7', width: 72, class: 'logo-nova hide-on-mobile' },
 ];
+
+const logos = await Promise.all(
+  rawLogos.map(async (logo) => ({
+    ...logo,
+    sources: await createResponsiveSourceSet(logo.img, [logo.width, logo.width * 2], 'png'),
+  }))
+);
 ---
 
 <section class="credibility-section" aria-label="Media Appearances and Credits">
@@ -24,15 +38,30 @@ const logos = [
       <div class="logo-cloud">
         {
           logos.map((logo) => (
-            <div class={`logo-item ${logo.class}`} title={logo.alt}>
-              <img
-                src={logo.src}
-                alt={logo.alt}
-                width={logo.width}
-                height="28"
-                loading="lazy"
-                class="media-logo-img"
-              />
+            <div class={`logo-item ${logo.class}`}>
+              <picture style="display: contents;">
+                <source
+                  type="image/avif"
+                  srcset={logo.sources.avifSrcset}
+                  sizes={`${logo.width}px`}
+                />
+                <source
+                  type="image/webp"
+                  srcset={logo.sources.webpSrcset}
+                  sizes={`${logo.width}px`}
+                />
+                <img
+                  src={logo.sources.fallbackSrc}
+                  srcset={logo.sources.fallbackSrcset}
+                  sizes={`${logo.width}px`}
+                  alt={logo.alt}
+                  width={logo.sources.width}
+                  height={logo.sources.height}
+                  loading="lazy"
+                  decoding="async"
+                  class="media-logo-img"
+                />
+              </picture>
             </div>
           ))
         }
@@ -68,7 +97,7 @@ const logos = [
     transform: rotate(-2deg);
     display: inline-block;
     white-space: nowrap;
-    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-size: clamp(1.15rem, 0.9rem + 0.6vw, 1.5rem);
     line-height: 1;
   }
 

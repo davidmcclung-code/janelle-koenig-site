@@ -1,0 +1,792 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CredibilityStrip from '../components/CredibilityStrip.astro';
+import EnquiryBanner from '../components/EnquiryBanner.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import BurstMark from '../components/BurstMark.astro';
+import { asset } from '../utils/paths';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+
+import aboutHeroCutoutImg from '../assets/photography/about/janelle-about-hero-cutout.png';
+import guitarStageImg from '../assets/photography/about/janelle-guitar-stage.jpg';
+import pawaAwardsImg from '../assets/photography/about/janelle-pawa-awards.jpg';
+import kidsCancerGalaImg from '../assets/photography/about/janelle-kids-cancer-gala.jpg';
+
+const pageTitle = 'About | Janelle Koenig';
+const pageDescription =
+  'Western Australia’s First Lady of Comedy: Janelle Koenig is a comedian, writer, director, MC, actor and producer with nearly 25 years on stage, screen and radio.';
+
+const heroCutoutSources = await createResponsiveSourceSet(aboutHeroCutoutImg, [360, 480, 682], 'png');
+const guitarSources = await createResponsiveSourceSet(guitarStageImg, [360, 560, 760, 960], 'jpeg');
+const pawaSources = await createResponsiveSourceSet(pawaAwardsImg, [360, 560, 760, 960], 'jpeg');
+const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560, 760, 960], 'jpeg');
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- 1. Bio Intro Split -->
+  <section class="bio-hero-section" aria-labelledby="about-page-title">
+    <div class="container bio-hero-grid">
+      <div class="bio-hero-content reveal">
+        <span class="font-script text-script-section bio-eyebrow">
+          Western Australia’s First Lady of Comedy
+        </span>
+
+        <h1 id="about-page-title" class="bio-heading">
+          <span class="heading-line">ABOUT</span>
+          <span class="heading-line">JANELLE<span class="red-sq" aria-hidden="true"></span></span>
+        </h1>
+
+        <p class="bio-lead wrap-break">
+          Almost 25 years making people laugh on stage, on screen, on radio and, increasingly, while they’re supposed to be working.
+        </p>
+      </div>
+
+      <div class="bio-hero-media reveal">
+        <figure class="bio-hero-figure">
+          <div class="hero-popout-stage">
+            <div class="bio-burst-mark" aria-hidden="true">
+              <BurstMark strokeWidth={3} />
+            </div>
+
+            <div class="hero-popout-card" aria-hidden="true"></div>
+
+            <div class="hero-popout-cutout">
+              <picture>
+                <source type="image/avif" srcset={heroCutoutSources.avifSrcset} sizes="(min-width: 1024px) 255px, (min-width: 768px) 200px, 34vw" />
+                <source type="image/webp" srcset={heroCutoutSources.webpSrcset} sizes="(min-width: 1024px) 255px, (min-width: 768px) 200px, 34vw" />
+                <img
+                  src={heroCutoutSources.fallbackSrc}
+                  srcset={heroCutoutSources.fallbackSrcset}
+                  sizes="(min-width: 1024px) 255px, (min-width: 768px) 200px, 34vw"
+                  alt="Janelle Koenig looking surprised in a burgundy floral dress"
+                  width={heroCutoutSources.width}
+                  height={heroCutoutSources.height}
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
+                  class="hero-cutout-img"
+                />
+              </picture>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Shared Media Credibility Strip -->
+  <CredibilityStrip />
+
+  <!-- 3. Official Bio Narrative + Staggered Photos -->
+  <section class="story-section" aria-labelledby="story-heading">
+    <div class="container story-grid">
+      <div class="story-copy reveal">
+        <span class="font-script text-script-section section-script">The full story</span>
+        <h2 id="story-heading" class="section-heading">
+          Comedian, writer, MC, actor &amp; professional show-off.
+        </h2>
+
+        <p>
+          Western Australia’s First Lady of Comedy, Janelle Koenig, has spent almost 25 years making people laugh – on stage, on screen, on radio and, increasingly, while they’re supposed to be working.
+        </p>
+
+        <p>
+          A powerhouse headliner, writer, director, MC, actor and content creator, Janelle has worked alongside some of the biggest names in Australian and international comedy, including Jimeoin, Alan Davies, Wayne Brady and Joel Creasey. Behind the scenes, she has written and directed extensively for comedy heavyweights including Em Rusciano, Joel Creasey, Jimeoin and Mary Coustas’ beloved Effie.
+        </p>
+
+        <p>
+          Blending razor-sharp stand-up with killer(ish) vocals and masterful musical comedy, Janelle has headlined all over the world, has been a full-time stand-up for nearly 20 years and is a dominating presence in the Australian comedy scene. She was also one of a handful of Australian comedians selected for the international edition of NBC’s <em>Last Comic Standing</em>.
+        </p>
+
+        <p>
+          Janelle has also built a fiercely loyal online following of more than 30,000, with her comedy and content clocking up more than 20 million views.
+        </p>
+
+        <p>
+          Janelle has a hugely popular weekly spot 'Janelle's Juice Box' on Nova FM's 'Joel Creasey Show', broadcast nationally.
+        </p>
+
+        <p>
+          As a writer, Janelle has earned head-writer credits across some of Australia’s biggest broadcasts and events, including <em>Eurovision – Australia Decides</em> (Logie-nominated, 2019), the <em>Sydney Gay and Lesbian Mardi Gras Parade</em> for SBS (AACTA Award for Best Entertainment Program, 2021), Channel 7’s <em>Take Me Out</em> and the <em>Real Housewives of Sydney Reunion</em> for Binge.
+        </p>
+      </div>
+
+      <div class="staggered-photos reveal">
+        <figure class="editorial-figure">
+          <div class="editorial-frame">
+            <picture>
+              <source type="image/avif" srcset={guitarSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" />
+              <source type="image/webp" srcset={guitarSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" />
+              <img
+                src={guitarSources.fallbackSrc}
+                srcset={guitarSources.fallbackSrcset}
+                sizes="(min-width: 900px) 260px, 44vw"
+                alt="Janelle Koenig performing musical comedy with an acoustic guitar in a sequined dress"
+                width={guitarSources.width}
+                height={guitarSources.height}
+                loading="lazy"
+                decoding="async"
+                class="img-guitar"
+              />
+            </picture>
+          </div>
+          <figcaption class="editorial-caption">
+            <strong>Stand-up &amp; musical comedy</strong>
+            Razor-sharp comedy and killer(ish) vocals on stage.
+          </figcaption>
+        </figure>
+
+        <figure class="editorial-figure offset">
+          <div class="editorial-frame">
+            <picture>
+              <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" />
+              <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" />
+              <img
+                src={pawaSources.fallbackSrc}
+                srcset={pawaSources.fallbackSrcset}
+                sizes="(min-width: 900px) 260px, 44vw"
+                alt="Janelle Koenig hosting the Performing Arts WA Awards at a lectern"
+                width={pawaSources.width}
+                height={pawaSources.height}
+                loading="lazy"
+                decoding="async"
+                class="img-lectern"
+              />
+            </picture>
+          </div>
+          <figcaption class="editorial-caption">
+            <strong>Performing Arts WA Awards</strong>
+            Keeping major live rooms and broadcasts moving.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Credits & Stage/Hosting/Community Spotlight -->
+  <section class="credits-section" aria-labelledby="credits-heading">
+    <div class="container">
+      <div class="credits-header reveal">
+        <span class="font-script text-script-section section-script">
+          On stage, on screen &amp; behind the scenes
+        </span>
+        <h2 id="credits-heading" class="section-heading credits-title">
+          Credits &amp; highlights.
+        </h2>
+      </div>
+
+      <div class="pillars-grid reveal">
+        <div class="pillar-col">
+          <span class="pillar-num" aria-hidden="true">01.</span>
+          <h3 class="pillar-title">Stand-Up &amp; Musical Comedy</h3>
+          <p class="pillar-copy">
+            Nearly 20 years as a full-time stand-up headlining clubs, theatres and festivals worldwide.
+          </p>
+          <ul class="pillar-list">
+            <li>NBC’s Last Comic Standing (International Edition)</li>
+            <li>Shared stages with Jimeoin, Alan Davies &amp; Wayne Brady</li>
+            <li>Producer &amp; host, Let’s Hear It For The Girls</li>
+            <li>30,000+ followers &amp; 20M+ online views</li>
+          </ul>
+        </div>
+
+        <div class="pillar-col">
+          <span class="pillar-num" aria-hidden="true">02.</span>
+          <h3 class="pillar-title">Stage, MC &amp; Major Events</h3>
+          <p class="pillar-copy">
+            Leading musical theatre roles and major live hosting across Western Australia.
+          </p>
+          <ul class="pillar-list">
+            <li>Priscilla Queen of the Desert (55,000+ at Crown Theatre)</li>
+            <li>We Will Rock You (Regal Theatre, Perth)</li>
+            <li>2025 Perth Pride Parade Mainstage Host</li>
+            <li>Wicked &amp; Wicked: For Good WA Premieres (Universal)</li>
+          </ul>
+        </div>
+
+        <div class="pillar-col">
+          <span class="pillar-num" aria-hidden="true">03.</span>
+          <h3 class="pillar-title">Writing, Directing &amp; Radio</h3>
+          <p class="pillar-copy">
+            Head-writer credits for flagship Australian broadcasts plus national weekly radio.
+          </p>
+          <ul class="pillar-list">
+            <li>Eurovision – Australia Decides (Logie-nominated, 2019)</li>
+            <li>SBS Mardi Gras Parade (AACTA Winner, 2021)</li>
+            <li>Channel 7’s Take Me Out &amp; RHOS Reunion (Binge)</li>
+            <li>'Janelle’s Juice Box' on Nova FM’s Joel Creasey Show</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Stage, Events & Community Spotlight -->
+      <div class="ambassador-panel reveal">
+        <div class="ambassador-photo">
+          <picture>
+            <source type="image/avif" srcset={galaSources.avifSrcset} sizes="(min-width: 900px) 380px, 90vw" />
+            <source type="image/webp" srcset={galaSources.webpSrcset} sizes="(min-width: 900px) 380px, 90vw" />
+            <img
+              src={galaSources.fallbackSrc}
+              srcset={galaSources.fallbackSrcset}
+              sizes="(min-width: 900px) 380px, 90vw"
+              alt="Janelle Koenig performing onstage at Kai's Big Gold Ball for the Kids Cancer Support Group"
+              width={galaSources.width}
+              height={galaSources.height}
+              loading="lazy"
+              decoding="async"
+              class="img-gala"
+            />
+          </picture>
+        </div>
+
+        <div class="ambassador-content">
+          <span class="font-script ambassador-eyebrow">Stage, Events &amp; Community</span>
+          <h3 class="ambassador-h3">Showing off, hosting &amp; giving back</h3>
+
+          <p class="ambassador-copy">
+            When she feels like showing off, Janelle also acts. Her stage credits include leading roles in <em>Priscilla Queen of the Desert</em>, playing to more than 55,000 people at Perth’s Crown Theatre, and <em>We Will Rock You</em> at the Regal Theatre.
+          </p>
+
+          <p class="ambassador-copy">
+            As an MC, Janelle has hosted major events across WA, including the three-hour 2025 Perth Pride Parade mainstage, and was handpicked by Universal Pictures to host the WA premieres of <em>Wicked</em> and <em>Wicked: For Good</em> and was recently engaged to capture content at the exclusive Perth Film Studios Open Day.
+          </p>
+
+          <p class="ambassador-copy">
+            Janelle is also the producer and host of the sell-out female comedy gala <em>Let’s Hear It For The Girls</em> and is a proud ambassador for the Kids Cancer Support Group.
+          </p>
+
+          <p class="bio-closing-line">
+            In short: comedian, writer, MC, actor, singer, producer and professional show-off.<br />
+            Janelle is proud to call herself a real woman – but she’s keeping the skinny jeans, just in case.
+          </p>
+
+          <a href={asset('/photos')} class="ambassador-link">
+            <span>VIEW MORE IN THE PHOTO GALLERY</span>
+            <ArrowIcon size={14} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Full-Bleed Warm Enquiry CTA Banner -->
+  <EnquiryBanner buttonId="about-cta-btn" />
+</BaseLayout>
+
+<style>
+  /* ==========================================================================
+     1. Bio Intro Split
+     ========================================================================== */
+  .bio-hero-section {
+    background: var(--gradient-hero-warm);
+    padding: clamp(1.5rem, 3vw, 2.25rem) 0 clamp(1.75rem, 3.5vw, 2.5rem);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .bio-hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2rem, 4.5vw, 3.75rem);
+    align-items: center;
+  }
+
+  .bio-hero-content {
+    min-width: 0;
+  }
+
+  .bio-eyebrow {
+    font-size: clamp(1.35rem, 1rem + 0.55vw, 1.75rem);
+    line-height: 1.1;
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    transform: rotate(-1.5deg);
+  }
+
+  .bio-heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 1.28rem + 4vw, 4.6rem);
+    font-weight: 900;
+    line-height: 0.93;
+    letter-spacing: -0.04em;
+    color: var(--colour-ink);
+    text-transform: uppercase;
+    margin: 0 0 var(--space-5) 0;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+  }
+
+  .heading-line {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
+  }
+
+  .bio-lead {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 0.85rem + 0.25vw, 1.15rem);
+    line-height: 1.5;
+    color: var(--colour-ink-subtle);
+    font-weight: 500;
+    max-width: 500px;
+    margin: 0;
+  }
+
+  .bio-hero-media {
+    position: relative;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bio-hero-figure {
+    margin: 0;
+    width: 100%;
+    max-width: clamp(210px, 21vw, 255px);
+  }
+
+  .hero-popout-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 682 / 900;
+  }
+
+  .bio-burst-mark {
+    position: absolute;
+    top: 3%;
+    right: 10%;
+    left: auto;
+    z-index: 3;
+    transform: scaleX(-1) rotate(-8deg);
+    pointer-events: none;
+    --burst-size: clamp(28px, 2.8vw, 36px);
+  }
+
+  .hero-popout-card {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 33%;
+    z-index: 1;
+    border-radius: var(--radius-md);
+    background: var(--gradient-card-warm);
+    border: 1.5px solid rgba(18, 18, 18, 0.14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), var(--shadow-lg);
+  }
+
+  .hero-popout-cutout {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .hero-popout-cutout picture,
+  .hero-cutout-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .hero-cutout-img {
+    object-fit: cover;
+    object-position: center bottom;
+    filter: drop-shadow(0 10px 22px rgba(18, 18, 18, 0.12));
+  }
+
+  /* ==========================================================================
+     3. Official Bio Story & Staggered Photography
+     ========================================================================== */
+  .story-section {
+    background-color: var(--colour-page);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.98fr;
+    gap: clamp(2rem, 5vw, 3.75rem);
+    align-items: start;
+  }
+
+  .section-script {
+    font-size: clamp(1.45rem, 1.1rem + 0.6vw, 1.9rem);
+    line-height: 1.15;
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    transform: rotate(-1deg);
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 1.15rem + 0.9vw, 2.25rem);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--colour-ink);
+    margin: 0 0 var(--space-5) 0;
+  }
+
+  .story-copy p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.62;
+    color: var(--colour-ink-subtle);
+    margin: 0;
+    max-width: 58ch;
+  }
+
+  .story-copy p:not(:last-child) {
+    margin-bottom: var(--space-4);
+  }
+
+  .staggered-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(12px, 2vw, 22px);
+    align-items: start;
+    padding-top: 8px;
+  }
+
+  .editorial-figure {
+    margin: 0;
+  }
+
+  .editorial-figure.offset {
+    margin-top: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .editorial-frame {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--colour-border);
+    box-shadow: var(--shadow-md);
+    background-color: var(--colour-dark-surface);
+    aspect-ratio: 3 / 4;
+  }
+
+  .editorial-frame picture,
+  .editorial-frame img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .img-guitar {
+    object-position: 50% 3%;
+  }
+
+  .img-lectern {
+    object-position: 50% 5%;
+  }
+
+  .editorial-caption {
+    margin-top: 10px;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--colour-muted);
+  }
+
+  .editorial-caption strong {
+    display: block;
+    color: var(--colour-ink);
+    font-weight: 700;
+    font-size: 0.8125rem;
+  }
+
+  /* ==========================================================================
+     4. Credits & Stage/Hosting/Community Spotlight
+     ========================================================================== */
+  .credits-section {
+    background-color: var(--colour-page-warm);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    border-top: 1px solid var(--colour-border);
+  }
+
+  .credits-header {
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .credits-title {
+    margin-bottom: 0;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 2.8vw, 2.25rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .pillar-col {
+    border-top: 2px solid var(--colour-ink);
+    padding-top: var(--space-4);
+    min-width: 0;
+  }
+
+  .pillar-num {
+    font-family: var(--font-script);
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--colour-primary);
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .pillar-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 0.95rem + 0.35vw, 1.3125rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--colour-ink);
+    margin: 0 0 10px 0;
+  }
+
+  .pillar-copy {
+    font-family: var(--font-body);
+    font-size: 0.90625rem;
+    line-height: 1.55;
+    color: var(--colour-ink-subtle);
+    margin: 0 0 14px 0;
+  }
+
+  .pillar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.84375rem;
+    color: var(--colour-ink);
+    font-weight: 500;
+  }
+
+  .pillar-list li {
+    padding: 6px 0;
+    border-top: 1px solid var(--colour-border);
+    line-height: 1.4;
+  }
+
+  .ambassador-panel {
+    display: grid;
+    grid-template-columns: minmax(260px, 380px) 1fr;
+    gap: clamp(1.5rem, 3.5vw, 2.75rem);
+    align-items: center;
+    background-color: var(--colour-surface);
+    border: 1px solid var(--colour-border);
+    border-radius: var(--radius-sm);
+    padding: clamp(1.25rem, 2.8vw, 2rem);
+  }
+
+  .ambassador-photo {
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    aspect-ratio: 3 / 3.6;
+    background-color: var(--colour-dark-surface);
+  }
+
+  .ambassador-photo picture,
+  .img-gala {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: 50% 4%;
+  }
+
+  .ambassador-content {
+    min-width: 0;
+  }
+
+  .ambassador-eyebrow {
+    font-size: clamp(1.35rem, 1.05rem + 0.5vw, 1.625rem);
+    display: inline-block;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .ambassador-h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1.05rem + 0.55vw, 1.7rem);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    color: var(--colour-ink);
+    margin: 0 0 14px 0;
+  }
+
+  .ambassador-copy {
+    font-family: var(--font-body);
+    font-size: 0.96875rem;
+    line-height: 1.6;
+    color: var(--colour-ink-subtle);
+    max-width: 60ch;
+    margin: 0 0 14px 0;
+  }
+
+  .bio-closing-line {
+    font-family: var(--font-body);
+    font-size: 0.96875rem;
+    line-height: 1.55;
+    font-weight: 600;
+    color: var(--colour-ink);
+    padding-top: 12px;
+    border-top: 1px solid var(--colour-border);
+    margin: 0 0 18px 0;
+    max-width: 60ch;
+  }
+
+  .ambassador-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--colour-primary);
+    transition: transform var(--motion-fast) var(--ease-out),
+                color var(--motion-fast) var(--ease-out);
+  }
+
+  .ambassador-link:hover {
+    color: var(--colour-primary-hover);
+    transform: translateX(2px);
+  }
+
+  /* ==========================================================================
+     Responsive Breakpoints
+     ========================================================================== */
+  @media (max-width: 1023px) {
+    .bio-hero-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(1rem, 3vw, 2rem);
+      align-items: center;
+    }
+
+    .bio-hero-figure {
+      max-width: clamp(175px, 25vw, 220px);
+      margin-inline: auto;
+    }
+
+    .story-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .staggered-photos {
+      padding-top: 0;
+    }
+
+    .editorial-figure.offset {
+      margin-top: 0;
+    }
+
+    .pillars-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .ambassador-panel {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .ambassador-photo {
+      aspect-ratio: 4 / 4;
+      max-width: 440px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .bio-hero-section {
+      padding: clamp(1rem, 3vw, 1.4rem) 0 clamp(1.15rem, 3.5vw, 1.6rem);
+    }
+
+    .bio-hero-grid {
+      grid-template-columns: 1fr auto;
+      gap: clamp(12px, 3.5vw, 20px);
+      align-items: center;
+    }
+
+    .bio-eyebrow {
+      font-size: clamp(1.1rem, 0.8rem + 1.2vw, 1.35rem);
+      margin-bottom: 4px;
+    }
+
+    .bio-heading {
+      font-size: clamp(1.95rem, 1.1rem + 3.2vw, 2.6rem);
+      margin-bottom: var(--space-3);
+    }
+
+    .bio-lead {
+      font-size: clamp(0.875rem, 0.75rem + 0.5vw, 0.96875rem);
+      line-height: 1.4;
+    }
+
+    .bio-hero-figure {
+      width: clamp(124px, 34vw, 165px);
+      max-width: none;
+    }
+
+    .bio-burst-mark {
+      --burst-size: clamp(20px, 5vw, 26px);
+    }
+
+    .hero-popout-card {
+      border-radius: var(--radius-sm);
+    }
+
+    .hero-popout-cutout {
+      border-bottom-left-radius: var(--radius-sm);
+      border-bottom-right-radius: var(--radius-sm);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .bio-eyebrow {
+      font-size: 1.05rem;
+    }
+
+    .bio-heading {
+      font-size: clamp(1.75rem, 1.1rem + 2.8vw, 2.1rem);
+      margin-bottom: 8px;
+    }
+
+    .bio-lead {
+      font-size: 0.875rem;
+      line-height: 1.38;
+    }
+
+    .bio-hero-figure {
+      width: clamp(112px, 33vw, 130px);
+    }
+
+    .staggered-photos {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 359px) {
+    .heading-line {
+      white-space: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambassador-link:hover {
+      transform: none;
+    }
+  }
+</style>
+

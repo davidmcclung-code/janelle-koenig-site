@@ -1,7 +1,9 @@
 ---
+import { getImage } from 'astro:assets';
 import { siteConfig } from '../data/siteConfig';
 import events from '../data/events.json';
 import { asset } from '../utils/paths';
+import defaultOgImg from '../assets/photography/hero/janelle-hero.png';
 
 interface Props {
   title?: string;
@@ -9,10 +11,17 @@ interface Props {
   image?: string;
 }
 
+const optimizedOgImage = await getImage({
+  src: defaultOgImg,
+  width: 960,
+  format: 'jpeg',
+  quality: 85,
+});
+
 const {
-  title = `${siteConfig.name} — ${siteConfig.role}`,
+  title = `${siteConfig.name} – ${siteConfig.role}`,
   description = `${siteConfig.name} is an Australian comedian, professional MC, and panel host. Quick wit. Calm hands. Zero beige.`,
-  image = '/images/hero/janelle-hero.png',
+  image = optimizedOgImage.src,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://janellekoenig.com');
@@ -35,27 +44,41 @@ const monthMap: Record<string, string> = {
 
 const currentYear = new Date().getFullYear();
 
-const jsonLdEvents = Array.isArray(events)
-  ? events.map((event) => {
-      const monthNum = monthMap[event.month?.toUpperCase()] || '06';
-      const dayNum = String(event.day || '01').padStart(2, '0');
-      return {
-        '@context': 'https://schema.org',
-        '@type': 'Event',
-        name: `${siteConfig.name} at ${event.title}`,
-        startDate: `${currentYear}-${monthNum}-${dayNum}`,
-        location: {
-          '@type': 'Place',
-          name: event.venue,
-          address: event.location,
-        },
-        performer: {
-          '@type': 'Person',
-          name: siteConfig.name,
-        },
-      };
-    })
-  : [];
+const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '';
+
+const jsonLdEvents =
+  isHomePage && Array.isArray(events)
+    ? events
+        .filter(
+          (event) =>
+            event &&
+            event.ticketUrl &&
+            event.ticketUrl !== '#tickets-placeholder' &&
+            event.day &&
+            event.month &&
+            monthMap[event.month.toUpperCase()]
+        )
+        .map((event) => {
+          const monthNum = monthMap[event.month.toUpperCase()];
+          const dayNum = String(event.day).padStart(2, '0');
+          const eventYear = event.year || String(currentYear);
+          return {
+            '@context': 'https://schema.org',
+            '@type': 'Event',
+            name: `${siteConfig.name} at ${event.title}`,
+            startDate: `${eventYear}-${monthNum}-${dayNum}`,
+            location: {
+              '@type': 'Place',
+              name: event.venue,
+              address: event.location,
+            },
+            performer: {
+              '@type': 'Person',
+              name: siteConfig.name,
+            },
+          };
+        })
+    : [];
 ---
 
 <meta charset="utf-8" />
@@ -82,10 +105,16 @@ const jsonLdEvents = Array.isArray(events)
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, canonicalURL)} />
 
-<!-- Google Fonts Preconnect -->
+<!-- Google Fonts Preconnect & Stylesheet -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap"
+/>
 
 <!-- Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(jsonLdPerson)} />
-<script type="application/ld+json" set:html={JSON.stringify(jsonLdEvents)} />
+{jsonLdEvents.length > 0 && (
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdEvents)} />
+)}

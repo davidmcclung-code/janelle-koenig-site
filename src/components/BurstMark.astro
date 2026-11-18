@@ -1,0 +1,105 @@
+---
+interface Props {
+  strokeWidth?: number | string;
+  animated?: boolean;
+  class?: string;
+}
+
+const {
+  strokeWidth = 2.5,
+  animated = false,
+  class: className,
+} = Astro.props;
+---
+
+<svg
+  class:list={['burst-mark-svg', { 'is-animated': animated }, className]}
+  width="44"
+  height="44"
+  viewBox="0 0 46 46"
+  fill="none"
+  aria-hidden="true"
+>
+  <line class="burst-ray ray-bottom" x1="10" y1="36" x2="2" y2="40" stroke="var(--colour-primary)" stroke-width={strokeWidth} stroke-linecap="round" />
+  <line class="burst-ray ray-middle" x1="14" y1="23" x2="2" y2="19" stroke="var(--colour-primary)" stroke-width={strokeWidth} stroke-linecap="round" />
+  <line class="burst-ray ray-top" x1="22" y1="12" x2="14" y2="2" stroke="var(--colour-primary)" stroke-width={strokeWidth} stroke-linecap="round" />
+</svg>
+
+<style>
+  .burst-mark-svg {
+    display: block;
+    width: var(--burst-size, 44px);
+    height: var(--burst-size, 44px);
+    overflow: visible;
+  }
+
+  .burst-mark-svg.is-animated {
+    transform-origin: 30px 30px;
+    animation: giggleWrapper 1.4s var(--ease-out) 200ms 1 both;
+  }
+
+  .burst-ray {
+    transform-box: view-box;
+  }
+
+  .is-animated .ray-bottom {
+    transform-origin: 10px 36px;
+    animation: giggleBottom 1.4s var(--ease-out) 200ms 1 both;
+  }
+
+  .is-animated .ray-middle {
+    transform-origin: 14px 23px;
+    animation: giggleMiddle 1.4s var(--ease-out) 200ms 1 both;
+  }
+
+  .is-animated .ray-top {
+    transform-origin: 22px 12px;
+    animation: giggleTop 1.4s var(--ease-out) 200ms 1 both;
+  }
+
+  @keyframes giggleWrapper {
+    0% { transform: rotate(0deg); }
+    3% { transform: rotate(-2.5deg); }
+    6% { transform: rotate(2deg); }
+    10% { transform: rotate(-1.5deg); }
+    14% { transform: rotate(1deg); }
+    18%, 100% { transform: rotate(0deg); }
+  }
+
+  @keyframes giggleBottom {
+    0% { transform: scale(1); opacity: 0.8; }
+    2.5% { transform: scale(1.24); opacity: 1; }
+    5.5% { transform: scale(0.92); opacity: 0.85; }
+    8.5% { transform: scale(1.3); opacity: 1; }
+    13% { transform: scale(0.97); opacity: 0.9; }
+    18%, 100% { transform: scale(1); opacity: 0.8; }
+  }
+
+  @keyframes giggleMiddle {
+    0% { transform: scale(1); opacity: 0.8; }
+    3.5% { transform: scale(0.9); opacity: 0.85; }
+    6.5% { transform: scale(1.28); opacity: 1; }
+    10% { transform: scale(0.95); opacity: 0.85; }
+    14% { transform: scale(1.22); opacity: 1; }
+    19%, 100% { transform: scale(1); opacity: 0.8; }
+  }
+
+  @keyframes giggleTop {
+    0% { transform: scale(1); opacity: 0.8; }
+    2% { transform: scale(0.94); opacity: 0.85; }
+    5% { transform: scale(1.22); opacity: 1; }
+    8% { transform: scale(0.9); opacity: 0.85; }
+    12% { transform: scale(1.32); opacity: 1; }
+    17% { transform: scale(0.96); opacity: 0.9; }
+    21%, 100% { transform: scale(1); opacity: 0.8; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .burst-mark-svg.is-animated,
+    .is-animated .burst-ray {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
