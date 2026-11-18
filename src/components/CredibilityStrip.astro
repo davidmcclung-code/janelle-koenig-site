@@ -57,7 +57,7 @@ const logos = await Promise.all(
                   alt={logo.alt}
                   width={logo.sources.width}
                   height={logo.sources.height}
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   class="media-logo-img"
                 />
@@ -85,11 +85,13 @@ const logos = await Promise.all(
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(12px, 2.5vw, 32px);
+    gap: clamp(16px, 3vw, 36px);
   }
 
   .credibility-label-wrapper {
     flex-shrink: 0;
+    padding-right: clamp(12px, 2vw, 24px);
+    border-right: 1px solid var(--colour-border);
   }
 
   .credibility-label {
@@ -106,7 +108,7 @@ const logos = await Promise.all(
     flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(6px, 2vw, 28px);
+    gap: clamp(8px, 2vw, 28px);
     flex: 1;
     width: auto;
   }
@@ -116,8 +118,13 @@ const logos = await Promise.all(
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    opacity: 0.9;
+    opacity: 0.85;
     color: var(--colour-ink);
+    transition: opacity var(--motion-fast) var(--ease-out);
+  }
+
+  .logo-item:hover {
+    opacity: 1;
   }
 
   .media-logo-img {
@@ -126,12 +133,11 @@ const logos = await Promise.all(
     max-width: 100%;
     object-fit: contain;
     filter: grayscale(100%) contrast(120%);
-    transition: opacity var(--motion-fast) var(--ease-out);
   }
 
   /* Optical Normalisation for Balanced Visual Weight */
   .logo-abc .media-logo-img {
-    height: 24px;
+    height: 22px;
   }
 
   .logo-nine .media-logo-img {
@@ -143,22 +149,27 @@ const logos = await Promise.all(
   }
 
   .logo-sbs .media-logo-img {
-    height: 17px;
+    height: 17.5px;
   }
 
   .logo-prime .media-logo-img {
-    height: 14px;
+    height: 16.5px;
   }
 
   .logo-project .media-logo-img {
-    height: 15px;
+    height: 16.5px;
   }
 
   .logo-nova .media-logo-img {
-    height: 18px;
+    height: 20px;
   }
 
-  @media (max-width: 849px) {
+  @media (max-width: 639px) {
+    .credibility-label-wrapper {
+      padding-right: 0;
+      border-right: none;
+    }
+
     .hide-on-mobile {
       display: none !important;
     }

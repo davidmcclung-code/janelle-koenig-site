@@ -104,18 +104,33 @@ const thumbSources = await createResponsiveSourceSet(
     }
   }
 
+  @media (max-width: 479px) {
+    .video-card {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
   .video-thumbnail-container {
     position: relative;
     display: block;
     width: 100%;
     padding: 0;
-    border: none;
+    border: 1px solid rgba(18, 18, 18, 0.08);
     text-align: left;
     aspect-ratio: 16 / 9;
     border-radius: var(--radius-md);
     overflow: hidden;
     cursor: pointer;
     background-color: var(--colour-dark-stage);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--motion-fast) var(--ease-out),
+                transform var(--motion-fast) var(--ease-out);
+  }
+
+  .video-thumbnail-container:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
   }
 
   .video-thumbnail {
@@ -244,6 +259,13 @@ const thumbSources = await createResponsiveSourceSet(
 
   .video-card-cta:hover {
     color: var(--colour-primary-hover);
-    transform: translateX(2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .video-thumbnail-container:hover,
+    .video-thumbnail-container:hover .video-thumbnail,
+    .video-thumbnail-container:hover .play-button {
+      transform: none;
+    }
   }
 </style>

@@ -60,18 +60,24 @@ const mcWideSources = await createResponsiveSourceSet(
             media="(min-width: 850px)"
             type="image/avif"
             srcset={mcWideSources.avifSrcset}
-            sizes="(min-width: 1280px) 615px, 48vw"
+            sizes="(min-width: 1280px) 52vw, 48vw"
+            width={mcWideSources.width}
+            height={mcWideSources.height}
           />
           <source
             media="(min-width: 850px)"
             type="image/webp"
             srcset={mcWideSources.webpSrcset}
-            sizes="(min-width: 1280px) 615px, 48vw"
+            sizes="(min-width: 1280px) 52vw, 48vw"
+            width={mcWideSources.width}
+            height={mcWideSources.height}
           />
           <source
             media="(min-width: 850px)"
             srcset={mcWideSources.fallbackSrcset}
-            sizes="(min-width: 1280px) 615px, 48vw"
+            sizes="(min-width: 1280px) 52vw, 48vw"
+            width={mcWideSources.width}
+            height={mcWideSources.height}
           />
 
           <!-- Compact variant (below 850px) -->
@@ -79,11 +85,15 @@ const mcWideSources = await createResponsiveSourceSet(
             type="image/avif"
             srcset={mcCompactSources.avifSrcset}
             sizes="(min-width: 600px) 46vw, 45vw"
+            width={mcCompactSources.width}
+            height={mcCompactSources.height}
           />
           <source
             type="image/webp"
             srcset={mcCompactSources.webpSrcset}
             sizes="(min-width: 600px) 46vw, 45vw"
+            width={mcCompactSources.width}
+            height={mcCompactSources.height}
           />
           <img
             src={mcCompactSources.fallbackSrc}
@@ -119,7 +129,7 @@ const mcWideSources = await createResponsiveSourceSet(
     display: grid;
     grid-template-columns: 54% 46%;
     align-items: stretch;
-    min-height: 165px;
+    min-height: 184px;
     width: 100%;
     max-width: var(--container-max-width);
     margin-inline: auto;
@@ -127,20 +137,51 @@ const mcWideSources = await createResponsiveSourceSet(
     z-index: 1;
   }
 
+  .banner-media::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: clamp(32px, 7vw, 100px);
+    background: linear-gradient(to right, var(--colour-banner-warm) 0%, rgba(235, 216, 205, 0) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
   @media (min-width: 850px) {
     .banner-grid {
-      grid-template-columns: 52% 48%;
-      min-height: 176px;
+      max-width: none;
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, calc(var(--container-max-width) * 0.52))
+        minmax(0, calc(var(--container-max-width) * 0.48))
+        minmax(0, 1fr);
+      min-height: 204px;
+    }
+
+    .banner-content {
+      grid-column: 2 / 3;
+    }
+
+    .banner-media {
+      grid-column: 3 / 5;
     }
 
     .banner-media::before {
+      width: 110px;
+    }
+  }
+
+  @media (min-width: 1520px) {
+    .banner-media::after {
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
+      right: 0;
       bottom: 0;
-      width: 100px;
-      background: linear-gradient(to right, var(--colour-banner-warm) 0%, rgba(235, 216, 205, 0) 100%);
+      width: 120px;
+      background: linear-gradient(to left, rgba(10, 10, 18, 0.7) 0%, rgba(10, 10, 18, 0) 100%);
       z-index: 2;
       pointer-events: none;
     }
@@ -238,7 +279,7 @@ const mcWideSources = await createResponsiveSourceSet(
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 12%;
+    object-position: 48% 2%;
   }
 
   .banner-media > .banner-img {
@@ -248,14 +289,14 @@ const mcWideSources = await createResponsiveSourceSet(
 
   @media (min-width: 850px) {
     .banner-img {
-      object-position: 50% 18%;
+      object-position: 38% 3%;
     }
   }
 
   @media (max-width: 600px) {
     .banner-grid {
-      grid-template-columns: 58% 42%;
-      min-height: 175px;
+      grid-template-columns: 57% 43%;
+      min-height: 188px;
     }
 
     .banner-content {

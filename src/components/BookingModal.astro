@@ -3,7 +3,7 @@ import { siteConfig } from '../data/siteConfig';
 import CloseIcon from './CloseIcon.astro';
 ---
 
-<dialog id="booking-modal" class="booking-dialog" aria-labelledby="booking-modal-title">
+<dialog id="booking-modal" class="booking-dialog" aria-labelledby="booking-modal-title" closedby="any">
   <div class="booking-card">
     <!-- Header -->
     <div class="booking-header">
@@ -164,12 +164,17 @@ import CloseIcon from './CloseIcon.astro';
     border-radius: var(--radius-lg);
     background: transparent;
     max-width: 680px;
-    width: calc(100% - 2rem);
+    width: calc(100% - 1.5rem);
+    max-height: calc(100vh - 1.5rem);
+    max-height: calc(100dvh - 1.5rem);
     margin: auto;
+    overflow: hidden;
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
   }
 
   .booking-dialog[open] {
+    display: flex;
+    flex-direction: column;
     animation: modalScaleIn 260ms var(--ease-out) forwards;
   }
 
@@ -204,6 +209,8 @@ import CloseIcon from './CloseIcon.astro';
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    max-height: 100%;
+    min-height: 0;
     border: 1px solid var(--colour-border);
   }
 
@@ -211,7 +218,8 @@ import CloseIcon from './CloseIcon.astro';
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: var(--space-6) var(--space-7) var(--space-4);
+    flex-shrink: 0;
+    padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1.15rem, 3vw, 2.25rem) var(--space-4);
     border-bottom: 1px solid var(--colour-border);
   }
 
@@ -267,10 +275,11 @@ import CloseIcon from './CloseIcon.astro';
   }
 
   .booking-body {
-    padding: var(--space-6) var(--space-7);
-    max-height: 80vh;
-    max-height: 80dvh;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1.15rem, 3vw, 2.25rem);
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .booking-intro {
@@ -287,7 +296,7 @@ import CloseIcon from './CloseIcon.astro';
     gap: var(--space-4);
   }
 
-  @media (min-width: 540px) {
+  @media (min-width: 620px) {
     .form-grid {
       grid-template-columns: 1fr 1fr;
     }

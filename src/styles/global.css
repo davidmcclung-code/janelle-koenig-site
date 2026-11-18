@@ -14,6 +14,19 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+[id="shows"],
+[id="watch"],
+[id="mc-events"],
+[id="substack"] {
+  scroll-margin-top: 24px;
+}
+
 body {
   background-color: var(--colour-page);
   color: var(--colour-ink);
@@ -245,11 +258,16 @@ dialog::backdrop {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  html {
+    scroll-behavior: auto;
+  }
+
+  .btn,
+  .btn:hover,
+  .btn:active,
+  .arrow-icon {
+    transition-property: color, background-color, border-color, box-shadow;
+    transform: none !important;
   }
 
   .reveal,

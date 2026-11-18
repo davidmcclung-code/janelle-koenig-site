@@ -115,8 +115,8 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
         <figure class="editorial-figure">
           <div class="editorial-frame">
             <picture>
-              <source type="image/avif" srcset={guitarSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" />
-              <source type="image/webp" srcset={guitarSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" />
+              <source type="image/avif" srcset={guitarSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" width={guitarSources.width} height={guitarSources.height} />
+              <source type="image/webp" srcset={guitarSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" width={guitarSources.width} height={guitarSources.height} />
               <img
                 src={guitarSources.fallbackSrc}
                 srcset={guitarSources.fallbackSrcset}
@@ -139,8 +139,8 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
         <figure class="editorial-figure offset">
           <div class="editorial-frame">
             <picture>
-              <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" />
-              <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" />
+              <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" width={pawaSources.width} height={pawaSources.height} />
+              <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" width={pawaSources.width} height={pawaSources.height} />
               <img
                 src={pawaSources.fallbackSrc}
                 srcset={pawaSources.fallbackSrcset}
@@ -223,8 +223,8 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
       <div class="ambassador-panel reveal">
         <div class="ambassador-photo">
           <picture>
-            <source type="image/avif" srcset={galaSources.avifSrcset} sizes="(min-width: 900px) 380px, 90vw" />
-            <source type="image/webp" srcset={galaSources.webpSrcset} sizes="(min-width: 900px) 380px, 90vw" />
+            <source type="image/avif" srcset={galaSources.avifSrcset} sizes="(min-width: 900px) 380px, 90vw" width={galaSources.width} height={galaSources.height} />
+            <source type="image/webp" srcset={galaSources.webpSrcset} sizes="(min-width: 900px) 380px, 90vw" width={galaSources.width} height={galaSources.height} />
             <img
               src={galaSources.fallbackSrc}
               srcset={galaSources.fallbackSrcset}
@@ -345,7 +345,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
   .bio-hero-figure {
     margin: 0;
     width: 100%;
-    max-width: clamp(210px, 21vw, 255px);
+    max-width: clamp(220px, 23vw, 285px);
   }
 
   .hero-popout-stage {
@@ -532,6 +532,11 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     border-top: 2px solid var(--colour-ink);
     padding-top: var(--space-4);
     min-width: 0;
+    transition: border-color var(--motion-fast) var(--ease-out);
+  }
+
+  .pillar-col:hover {
+    border-top-color: var(--colour-primary);
   }
 
   .pillar-num {
@@ -661,7 +666,6 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   .ambassador-link:hover {
     color: var(--colour-primary-hover);
-    transform: translateX(2px);
   }
 
   /* ==========================================================================

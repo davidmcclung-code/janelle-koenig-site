@@ -7,7 +7,7 @@
 import CloseIcon from './CloseIcon.astro';
 ---
 
-<dialog id="gallery-lightbox" class="gallery-lightbox" aria-label="Photo Story Lightbox">
+<dialog id="gallery-lightbox" class="gallery-lightbox" aria-label="Photo Story Lightbox" closedby="any">
   <div class="lightbox-backdrop-wrap">
     <div class="lightbox-modal-card" id="lightbox-modal-card">
       <!-- Left: Uncropped Photo Stage -->
@@ -44,22 +44,25 @@ import CloseIcon from './CloseIcon.astro';
         </div>
 
         <footer class="drawer-footer">
-          <button
-            type="button"
-            class="lightbox-pill-btn lightbox-prev"
-            id="lightbox-prev"
-            aria-label="Previous photo (Left Arrow)"
-          >
-            ← PREV
-          </button>
-          <button
-            type="button"
-            class="lightbox-pill-btn lightbox-next is-primary"
-            id="lightbox-next"
-            aria-label="Next photo (Right Arrow)"
-          >
-            NEXT →
-          </button>
+          <div class="drawer-controls">
+            <button
+              type="button"
+              class="lightbox-pill-btn lightbox-prev"
+              id="lightbox-prev"
+              aria-label="Previous photo (Left Arrow)"
+            >
+              ← PREV
+            </button>
+            <button
+              type="button"
+              class="lightbox-pill-btn lightbox-next is-primary"
+              id="lightbox-next"
+              aria-label="Next photo (Right Arrow)"
+            >
+              NEXT →
+            </button>
+          </div>
+          <p class="drawer-kbd-hint" aria-hidden="true">← / → to browse · Esc to close</p>
         </footer>
       </aside>
     </div>
@@ -216,6 +219,7 @@ import CloseIcon from './CloseIcon.astro';
     align-items: center;
     justify-content: space-between;
     flex-shrink: 0;
+    padding-right: 4px;
   }
 
   .lightbox-counter {
@@ -307,11 +311,34 @@ import CloseIcon from './CloseIcon.astro';
   /* Drawer Footer Controls */
   .drawer-footer {
     display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding-top: var(--space-2);
+    flex-direction: column;
+    gap: 8px;
+    padding-top: var(--space-3);
     border-top: 1px solid var(--colour-dark-border);
     flex-shrink: 0;
+  }
+
+  .drawer-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+  }
+
+  .drawer-kbd-hint {
+    display: none;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    color: var(--colour-dark-muted);
+    letter-spacing: 0.03em;
+  }
+
+  @media (min-width: 900px) {
+    .drawer-kbd-hint {
+      display: block;
+    }
   }
 
   .lightbox-pill-btn {
@@ -403,16 +430,40 @@ import CloseIcon from './CloseIcon.astro';
   const prefersReducedMotion = () =>
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  function getVisibleItems(): { items: GalleryItemData[]; indexMap: WeakMap<HTMLElement, number> } {
+    const tiles = Array.from(document.querySelectorAll<HTMLElement>('[data-gallery-tile]')).filter(
+      (tile) => !tile.hidden
+    );
+    const indexMap = new WeakMap<HTMLElement, number>();
+    const items = tiles.map((tile, idx) => {
+      indexMap.set(tile, idx);
+      return {
+        src: tile.dataset.src || '',
+        alt: tile.dataset.alt || '',
+        badge: tile.dataset.badge || '',
+        category: tile.dataset.category || '',
+        title: tile.dataset.title || '',
+        caption: tile.dataset.caption || '',
+      };
+    });
+    return { items, indexMap };
+  }
+
+  function preloadAdjacent(index: number) {
+    if (galleryItems.length <= 1) return;
+    const prevIdx = (index - 1 + galleryItems.length) % galleryItems.length;
+    const nextIdx = (index + 1) % galleryItems.length;
+    [prevIdx, nextIdx].forEach((idx) => {
+      const src = galleryItems[idx]?.src;
+      if (src) {
+        const pre = new Image();
+        pre.src = src;
+      }
+    });
+  }
+
   function initGalleryData() {
-    const tiles = document.querySelectorAll<HTMLElement>('[data-gallery-tile]');
-    galleryItems = Array.from(tiles).map((tile) => ({
-      src: tile.dataset.src || '',
-      alt: tile.dataset.alt || '',
-      badge: tile.dataset.badge || '',
-      category: tile.dataset.category || '',
-      title: tile.dataset.title || '',
-      caption: tile.dataset.caption || '',
-    }));
+    galleryItems = getVisibleItems().items;
   }
 
   function populateItem(index: number) {
@@ -423,12 +474,13 @@ import CloseIcon from './CloseIcon.astro';
     imgEl.alt = item.alt;
 
     const total = String(galleryItems.length).padStart(2, '0');
-    const num = item.badge || String(index + 1).padStart(2, '0');
+    const num = String(index + 1).padStart(2, '0');
     if (counterEl) counterEl.textContent = `${num} / ${total}`;
     if (categoryEl) categoryEl.textContent = item.category;
     if (titleEl) titleEl.textContent = item.title;
     if (captionEl) captionEl.textContent = item.caption;
     if (storyBodyEl) storyBodyEl.scrollTop = 0;
+    preloadAdjacent(index);
   }
 
   function animateStep(direction: 'next' | 'prev') {
@@ -452,9 +504,11 @@ import CloseIcon from './CloseIcon.astro';
     );
   }
 
-  async function openLightbox(index: number, triggerEl: HTMLElement) {
+  async function openLightbox(triggerEl: HTMLElement) {
     if (!lightbox || !imgEl) return;
-    if (!galleryItems.length) initGalleryData();
+    const { items, indexMap } = getVisibleItems();
+    galleryItems = items;
+    const index = indexMap.get(triggerEl) ?? 0;
 
     const sourceImg = triggerEl.querySelector<HTMLElement>('img');
     const firstRect = sourceImg?.getBoundingClientRect() ?? triggerEl.getBoundingClientRect();
@@ -535,11 +589,13 @@ import CloseIcon from './CloseIcon.astro';
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
     const tile = target.closest<HTMLElement>('[data-gallery-tile]');
-    if (tile) {
-      const indexStr = tile.dataset.index;
-      const index = indexStr !== undefined ? parseInt(indexStr, 10) : 0;
-      openLightbox(index, tile);
+    if (tile && !tile.hidden) {
+      openLightbox(tile);
     }
+  });
+
+  window.addEventListener('gallery:filter-change', () => {
+    initGalleryData();
   });
 
   closeBtn?.addEventListener('click', closeLightbox);

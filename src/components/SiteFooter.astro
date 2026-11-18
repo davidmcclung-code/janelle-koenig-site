@@ -15,7 +15,7 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
       <!-- Brand & Bio Column -->
       <div class="footer-brand-col">
         <a href={asset('/')} class="footer-logo-link" aria-label="Janelle Koenig Home">
-          <BrandLogo variant="light" loading="lazy" />
+          <BrandLogo variant="light" loading="eager" />
         </a>
         <p class="footer-bio wrap-break">
           Comedian. Writer. Indoors enthusiast.<br />
@@ -127,7 +127,12 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
       <p class="copyright-text wrap-break">
         &copy; {currentYear} {siteConfig.name}. All rights reserved.
       </p>
-      <div class="studio-credit wrap-break">
+      <div class="footer-bottom-right">
+        <a href="#site-header" class="back-to-top-link">
+          <span>Back to top</span>
+          <span aria-hidden="true">↑</span>
+        </a>
+        <div class="studio-credit wrap-break">
         <a
           href={siteConfig.studioCredit.url || 'https://www.mcclung.com.au'}
           target="_blank"
@@ -155,11 +160,12 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
               class="credit-logo"
               width={creditLogoSources.width}
               height={creditLogoSources.height}
-              loading="lazy"
+              loading="eager"
               decoding="async"
             />
           </picture>
         </a>
+        </div>
       </div>
     </div>
   </div>
@@ -190,8 +196,8 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     }
 
     .footer-grid {
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
-      gap: 16px 20px;
+      grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.45fr);
+      gap: 16px 12px;
     }
 
     .footer-brand-col {
@@ -257,7 +263,7 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     }
 
     .footer-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr);
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr) minmax(0, 1.15fr);
       gap: var(--space-5);
     }
 
@@ -269,7 +275,7 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
 
   @media (min-width: 850px) {
     .footer-grid {
-      grid-template-columns: 2fr 1fr 1fr 1.25fr;
+      grid-template-columns: 1.75fr 0.95fr 1.35fr 1.25fr;
       gap: clamp(20px, 3vw, 40px);
     }
 
@@ -291,10 +297,11 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
 
   .footer-logo-link :global(.brand-logo-img),
   .footer-logo-link :global(img) {
-    width: 115px !important;
-    max-width: 115px;
+    width: 118px !important;
+    max-width: 118px;
     height: auto !important;
     display: block;
+    filter: brightness(2.05) saturate(0.78);
   }
 
   .footer-bio {
@@ -347,9 +354,30 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
   .footer-social-icons {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 2px;
-    margin-left: -8px;
+    margin-left: -10px;
+  }
+
+  @media (max-width: 639px) {
+    .footer-social-icons {
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-left: -6px;
+    }
+
+    .social-icon-link {
+      position: relative;
+      min-width: 34px;
+      min-height: 34px;
+      padding: 6px;
+    }
+
+    .social-icon-link::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+    }
   }
 
   .social-icon-link {
@@ -410,10 +438,40 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    margin-top: clamp(1.25rem, 1.75vw, 1.5rem);
+    margin-top: clamp(1.5rem, 2.2vw, 1.85rem);
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.75rem;
     line-height: 1.4;
     color: var(--colour-footer-muted);
+  }
+
+  .footer-bottom-right {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+
+  .back-to-top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 44px;
+    padding: 0 4px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+    transition: color var(--motion-fast) var(--ease-out),
+                transform var(--motion-fast) var(--ease-out);
+  }
+
+  .back-to-top-link:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
   }
 
   .copyright-text,
@@ -426,6 +484,11 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+    }
+
+    .footer-bottom-right {
+      justify-content: flex-end;
+      gap: var(--space-6);
     }
   }
 
@@ -478,7 +541,8 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
 
   @media (prefers-reduced-motion: reduce) {
     .social-icon-link:hover,
-    .credit-link:hover {
+    .credit-link:hover,
+    .back-to-top-link:hover {
       transform: none;
     }
   }

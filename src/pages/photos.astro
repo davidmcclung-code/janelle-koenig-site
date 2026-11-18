@@ -45,11 +45,15 @@ const pageDescription = 'Photos of Janelle Koenig performing comedy, hosting eve
             type="image/avif"
             srcset={galleryHeroSources.avifSrcset}
             sizes="(min-width: 1024px) 165px, (min-width: 768px) 140px, 120px"
+            width={galleryHeroSources.width}
+            height={galleryHeroSources.height}
           />
           <source
             type="image/webp"
             srcset={galleryHeroSources.webpSrcset}
             sizes="(min-width: 1024px) 165px, (min-width: 768px) 140px, 120px"
+            width={galleryHeroSources.width}
+            height={galleryHeroSources.height}
           />
           <img
             src={galleryHeroSources.fallbackSrc}

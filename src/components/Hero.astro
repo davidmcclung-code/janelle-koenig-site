@@ -89,9 +89,9 @@ const heroSources = await createResponsiveSourceSet(
 
   .hero-container {
     position: relative;
-    min-height: 660px;
+    min-height: clamp(540px, 44vw, 610px);
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   }
 
   /* Left Content Column - Preserving text block sizing and button sizing */
@@ -100,8 +100,8 @@ const heroSources = await createResponsiveSourceSet(
     z-index: 3;
     max-width: 480px;
     min-width: 0;
-    padding-top: 118px;
-    padding-bottom: 3.5rem;
+    padding-top: clamp(56px, 6vw, 84px);
+    padding-bottom: clamp(2.75rem, 4.5vw, 3.75rem);
     display: flex;
     flex-direction: column;
   }
@@ -193,12 +193,12 @@ const heroSources = await createResponsiveSourceSet(
     }
   }
 
-  /* Red 3-Line Burst Mark beside Janelle's Head */
+  /* Red 3-Line Burst Mark anchored beside Janelle's Head */
   .hero-burst-mark {
     display: block;
     position: absolute;
-    left: clamp(440px, 44vw, 570px);
-    top: clamp(85px, 9.5vw, 115px);
+    right: calc(clamp(440px, 45vw, 560px) + clamp(15px, 3.5vw, 55px) - 24px);
+    top: clamp(72px, 7.5vw, 98px);
     z-index: 2;
   }
 
@@ -235,17 +235,17 @@ const heroSources = await createResponsiveSourceSet(
   /* Tablet Landscape & Medium Screens (850px - 1149px) */
   @media (min-width: 850px) and (max-width: 1149px) {
     .hero-container {
-      min-height: clamp(520px, 54vw, 620px);
+      min-height: clamp(500px, 51vw, 580px);
     }
 
     .hero-content {
-      padding-top: clamp(80px, 9vw, 105px);
+      padding-top: clamp(60px, 7vw, 84px);
       padding-bottom: 2.5rem;
     }
 
     .hero-burst-mark {
-      left: clamp(430px, 45vw, 520px);
-      top: clamp(65px, 7.5vw, 90px);
+      right: calc(clamp(460px, 49vw, 540px) + clamp(15px, 3.5vw, 55px) - 28px);
+      top: clamp(58px, 6.5vw, 82px);
     }
 
     .hero-media {
@@ -309,6 +309,7 @@ const heroSources = await createResponsiveSourceSet(
     }
 
     .hero-burst-mark {
+      right: auto;
       left: 47%;
       top: clamp(14px, 3.5vw, 24px);
       transform: scale(0.75);

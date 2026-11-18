@@ -2,16 +2,49 @@
 /**
  * GalleryGrid.astro
  * Editorial contact sheet: natural-proportion asymmetric rows for live/event
- * photography, followed by a framed 5-poster archive row.
+ * photography, category filtering, and a framed 5-poster archive row.
  */
 import { Image } from 'astro:assets';
 import { indexedMainRows, indexedPosters } from '../data/gallery';
+
+const allMainItems = indexedMainRows.flatMap((row) => row.items);
+const stageCount = allMainItems.filter((i) => i.filterGroup === 'stage').length;
+const hostingCount = allMainItems.filter((i) => i.filterGroup === 'hosting').length;
+const eventsCount = allMainItems.filter((i) => i.filterGroup === 'events').length;
+const postersCount = indexedPosters.length;
+const totalCount = allMainItems.length + postersCount;
+
+const filters = [
+  { id: 'all', label: 'All', count: totalCount },
+  { id: 'stage', label: 'On Stage', count: stageCount },
+  { id: 'hosting', label: 'MC & Hosting', count: hostingCount },
+  { id: 'events', label: 'TV & Events', count: eventsCount },
+  { id: 'posters', label: 'Show Posters', count: postersCount },
+] as const;
 ---
 
 <section class="gallery-grid-section" aria-label="Photo Gallery">
   <div class="container gallery-grid-container">
+    <!-- Interactive Category Filter Toolbar -->
+    <div class="gallery-toolbar">
+      <div class="gallery-filters" role="group" aria-label="Filter gallery by category">
+        {filters.map((filter) => (
+          <button
+            type="button"
+            class:list={['filter-pill', { 'is-active': filter.id === 'all' }]}
+            data-gallery-filter={filter.id}
+            aria-pressed={filter.id === 'all' ? 'true' : 'false'}
+          >
+            <span>{filter.label}</span>
+            <span class="filter-count">{filter.count}</span>
+          </button>
+        ))}
+      </div>
+      <p class="gallery-hint">Tap or click any frame to read the story behind it.</p>
+    </div>
+
     <!-- Primary Contact Sheet: 16 Live, Event & Hosting Photographs -->
-    <div class="gallery-rows">
+    <div class="gallery-rows" id="gallery-rows">
       {
         indexedMainRows.map((row, rowIndex) => (
           <div
@@ -27,6 +60,7 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
                 ]}
                 style={`--stagger-delay: ${item.staggerDelay}ms;`}
                 data-gallery-tile
+                data-filter-group={item.filterGroup}
                 data-index={item.globalIndex}
                 data-src={item.image.src}
                 data-alt={item.alt}
@@ -56,7 +90,7 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
                     <div class="overlay-content">
                       <span class="overlay-meta">{item.badge} · {item.title}</span>
                       <p class="overlay-caption line-clamp-2">“{item.caption}”</p>
-                      <span class="overlay-cta" aria-hidden="true">Click to open Story Lightbox →</span>
+                      <span class="overlay-cta" aria-hidden="true">Open story →</span>
                     </div>
                   </div>
                 </div>
@@ -68,7 +102,7 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     </div>
 
     <!-- Secondary Row: Show Posters & Archive -->
-    <div class="gallery-archive-block">
+    <div class="gallery-archive-block" id="gallery-archive-block">
       <div class="archive-header">
         <div class="archive-titles">
           <span class="font-script archive-eyebrow">Proof of range (and 90s eyebrows)</span>
@@ -85,6 +119,7 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
               class="gallery-tile is-poster"
               style={`--stagger-delay: ${item.staggerDelay}ms;`}
               data-gallery-tile
+              data-filter-group={item.filterGroup}
               data-index={item.globalIndex}
               data-src={item.image.src}
               data-alt={item.alt}
@@ -96,24 +131,26 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
               aria-label={`Open poster ${item.badge}: ${item.title}`}
             >
               <div class="tile-inner is-poster-inner">
-                <span class="tile-badge" aria-hidden="true">{item.badge}</span>
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  width={600}
-                  height={720}
-                  widths={[220, 320, 480, 600]}
-                  sizes="(min-width: 1024px) 240px, 50vw"
-                  loading="lazy"
-                  decoding="async"
-                  class="tile-img is-poster-img"
-                />
-                <div class="tile-overlay">
-                  <div class="overlay-content">
-                    <span class="overlay-meta">{item.badge} · {item.title}</span>
-                    <p class="overlay-caption line-clamp-2">“{item.caption}”</p>
-                    <span class="overlay-cta" aria-hidden="true">Click to open Story Lightbox →</span>
-                  </div>
+                <div class="poster-stage">
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    width={600}
+                    height={720}
+                    widths={[220, 320, 480, 600]}
+                    sizes="(min-width: 1024px) 240px, 50vw"
+                    loading="lazy"
+                    decoding="async"
+                    class="poster-img"
+                  />
+                </div>
+                <div class="poster-meta-bar">
+                  <span class="poster-title-line">
+                    <span class="poster-num">{item.badge}</span>
+                    <span aria-hidden="true"> · </span>
+                    {item.title}
+                  </span>
+                  <span class="poster-cta" aria-hidden="true">Read story →</span>
                 </div>
               </div>
             </button>
@@ -126,6 +163,9 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
 
 <script>
   const tiles = Array.from(document.querySelectorAll<HTMLElement>('[data-gallery-tile]'));
+  const filterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-gallery-filter]'));
+  const rowsContainer = document.getElementById('gallery-rows');
+  const archiveBlock = document.getElementById('gallery-archive-block');
 
   function revealTile(tile: HTMLElement) {
     if (tile.classList.contains('is-revealed')) return;
@@ -157,13 +197,63 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
   } else {
     tiles.forEach((tile) => tile.classList.add('is-revealed', 'is-settled'));
   }
+
+  function applyFilter(filterId: string) {
+    filterBtns.forEach((btn) => {
+      const isActive = btn.dataset.galleryFilter === filterId;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    if (!rowsContainer || !archiveBlock) return;
+
+    if (filterId === 'all') {
+      rowsContainer.hidden = false;
+      rowsContainer.classList.remove('is-filtered');
+      archiveBlock.hidden = false;
+      archiveBlock.classList.remove('is-standalone');
+      tiles.forEach((tile) => {
+        tile.hidden = false;
+        revealTile(tile);
+      });
+    } else if (filterId === 'posters') {
+      rowsContainer.hidden = true;
+      rowsContainer.classList.remove('is-filtered');
+      archiveBlock.hidden = false;
+      archiveBlock.classList.add('is-standalone');
+      tiles.forEach((tile) => {
+        const match = tile.dataset.filterGroup === 'posters';
+        tile.hidden = !match;
+        if (match) revealTile(tile);
+      });
+    } else {
+      rowsContainer.hidden = false;
+      rowsContainer.classList.add('is-filtered');
+      archiveBlock.hidden = true;
+      archiveBlock.classList.remove('is-standalone');
+      tiles.forEach((tile) => {
+        const match = tile.dataset.filterGroup === filterId;
+        tile.hidden = !match;
+        if (match) revealTile(tile);
+      });
+    }
+
+    window.dispatchEvent(new CustomEvent('gallery:filter-change'));
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filterId = btn.dataset.galleryFilter || 'all';
+      applyFilter(filterId);
+    });
+  });
 </script>
 
 <style>
   .gallery-grid-section {
     --colour-focus: var(--colour-focus-on-dark);
     background-color: var(--colour-footer);
-    padding-top: clamp(2rem, 4vw, 3.25rem);
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
     padding-bottom: clamp(2.5rem, 5vw, 4rem);
     width: 100%;
     position: relative;
@@ -172,6 +262,78 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
 
   .gallery-grid-container {
     width: 100%;
+  }
+
+  /* ==========================================================================
+     Interactive Category Filter Toolbar
+     ========================================================================== */
+  .gallery-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    margin-bottom: clamp(1.25rem, 2.4vw, 1.85rem);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--colour-dark-border);
+  }
+
+  .gallery-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-xs);
+    background-color: var(--colour-dark-surface);
+    border: 1px solid var(--colour-dark-border-strong);
+    color: var(--colour-dark-ink);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out);
+    touch-action: manipulation;
+  }
+
+  .filter-pill:hover {
+    background-color: var(--colour-dark-elevated-hover);
+    border-color: var(--colour-dark-border-hover);
+    transform: translateY(-1px);
+  }
+
+  .filter-pill.is-active {
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+    color: #ffffff;
+  }
+
+  .filter-count {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    opacity: 0.78;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gallery-hint {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--colour-dark-muted);
+    margin: 0;
   }
 
   /* ==========================================================================
@@ -184,6 +346,12 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     width: 100%;
   }
 
+  .gallery-rows[hidden],
+  .gallery-archive-block[hidden],
+  .gallery-tile[hidden] {
+    display: none !important;
+  }
+
   .gallery-row {
     display: grid;
     grid-template-columns: var(--row-cols);
@@ -192,9 +360,25 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     width: 100%;
   }
 
-  /* Tablet & Mobile (< 1024px): dissolve row wrappers into a clean 2-col grid */
+  /* Filtered Category Grid View */
+  .gallery-rows.is-filtered {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(10px, 1.5vw, 16px);
+  }
+
+  .gallery-rows.is-filtered .gallery-row {
+    display: contents;
+  }
+
+  .gallery-rows.is-filtered .gallery-tile {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
   @media (max-width: 1023px) {
-    .gallery-rows {
+    .gallery-rows,
+    .gallery-rows.is-filtered {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
@@ -204,20 +388,28 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
       display: contents;
     }
 
-    .gallery-tile {
+    .gallery-tile,
+    .gallery-rows.is-filtered .gallery-tile {
       aspect-ratio: 4 / 5;
       height: auto;
     }
 
-    .gallery-tile.is-wide-mobile {
+    .gallery-tile.is-wide-mobile,
+    .gallery-rows.is-filtered .gallery-tile.is-wide-mobile {
       grid-column: 1 / -1;
       aspect-ratio: 16 / 10;
     }
   }
 
   @media (max-width: 480px) {
-    .gallery-rows {
+    .gallery-rows,
+    .gallery-rows.is-filtered {
       gap: 8px;
+    }
+
+    .filter-pill {
+      padding: 0.45rem 0.72rem;
+      font-size: 0.6875rem;
     }
   }
 
@@ -230,6 +422,12 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     margin-top: clamp(2.25rem, 4vw, 3.25rem);
     padding-top: clamp(1.5rem, 2.5vw, 2rem);
     border-top: 1px solid var(--colour-dark-border);
+  }
+
+  .gallery-archive-block.is-standalone {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
   }
 
   .archive-header {
@@ -273,13 +471,16 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
   .poster-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: clamp(8px, 1.2vw, 12px);
+    gap: clamp(10px, 1.4vw, 14px);
     width: 100%;
+    align-items: stretch;
   }
 
   .gallery-tile.is-poster {
-    aspect-ratio: 4 / 5;
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    aspect-ratio: auto;
   }
 
   @media (max-width: 1023px) {
@@ -290,7 +491,8 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
 
     .poster-grid .gallery-tile.is-poster:last-child {
       grid-column: 1 / -1;
-      aspect-ratio: 16 / 10;
+      width: calc(50% - 5px);
+      justify-self: center;
     }
   }
 
@@ -298,18 +500,29 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     .poster-grid {
       gap: 8px;
     }
+
+    .poster-grid .gallery-tile.is-poster:last-child {
+      width: calc(50% - 4px);
+    }
   }
 
   @media (max-width: 359px) {
     .gallery-rows,
+    .gallery-rows.is-filtered,
     .poster-grid {
       grid-template-columns: 1fr;
     }
 
     .gallery-tile,
     .gallery-tile.is-wide-mobile,
-    .poster-grid .gallery-tile.is-poster:last-child {
+    .gallery-rows.is-filtered .gallery-tile,
+    .gallery-rows.is-filtered .gallery-tile.is-wide-mobile {
       aspect-ratio: 4 / 3;
+    }
+
+    .poster-grid .gallery-tile.is-poster:last-child {
+      width: 100%;
+      grid-column: auto;
     }
   }
 
@@ -373,13 +586,6 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     transition: border-color var(--motion-fast) var(--ease-out);
   }
 
-  .is-poster-inner {
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .tile-img {
     width: 100%;
     height: 100%;
@@ -388,12 +594,76 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     transition: transform var(--motion-standard) var(--ease-out);
   }
 
-  .is-poster-img {
-    object-fit: contain;
-    border-radius: var(--radius-xs);
+  /* Poster Card: Dedicated Matte Stage + Metadata Footer (never clips or overlaps artwork) */
+  .is-poster-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--colour-dark-surface);
   }
 
-  /* Corner Index Pill */
+  .poster-stage {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    padding: 10px;
+    background-color: #0e0e0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .poster-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 2px;
+    transition: transform var(--motion-standard) var(--ease-out);
+  }
+
+  .poster-meta-bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 10px 12px 12px;
+    border-top: 1px solid var(--colour-dark-border);
+    background-color: var(--colour-dark-surface);
+  }
+
+  .poster-title-line {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .poster-num {
+    color: var(--colour-primary-on-dark);
+    font-weight: 800;
+  }
+
+  .poster-cta {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--colour-dark-muted);
+    transition: color var(--motion-fast) var(--ease-out);
+  }
+
+  .gallery-tile.is-poster:hover .poster-cta,
+  .gallery-tile.is-poster:focus-visible .poster-cta {
+    color: var(--colour-primary-on-dark);
+  }
+
+  /* Corner Index Pill on Photo Tiles */
   .tile-badge {
     position: absolute;
     top: 10px;
@@ -451,7 +721,9 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     }
 
     .gallery-tile:hover .tile-img,
-    .gallery-tile:focus-visible .tile-img {
+    .gallery-tile:focus-visible .tile-img,
+    .gallery-tile:hover .poster-img,
+    .gallery-tile:focus-visible .poster-img {
       transform: scale(1.03);
     }
   }
@@ -549,9 +821,11 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
     :global(.js) .gallery-tile:not(.is-revealed),
     .gallery-tile,
     .tile-img,
+    .poster-img,
     .tile-inner,
     .tile-badge,
-    .tile-overlay {
+    .tile-overlay,
+    .filter-pill {
       opacity: 1 !important;
       transform: none !important;
       transition: none !important;
