@@ -114,7 +114,7 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
         <div class="footer-contact-col">
           <h2 class="footer-heading">ENQUIRIES</h2>
           <div class="footer-contact-links">
-            <a href={`mailto:${siteConfig.email}`} class="footer-contact-link wrap-break">
+            <a href={`mailto:${siteConfig.email}`} class="footer-contact-link">
               {siteConfig.email}
             </a>
           </div>
@@ -190,7 +190,7 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     }
 
     .footer-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
       gap: 16px 20px;
     }
 
@@ -215,6 +215,11 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
       font-size: 0.8125rem;
       line-height: 1.35;
       padding: 6px 0;
+    }
+
+    .footer-contact-link {
+      font-size: clamp(0.72rem, 0.55rem + 0.8vw, 0.8125rem);
+      white-space: nowrap;
     }
 
     .footer-social-icons {
