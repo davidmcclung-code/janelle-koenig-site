@@ -254,13 +254,13 @@ const mcWideSources = await createResponsiveSourceSet(
 
   @media (max-width: 600px) {
     .banner-grid {
-      grid-template-columns: 55% 45%;
-      min-height: 165px;
+      grid-template-columns: 58% 42%;
+      min-height: 175px;
     }
 
     .banner-content {
       padding-left: var(--container-gutter);
-      padding-right: 0.5rem;
+      padding-right: 0.75rem;
     }
 
     .banner-title {
@@ -276,29 +276,26 @@ const mcWideSources = await createResponsiveSourceSet(
 
     .banner-actions {
       margin-top: 10px;
+      max-width: 100%;
     }
 
     .banner-btn {
       height: auto;
-      min-height: 30px;
-      padding: 0.3rem 0.7rem;
-      font-size: 0.72rem;
+      min-height: 44px;
+      max-width: 100%;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.7rem;
+      line-height: 1.25;
+      white-space: normal;
+      text-align: left;
     }
 
     .banner-btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 100%;
-      min-height: 44px;
-      width: calc(100% + 12px);
-      height: 44px;
+      display: none;
     }
 
     .banner-img {
-      object-position: 45% 15%;
+      object-position: 45% 0%;
     }
   }
 </style>

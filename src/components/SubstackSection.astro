@@ -362,13 +362,14 @@ const substackWideSources = await createResponsiveSourceSet(
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    padding-right: clamp(8px, 1.5vw, 18px);
     overflow: hidden;
   }
 
   .substack-picture {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    inset: 0 clamp(8px, 1.5vw, 18px) 0 0;
+    width: auto;
     height: 100%;
     display: flex;
     align-items: center;
@@ -407,13 +408,13 @@ const substackWideSources = await createResponsiveSourceSet(
 
   @media (max-width: 600px) {
     .substack-grid {
-      grid-template-columns: 50% 50%;
+      grid-template-columns: 54% 46%;
       min-height: 190px;
     }
 
     .substack-content {
       padding-left: var(--container-gutter);
-      padding-right: 0.5rem;
+      padding-right: 0.75rem;
       padding-top: var(--space-3);
       padding-bottom: var(--space-3);
     }
@@ -487,8 +488,12 @@ const substackWideSources = await createResponsiveSourceSet(
 
     .substack-btn {
       min-height: 44px;
-      font-size: 0.7rem;
-      padding: 0.4rem 0.75rem;
+      max-width: 100%;
+      font-size: 0.6875rem;
+      line-height: 1.25;
+      padding: 0.45rem 0.7rem;
+      white-space: normal;
+      text-align: left;
     }
 
     .substack-underline {

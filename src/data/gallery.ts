@@ -245,7 +245,7 @@ export const mainRows: GalleryRow[] = [
         title: 'Rise-Up Gala',
         caption: 'Here I am at the annual Rise-Up Gala where the waiters are all celebrities. People kept trying to tell me about their food allergies and drink orders because they thought I was a real waiter. I still don’t know if that’s a compliment or an insult. Ha ha.',
         alt: 'Janelle Koenig with fellow celebrity waiters at the annual Rise-Up Gala',
-        objectPosition: 'center 15%',
+        objectPosition: 'center top',
         isWideMobile: true,
       },
     ],

@@ -349,20 +349,20 @@ const heroSources = await createResponsiveSourceSet(
     }
 
     .hero-content {
-      max-width: 58%;
+      max-width: 57%;
       padding-top: 1.85rem;
-      padding-bottom: 1.15rem;
+      padding-bottom: 1.25rem;
     }
 
     .hero-title {
-      font-size: clamp(1.55rem, 1rem + 2.2vw, 1.95rem);
+      font-size: clamp(1.45rem, 1rem + 2.2vw, 1.95rem);
       margin-bottom: 8px;
     }
 
     .hero-subhead {
       font-size: 0.875rem;
-      max-width: 205px;
-      margin-bottom: 12px;
+      max-width: 215px;
+      margin-bottom: 14px;
     }
 
     .hero-actions {
@@ -374,14 +374,15 @@ const heroSources = await createResponsiveSourceSet(
     .hero-btn-watch {
       height: auto;
       min-height: 44px;
-      min-width: 130px;
-      font-size: 0.75rem;
+      min-width: 0;
+      font-size: 0.72rem;
       line-height: 1.2;
-      padding: 0.5rem 0.9rem;
+      padding: 0.5rem 0.85rem;
+      white-space: nowrap;
     }
 
     .hero-burst-mark {
-      left: 48%;
+      left: 50%;
       top: 12px;
       transform: scale(0.65);
     }
@@ -390,11 +391,11 @@ const heroSources = await createResponsiveSourceSet(
       position: absolute;
       bottom: 0;
       top: auto;
-      right: clamp(-15px, -2.5vw, -2px);
-      height: calc(100% - 8px);
-      max-height: 380px;
+      right: clamp(-24px, -4vw, -8px);
+      height: calc(100% - 12px);
+      max-height: 360px;
       width: auto;
-      max-width: 56%;
+      max-width: 48%;
       display: flex;
       align-items: flex-end;
       justify-content: flex-end;
@@ -415,9 +416,14 @@ const heroSources = await createResponsiveSourceSet(
   }
 
   @media (max-width: 359px) {
-    .hero-content .title-line,
-    .hero-content .btn {
+    .hero-content .title-line {
       white-space: normal;
+    }
+
+    .hero-btn-live,
+    .hero-btn-watch {
+      font-size: 0.6875rem;
+      padding: 0.45rem 0.72rem;
     }
   }
 
