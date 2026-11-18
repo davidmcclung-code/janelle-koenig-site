@@ -183,6 +183,16 @@ const heroSources = await createResponsiveSourceSet(
     flex-shrink: 0;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .play-circle-icon {
+      transition: transform var(--motion-fast) var(--ease-out);
+    }
+
+    .hero-btn-watch:is(:hover, :focus-visible) .play-circle-icon {
+      transform: scale(1.1);
+    }
+  }
+
   /* Red 3-Line Burst Mark beside Janelle's Head */
   .hero-burst-mark {
     display: block;

@@ -263,9 +263,12 @@ const substackWideSources = await createResponsiveSourceSet(
     }
   }
 
-  .substack-content:hover .burst-lines,
-  .mug-illustration-wrapper:hover .burst-lines {
-    transform: translateY(-1px);
+  @media (prefers-reduced-motion: no-preference) {
+    .substack-content:hover .burst-lines,
+    .substack-content:has(.substack-btn:focus-visible) .burst-lines,
+    .mug-illustration-wrapper:hover .burst-lines {
+      transform: translateY(-2px);
+    }
   }
 
   .substack-content:hover .steam-left,

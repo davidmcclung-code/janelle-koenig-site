@@ -141,6 +141,20 @@ dialog::backdrop {
   background-color: rgba(18, 18, 18, 0.06);
 }
 
+.arrow-icon {
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .arrow-icon {
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+
+  :is(a, button):is(:hover, :focus-visible) > .arrow-icon {
+    transform: translateX(3px);
+  }
+}
+
 /* Visually Hidden Utility */
 .sr-only {
   position: absolute;

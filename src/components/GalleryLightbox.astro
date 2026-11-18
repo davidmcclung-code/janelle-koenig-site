@@ -343,6 +343,12 @@ import CloseIcon from './CloseIcon.astro';
     transform: translateY(-1px);
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .lightbox-pill-btn:active {
+      transform: scale(0.98);
+    }
+  }
+
   .lightbox-pill-btn.is-primary {
     background-color: var(--colour-primary);
     border-color: var(--colour-primary);

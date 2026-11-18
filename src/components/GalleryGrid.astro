@@ -356,6 +356,12 @@ import { indexedMainRows, indexedPosters } from '../data/gallery';
       box-shadow var(--motion-fast) var(--ease-out);
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .gallery-tile.is-settled:active {
+      transform: scale(0.985);
+    }
+  }
+
   .tile-inner {
     position: relative;
     width: 100%;

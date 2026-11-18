@@ -149,6 +149,12 @@ const {
     background-color: var(--colour-primary);
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .modal-close-btn:active {
+      transform: scale(0.94);
+    }
+  }
+
   .modal-body {
     padding: var(--space-4);
   }

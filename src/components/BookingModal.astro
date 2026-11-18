@@ -260,6 +260,12 @@ import CloseIcon from './CloseIcon.astro';
     color: #ffffff;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .booking-close-btn:active {
+      transform: scale(0.94);
+    }
+  }
+
   .booking-body {
     padding: var(--space-6) var(--space-7);
     max-height: 80vh;
