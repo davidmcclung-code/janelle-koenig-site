@@ -35,7 +35,6 @@ export const siteConfig: SiteConfig = {
   eventsSheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7-WEu9FEEkyIqi3TxtQ4DzrqlWn4dKMcmvki-X2xkPaHQwvdshaupWr-DWcPhiOoQjtO_yRkvzXHy/pub?gid=0&single=true&output=csv',
   navItems: [
     { label: 'SHOWS', href: '/#shows' },
-    { label: 'WATCH', href: '/#watch' },
     { label: 'ABOUT', href: '/about' },
     { label: 'MC & EVENTS', href: '/#mc-events' },
     { label: 'GALLERY', href: '/photos' },

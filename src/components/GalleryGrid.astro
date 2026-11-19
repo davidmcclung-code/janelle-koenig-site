@@ -51,51 +51,56 @@ const filters = [
             class="gallery-row"
             style={`--row-cols: ${row.cols}; --row-h: ${row.height};`}
           >
-            {row.items.map((item) => (
-              <button
-                type="button"
-                class:list={[
-                  'gallery-tile',
-                  { 'is-feature': item.isFeature, 'is-wide-mobile': item.isWideMobile },
-                ]}
-                style={`--stagger-delay: ${item.staggerDelay}ms;`}
-                data-gallery-tile
-                data-filter-group={item.filterGroup}
-                data-index={item.globalIndex}
-                data-src={item.image.src}
-                data-alt={item.alt}
-                data-badge={item.badge}
-                data-category={item.category}
-                data-title={item.title}
-                data-caption={item.caption}
-                aria-haspopup="dialog"
-                aria-label={`Open photo ${item.badge}: ${item.title}`}
-              >
-                <div class="tile-inner">
-                  <span class="tile-badge" aria-hidden="true">{item.badge}</span>
-                  <Image
-                    src={item.image}
-                    alt={item.alt}
-                    width={item.isFeature ? 1100 : 760}
-                    height={item.isFeature ? 730 : 760}
-                    widths={item.isFeature ? [360, 560, 800, 1100] : [240, 360, 520, 760]}
-                    sizes={item.isFeature ? '(min-width: 1024px) 620px, 100vw' : '(min-width: 1024px) 320px, 50vw'}
-                    loading={rowIndex === 0 ? 'eager' : 'lazy'}
-                    decoding="async"
-                    class="tile-img"
-                    style={`object-position: ${item.objectPosition || 'center center'};`}
-                  />
+            {row.items.map((item) => {
+              const tileRatio = Number((item.image.width / item.image.height).toFixed(4));
+              const tileOrientation = tileRatio < 0.95 ? 'portrait' : 'landscape';
+              return (
+                <button
+                  type="button"
+                  class:list={[
+                    'gallery-tile',
+                    { 'is-feature': item.isFeature, 'is-wide-mobile': item.isWideMobile },
+                  ]}
+                  style={`--stagger-delay: ${item.staggerDelay}ms; --tile-ratio: ${tileRatio};`}
+                  data-gallery-tile
+                  data-filter-group={item.filterGroup}
+                  data-orientation={tileOrientation}
+                  data-index={item.globalIndex}
+                  data-src={item.image.src}
+                  data-alt={item.alt}
+                  data-badge={item.badge}
+                  data-category={item.category}
+                  data-title={item.title}
+                  data-caption={item.caption}
+                  aria-haspopup="dialog"
+                  aria-label={`${item.badge} · ${item.title} — Open photo`}
+                >
+                  <div class="tile-inner">
+                    <span class="tile-badge" aria-hidden="true">{item.badge}</span>
+                    <Image
+                      src={item.image}
+                      alt={item.alt}
+                      width={item.isFeature ? 1100 : 760}
+                      height={item.isFeature ? 730 : 760}
+                      widths={item.isFeature ? [360, 560, 800, 1100] : [240, 360, 520, 760]}
+                      sizes={item.isFeature ? '(min-width: 1024px) 620px, 100vw' : '(min-width: 1024px) 320px, 50vw'}
+                      loading={rowIndex === 0 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      class="tile-img"
+                      style={`object-position: ${item.objectPosition || 'center center'};`}
+                    />
 
-                  <div class="tile-overlay">
-                    <div class="overlay-content">
-                      <span class="overlay-meta">{item.badge} · {item.title}</span>
-                      <p class="overlay-caption line-clamp-2">“{item.caption}”</p>
-                      <span class="overlay-cta" aria-hidden="true">Open story →</span>
+                    <div class="tile-overlay">
+                      <div class="overlay-content">
+                        <span class="overlay-meta">{item.badge} · {item.title}</span>
+                        <p class="overlay-caption line-clamp-2">“{item.caption}”</p>
+                        <span class="overlay-cta" aria-hidden="true">Open story →</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         ))
       }
@@ -128,13 +133,12 @@ const filters = [
               data-title={item.title}
               data-caption={item.caption}
               aria-haspopup="dialog"
-              aria-label={`Open poster ${item.badge}: ${item.title}`}
             >
               <div class="tile-inner is-poster-inner">
                 <div class="poster-stage">
                   <Image
                     src={item.image}
-                    alt={item.alt}
+                    alt=""
                     width={600}
                     height={720}
                     widths={[220, 320, 480, 600]}
@@ -150,7 +154,7 @@ const filters = [
                     <span aria-hidden="true"> · </span>
                     {item.title}
                   </span>
-                  <span class="poster-cta" aria-hidden="true">Read story →</span>
+                  <span class="poster-cta">Read story<span aria-hidden="true"> →</span></span>
                 </div>
               </div>
             </button>
@@ -360,20 +364,25 @@ const filters = [
     width: 100%;
   }
 
-  /* Filtered Category Grid View */
-  .gallery-rows.is-filtered {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(10px, 1.5vw, 16px);
-  }
+  /* Filtered Category View: Aspect-preserving justified contact-sheet rows on desktop */
+  @media (min-width: 1024px) {
+    .gallery-rows.is-filtered {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(10px, 1.4vw, 14px);
+    }
 
-  .gallery-rows.is-filtered .gallery-row {
-    display: contents;
-  }
+    .gallery-rows.is-filtered .gallery-row {
+      display: contents;
+    }
 
-  .gallery-rows.is-filtered .gallery-tile {
-    height: auto;
-    aspect-ratio: 4 / 3;
+    .gallery-rows.is-filtered .gallery-tile {
+      flex: var(--tile-ratio, 1) 1 calc(var(--tile-ratio, 1) * clamp(180px, 18vw, 235px));
+      width: auto;
+      max-inline-size: calc(var(--tile-ratio, 1) * 480px);
+      height: clamp(240px, 24vw, 315px);
+      aspect-ratio: auto;
+    }
   }
 
   @media (max-width: 1023px) {

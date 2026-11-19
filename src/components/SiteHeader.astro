@@ -122,18 +122,19 @@ const isItemActive = (itemHref: string) => {
 
 <style>
   .site-header {
-    width: 100%;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
     z-index: 100;
     background: transparent;
-    padding-top: 1.25rem;
-    padding-bottom: 0.5rem;
-    position: relative;
+    padding-block-start: 1.25rem;
+    padding-block-end: 0.5rem;
   }
 
   @media (max-width: 600px) {
     .site-header {
-      padding-top: 0.85rem;
-      padding-bottom: 0.25rem;
+      padding-block-start: 0.85rem;
+      padding-block-end: 0.25rem;
     }
   }
 

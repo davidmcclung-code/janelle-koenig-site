@@ -57,6 +57,7 @@
   --container-max-width: 1280px;
   --container-gutter: clamp(20px, 4.4vw, 46px);
   --section-space: clamp(1.75rem, 3.5vw, 3rem);
+  --header-offset: calc(max(56px, 2.75rem) + 1.75rem);
 
   /* Border Radii */
   --radius-xs: 3px;
@@ -78,4 +79,16 @@
   --motion-distance: 24px;
   --motion-stagger: 100ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 600px) {
+  :root {
+    --header-offset: calc(max(56px, 2.75rem) + 1.1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-offset: calc(max(47px, 2.75rem) + 1.1rem);
+  }
 }

@@ -279,9 +279,11 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
      ========================================================================== */
   .bio-hero-section {
     background: var(--gradient-hero-warm);
-    padding: clamp(1.5rem, 3vw, 2.25rem) 0 clamp(1.75rem, 3.5vw, 2.5rem);
+    padding-block-start: calc(var(--header-offset) + clamp(1.5rem, 3vw, 2.25rem));
+    padding-block-end: clamp(1.75rem, 3.5vw, 2.5rem);
+    padding-inline: 0;
     position: relative;
-    overflow: hidden;
+    overflow: clip;
     width: 100%;
   }
 
@@ -714,7 +716,8 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   @media (max-width: 767px) {
     .bio-hero-section {
-      padding: clamp(1rem, 3vw, 1.4rem) 0 clamp(1.15rem, 3.5vw, 1.6rem);
+      padding-block-start: calc(var(--header-offset) + clamp(1rem, 3vw, 1.4rem));
+      padding-block-end: clamp(1.15rem, 3.5vw, 1.6rem);
     }
 
     .bio-hero-grid {

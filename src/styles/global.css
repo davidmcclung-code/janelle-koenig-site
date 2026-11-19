@@ -225,7 +225,7 @@ dialog::backdrop {
 
 @media (max-width: 600px) {
   .desktop-break {
-    display: inline;
+    display: none;
   }
 }
 
@@ -306,6 +306,10 @@ dialog::backdrop {
 
 /* Print Stylesheet Resilience */
 @media print {
+  :root {
+    --header-offset: 0px;
+  }
+
   *, *::before, *::after {
     background: transparent !important;
     color: #000000 !important;

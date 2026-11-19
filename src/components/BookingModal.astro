@@ -147,9 +147,7 @@ import CloseIcon from './CloseIcon.astro';
                 </svg>
               </button>
             </p>
-            <span class="modal-copy-toast" role="status" aria-live="polite">
-              Copied! (Zero small talk required)
-            </span>
+            <span class="modal-copy-toast" role="status" aria-live="polite" aria-atomic="true"></span>
           </div>
         </div>
       </form>
@@ -218,16 +216,22 @@ import CloseIcon from './CloseIcon.astro';
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    gap: var(--space-3);
     flex-shrink: 0;
     padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1.15rem, 3vw, 2.25rem) var(--space-4);
     border-bottom: 1px solid var(--colour-border);
   }
 
+  .booking-header > div {
+    min-width: 0;
+  }
+
   .booking-pretitle {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 1rem + 0.6vw, 1.5rem);
+    line-height: 1.15;
     color: var(--colour-primary);
     display: block;
-    margin-bottom: -4px;
+    margin-bottom: 2px;
   }
 
   .booking-title {
@@ -240,6 +244,7 @@ import CloseIcon from './CloseIcon.astro';
 
   .booking-close-btn {
     position: relative;
+    flex-shrink: 0;
     width: 36px;
     height: 36px;
     border-radius: var(--radius-pill);
@@ -401,6 +406,7 @@ import CloseIcon from './CloseIcon.astro';
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 6px;
   }
 
   .direct-contact-note {
@@ -412,7 +418,7 @@ import CloseIcon from './CloseIcon.astro';
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 4px 6px;
     margin: 0;
   }
 
@@ -436,7 +442,7 @@ import CloseIcon from './CloseIcon.astro';
     border-radius: var(--radius-xs);
     color: var(--colour-ink);
     cursor: pointer;
-    margin-left: 2px;
+    margin-left: 0;
     transition: background-color var(--motion-fast) var(--ease-out),
                 border-color var(--motion-fast) var(--ease-out),
                 color var(--motion-fast) var(--ease-out),
@@ -483,43 +489,33 @@ import CloseIcon from './CloseIcon.astro';
   }
 
   .modal-copy-toast {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 6px);
+    display: inline-block;
+    min-height: 1.45rem;
+    padding: 4px 10px;
+    border-radius: var(--radius-xs);
     background-color: var(--colour-ink);
     color: #ffffff;
     font-family: var(--font-body);
     font-size: 0.72rem;
     font-weight: 600;
-    line-height: 1.2;
-    padding: 5px 9px;
-    border-radius: var(--radius-xs);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-    white-space: nowrap;
+    line-height: 1.25;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(3px);
     pointer-events: none;
-    z-index: 50;
+    transition: opacity var(--motion-fast) var(--ease-out),
+                transform var(--motion-fast) var(--ease-out);
   }
 
   .modal-copy-toast.is-visible {
-    display: block;
-    animation: toastFadeIn 200ms var(--ease-out) forwards;
-  }
-
-  @keyframes toastFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    opacity: 1;
+    transform: translateY(0);
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .modal-copy-toast,
     .modal-copy-toast.is-visible {
-      animation: none !important;
-      opacity: 1 !important;
+      transition: none !important;
       transform: none !important;
     }
   }
@@ -620,7 +616,7 @@ import CloseIcon from './CloseIcon.astro';
       bookingModal.showModal();
       // Focus first input smoothly after modal renders
       requestAnimationFrame(() => {
-        const firstInput = bookingModal.querySelector<HTMLElement>('input, button, select, textarea');
+        const firstInput = bookingModal.querySelector<HTMLElement>('input, select, textarea');
         firstInput?.focus();
       });
     }
@@ -709,6 +705,9 @@ import CloseIcon from './CloseIcon.astro';
 
   // Modal Copy Email
   const modalCopyBtn = document.querySelector<HTMLButtonElement>('.modal-copy-btn[data-copy-email]');
+  const COPY_TOAST_MESSAGE = 'Copied! (Zero small talk required)';
+  let copyToastTimer: number | undefined;
+
   modalCopyBtn?.addEventListener('click', async (e) => {
     e.preventDefault();
     const text = modalCopyBtn.getAttribute('data-copy-email') || '';
@@ -729,16 +728,19 @@ import CloseIcon from './CloseIcon.astro';
         document.body.removeChild(textArea);
       }
 
+      window.clearTimeout(copyToastTimer);
       modalCopyBtn.classList.add('is-copied');
       const toast = modalCopyBtn.closest('.direct-contact-container')?.querySelector('.modal-copy-toast');
       if (toast) {
+        toast.textContent = COPY_TOAST_MESSAGE;
         toast.classList.add('is-visible');
       }
 
-      setTimeout(() => {
+      copyToastTimer = window.setTimeout(() => {
         modalCopyBtn.classList.remove('is-copied');
         if (toast) {
           toast.classList.remove('is-visible');
+          toast.textContent = '';
         }
       }, 2400);
     } catch (err) {

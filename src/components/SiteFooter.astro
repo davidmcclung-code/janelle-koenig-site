@@ -28,7 +28,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
         <h2 class="footer-heading">EXPLORE</h2>
         <ul class="footer-links" role="list">
           <li><a href={asset('/#shows')} class="footer-link">Shows</a></li>
-          <li><a href={asset('/#watch')} class="footer-link">Watch</a></li>
           <li><a href={asset('/about')} class="footer-link">About</a></li>
           <li><a href={asset('/#mc-events')} class="footer-link">MC & Events</a></li>
           <li><a href={asset('/photos')} class="footer-link">Gallery</a></li>
@@ -228,10 +227,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
       white-space: nowrap;
     }
 
-    .footer-social-icons {
-      gap: 2px;
-    }
-
     .footer-social-icons svg {
       width: 16px;
       height: 16px;
@@ -359,27 +354,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     margin-left: -10px;
   }
 
-  @media (max-width: 639px) {
-    .footer-social-icons {
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-left: -6px;
-    }
-
-    .social-icon-link {
-      position: relative;
-      min-width: 34px;
-      min-height: 34px;
-      padding: 6px;
-    }
-
-    .social-icon-link::after {
-      content: '';
-      position: absolute;
-      inset: -5px;
-    }
-  }
-
   .social-icon-link {
     display: inline-flex;
     align-items: center;
@@ -400,6 +374,27 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.08);
     transform: translateY(-1.5px);
+  }
+
+  @media (max-width: 639px) {
+    .footer-social-icons {
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-left: -6px;
+    }
+
+    .social-icon-link {
+      position: relative;
+      min-width: 34px;
+      min-height: 34px;
+      padding: 6px;
+    }
+
+    .social-icon-link::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+    }
   }
 
   /* Contact Links */

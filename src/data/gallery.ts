@@ -175,7 +175,7 @@ export const mainRows: GalleryRow[] = [
         title: 'Comedy Lounge, Perth',
         caption: 'At my home club - Perth’s iconic Comedy Lounge. I really wish I still fit into that skirt.',
         alt: 'Janelle Koenig performing with her guitar at Comedy Lounge Perth',
-        objectPosition: 'center top',
+        objectPosition: 'center 28%',
       },
       {
         id: 'pretty-woman-red',

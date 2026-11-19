@@ -31,7 +31,7 @@ const pageDescription = 'Photos of Janelle Koenig performing comedy, hosting eve
 
         <!-- Supporting Intro Copy (Wrapped after 'and' on desktop) -->
         <p class="gallery-intro-text wrap-break">
-          Gigs, green rooms, good rooms and<br class="desktop-break" />the occasional flattering angle.
+          Gigs, green rooms, good rooms and <br class="desktop-break" />the occasional flattering angle.
         </p>
       </div>
 
@@ -88,8 +88,9 @@ const pageDescription = 'Photos of Janelle Koenig performing comedy, hosting eve
      ========================================================================== */
   .gallery-intro-section {
     background: var(--gradient-hero-warm);
+    padding-block-start: var(--header-offset);
     position: relative;
-    overflow: hidden;
+    overflow: clip;
     width: 100%;
   }
 

@@ -60,7 +60,7 @@ const mcWideSources = await createResponsiveSourceSet(
             media="(min-width: 850px)"
             type="image/avif"
             srcset={mcWideSources.avifSrcset}
-            sizes="(min-width: 1280px) 52vw, 48vw"
+            sizes="(min-width: 1280px) 660px, 48vw"
             width={mcWideSources.width}
             height={mcWideSources.height}
           />
@@ -68,14 +68,14 @@ const mcWideSources = await createResponsiveSourceSet(
             media="(min-width: 850px)"
             type="image/webp"
             srcset={mcWideSources.webpSrcset}
-            sizes="(min-width: 1280px) 52vw, 48vw"
+            sizes="(min-width: 1280px) 660px, 48vw"
             width={mcWideSources.width}
             height={mcWideSources.height}
           />
           <source
             media="(min-width: 850px)"
             srcset={mcWideSources.fallbackSrcset}
-            sizes="(min-width: 1280px) 52vw, 48vw"
+            sizes="(min-width: 1280px) 660px, 48vw"
             width={mcWideSources.width}
             height={mcWideSources.height}
           />
@@ -122,7 +122,7 @@ const mcWideSources = await createResponsiveSourceSet(
     line-height: 0;
     position: relative;
     background-color: var(--colour-banner-warm);
-    overflow: hidden;
+    overflow: clip;
   }
 
   .banner-grid {
@@ -170,20 +170,6 @@ const mcWideSources = await createResponsiveSourceSet(
 
     .banner-media::before {
       width: 110px;
-    }
-  }
-
-  @media (min-width: 1520px) {
-    .banner-media::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 120px;
-      background: linear-gradient(to left, rgba(10, 10, 18, 0.7) 0%, rgba(10, 10, 18, 0) 100%);
-      z-index: 2;
-      pointer-events: none;
     }
   }
 
@@ -261,7 +247,7 @@ const mcWideSources = await createResponsiveSourceSet(
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: clip;
   }
 
   .banner-picture {
@@ -288,6 +274,25 @@ const mcWideSources = await createResponsiveSourceSet(
   }
 
   @media (min-width: 850px) {
+    .banner-media {
+      background-color: #020208;
+    }
+
+    .banner-picture {
+      inset: 0 auto 0 0;
+      width: 100%;
+      max-inline-size: 660px;
+      -webkit-mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
+      mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
+    }
+
+    .banner-media > .banner-img {
+      inset: 0 auto 0 0;
+      max-inline-size: 660px;
+      -webkit-mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
+      mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
+    }
+
     .banner-img {
       object-position: 38% 3%;
     }

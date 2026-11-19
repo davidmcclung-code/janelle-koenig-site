@@ -98,7 +98,7 @@ const thumbSources = await createResponsiveSourceSet(
   @media (max-width: 849px) {
     .video-card {
       display: grid;
-      grid-template-columns: 50% 50%;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: center;
       gap: 16px;
     }
