@@ -1,13 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import GalleryGrid from '../components/GalleryGrid.astro';
 import GalleryLightbox from '../components/GalleryLightbox.astro';
 import EnquiryBanner from '../components/EnquiryBanner.astro';
-import BurstMark from '../components/BurstMark.astro';
-import { createResponsiveSourceSet } from '../utils/responsiveImage';
 import galleryHeroImg from '../assets/photography/photos/janelle-gallery-hero.png';
-
-const galleryHeroSources = await createResponsiveSourceSet(galleryHeroImg, [180, 280, 420], 'png');
 
 const pageTitle = 'Photos | Janelle Koenig';
 const pageDescription = 'Photos of Janelle Koenig performing comedy, hosting events and appearing on stage around Australia.';
@@ -15,62 +12,18 @@ const pageDescription = 'Photos of Janelle Koenig performing comedy, hosting eve
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- Gallery Page Introduction -->
-  <section class="gallery-intro-section" aria-labelledby="gallery-page-title">
-    <div class="container gallery-intro-container">
-      <!-- Left Content Block -->
-      <div class="gallery-intro-content reveal">
-        <!-- Handwritten Eyebrow -->
-        <span class="font-script text-script-section gallery-eyebrow">
-          Proof she left the house.
-        </span>
-
-        <!-- Main Display Heading -->
-        <h1 id="gallery-page-title" class="gallery-heading">
-          GALLERY<span class="red-sq" aria-hidden="true"></span>
-        </h1>
-
-        <!-- Supporting Intro Copy (Wrapped after 'and' on desktop) -->
-        <p class="gallery-intro-text wrap-break">
-          Gigs, green rooms, good rooms and <br class="desktop-break" />the occasional flattering angle.
-        </p>
-      </div>
-
-      <!-- Right Media Block: Compact Janelle Camera Cutout + Burst Mark -->
-      <div class="gallery-intro-media reveal">
-        <div class="gallery-intro-burst" aria-hidden="true">
-          <BurstMark strokeWidth={3.2} />
-        </div>
-        <picture style="display: contents;">
-          <source
-            type="image/avif"
-            srcset={galleryHeroSources.avifSrcset}
-            sizes="(min-width: 1024px) 165px, (min-width: 768px) 140px, 120px"
-            width={galleryHeroSources.width}
-            height={galleryHeroSources.height}
-          />
-          <source
-            type="image/webp"
-            srcset={galleryHeroSources.webpSrcset}
-            sizes="(min-width: 1024px) 165px, (min-width: 768px) 140px, 120px"
-            width={galleryHeroSources.width}
-            height={galleryHeroSources.height}
-          />
-          <img
-            src={galleryHeroSources.fallbackSrc}
-            srcset={galleryHeroSources.fallbackSrcset}
-            sizes="(min-width: 1024px) 165px, (min-width: 768px) 140px, 120px"
-            alt="Janelle Koenig smiling"
-            width={galleryHeroSources.width}
-            height={galleryHeroSources.height}
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            class="gallery-intro-cutout-img"
-          />
-        </picture>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    id="gallery-page-title"
+    eyebrow="Proof she left the house."
+    titleLines={['GALLERY']}
+    image={galleryHeroImg}
+    imageAlt="Janelle Koenig smiling"
+    imagePosition="center top"
+  >
+    <Fragment slot="lead">
+      Gigs, green rooms, good rooms and <br class="desktop-break" />the occasional flattering angle.
+    </Fragment>
+  </PageHero>
 
   <!-- Photo Grid -->
   <GalleryGrid />
@@ -81,197 +34,3 @@ const pageDescription = 'Photos of Janelle Koenig performing comedy, hosting eve
   <!-- Full-Screen Lightbox Modal -->
   <GalleryLightbox />
 </BaseLayout>
-
-<style>
-  /* ==========================================================================
-     Introduction Header Section
-     ========================================================================== */
-  .gallery-intro-section {
-    background: var(--gradient-hero-warm);
-    padding-block-start: var(--header-offset);
-    position: relative;
-    overflow: clip;
-    width: 100%;
-  }
-
-  .gallery-intro-container {
-    width: 100%;
-    position: relative;
-    min-height: clamp(235px, 21vw, 285px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: clamp(1.5rem, 3vw, 2.25rem);
-    padding-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
-  }
-
-  .gallery-intro-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    max-width: 620px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .gallery-eyebrow {
-    font-size: clamp(1.35rem, 1rem + 0.55vw, 1.75rem);
-    line-height: 1.1;
-    display: inline-block;
-    color: var(--colour-primary);
-    margin-bottom: var(--space-2);
-    transform: rotate(-1.5deg);
-  }
-
-  .gallery-heading {
-    font-family: var(--font-display);
-    font-size: clamp(2.75rem, 1.28rem + 4vw, 4.6rem);
-    font-weight: 900;
-    line-height: 0.93;
-    letter-spacing: -0.04em;
-    color: var(--colour-ink);
-    text-transform: uppercase;
-    margin: 0 0 var(--space-5) 0;
-    display: inline-flex;
-    align-items: baseline;
-  }
-
-  .gallery-intro-text {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 0.85rem + 0.25vw, 1.15rem);
-    line-height: 1.5;
-    color: var(--colour-ink-subtle);
-    font-weight: 500;
-    max-width: 500px;
-    margin: 0;
-  }
-
-  /* Right Media Block - Compact Janelle Holding Camera with Burst */
-  .gallery-intro-media {
-    position: absolute;
-    right: var(--container-gutter);
-    bottom: 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    line-height: 0;
-    margin-bottom: 0;
-    z-index: 1;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .gallery-intro-burst {
-    position: absolute;
-    top: 15%;
-    left: -42px;
-    z-index: 2;
-    transform: rotate(-10deg);
-    --burst-size: clamp(36px, 3.8vw, 44px);
-  }
-
-  .gallery-intro-cutout-img {
-    height: auto;
-    max-height: clamp(170px, 17vw, 230px);
-    width: auto;
-    max-width: 100%;
-    display: block;
-    object-fit: contain;
-    object-position: bottom right;
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.07));
-    transform: translateY(1px); /* Eliminate subpixel gap before the dark gallery grid */
-  }
-
-  /* Tablet Responsiveness (768px - 1023px) */
-  @media (max-width: 1023px) {
-    .gallery-intro-container {
-      min-height: 190px;
-      padding-bottom: 1.25rem;
-    }
-
-    .gallery-intro-content {
-      max-width: 60%;
-    }
-
-    .gallery-intro-cutout-img {
-      max-height: clamp(155px, 18vw, 195px);
-    }
-  }
-
-  /* Mobile Responsiveness (< 768px) */
-  @media (max-width: 767px) {
-    .gallery-intro-container {
-      min-height: 175px;
-      padding-top: 1.25rem;
-      padding-bottom: 0.75rem;
-    }
-
-    .gallery-intro-content {
-      max-width: 62%;
-    }
-
-    .gallery-eyebrow {
-      font-size: 1.35rem;
-      margin-bottom: var(--space-2);
-    }
-
-    .gallery-heading {
-      font-size: clamp(2.25rem, 1.2rem + 4vw, 3.1rem);
-      margin-bottom: var(--space-3);
-    }
-
-    .gallery-intro-text {
-      font-size: 0.9375rem;
-      line-height: 1.35;
-      font-weight: 400;
-      color: var(--colour-ink-subtle);
-    }
-
-    .gallery-intro-burst {
-      top: 8%;
-      left: -32px;
-      transform: scale(0.85) rotate(-10deg);
-    }
-
-    .gallery-intro-cutout-img {
-      max-height: clamp(140px, 28vw, 175px);
-    }
-  }
-
-  @media (max-width: 440px) {
-    .gallery-intro-container {
-      min-height: 165px;
-    }
-
-    .gallery-intro-content {
-      max-width: 60%;
-    }
-
-    .gallery-eyebrow {
-      font-size: 1.2rem;
-      margin-bottom: var(--space-1);
-    }
-
-    .gallery-heading {
-      font-size: clamp(2.05rem, 1.1rem + 3.8vw, 2.7rem);
-      margin-bottom: var(--space-2);
-    }
-
-    .gallery-intro-text {
-      font-size: 0.875rem;
-      line-height: 1.35;
-      font-weight: 400;
-    }
-
-    .gallery-intro-burst {
-      top: 6%;
-      left: -26px;
-      transform: scale(0.75) rotate(-10deg);
-    }
-
-    .gallery-intro-cutout-img {
-      max-height: clamp(130px, 32vw, 155px);
-    }
-  }
-</style>

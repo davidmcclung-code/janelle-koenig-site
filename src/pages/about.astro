@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import CredibilityStrip from '../components/CredibilityStrip.astro';
 import EnquiryBanner from '../components/EnquiryBanner.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
-import BurstMark from '../components/BurstMark.astro';
 import { asset } from '../utils/paths';
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
 
@@ -16,7 +16,6 @@ const pageTitle = 'About | Janelle Koenig';
 const pageDescription =
   'Western Australia’s First Lady of Comedy: Janelle Koenig is a comedian, writer, director, MC, actor and producer with nearly 25 years on stage, screen and radio.';
 
-const heroCutoutSources = await createResponsiveSourceSet(aboutHeroCutoutImg, [360, 480, 682], 'png');
 const guitarSources = await createResponsiveSourceSet(guitarStageImg, [360, 560, 760, 960], 'jpeg');
 const pawaSources = await createResponsiveSourceSet(pawaAwardsImg, [360, 560, 760, 960], 'jpeg');
 const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560, 760, 960], 'jpeg');
@@ -24,55 +23,15 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- 1. Bio Intro Split -->
-  <section class="bio-hero-section" aria-labelledby="about-page-title">
-    <div class="container bio-hero-grid">
-      <div class="bio-hero-content reveal">
-        <span class="font-script text-script-section bio-eyebrow">
-          Western Australia’s First Lady of Comedy
-        </span>
-
-        <h1 id="about-page-title" class="bio-heading">
-          <span class="heading-line">ABOUT</span>
-          <span class="heading-line">JANELLE<span class="red-sq" aria-hidden="true"></span></span>
-        </h1>
-
-        <p class="bio-lead wrap-break">
-          Almost 25 years making people laugh on stage, on screen, on radio and, increasingly, while they’re supposed to be working.
-        </p>
-      </div>
-
-      <div class="bio-hero-media reveal">
-        <figure class="bio-hero-figure">
-          <div class="hero-popout-stage">
-            <div class="bio-burst-mark" aria-hidden="true">
-              <BurstMark strokeWidth={3} />
-            </div>
-
-            <div class="hero-popout-card" aria-hidden="true"></div>
-
-            <div class="hero-popout-cutout">
-              <picture>
-                <source type="image/avif" srcset={heroCutoutSources.avifSrcset} sizes="(min-width: 1024px) 255px, (min-width: 768px) 200px, 34vw" />
-                <source type="image/webp" srcset={heroCutoutSources.webpSrcset} sizes="(min-width: 1024px) 255px, (min-width: 768px) 200px, 34vw" />
-                <img
-                  src={heroCutoutSources.fallbackSrc}
-                  srcset={heroCutoutSources.fallbackSrcset}
-                  sizes="(min-width: 1024px) 255px, (min-width: 768px) 200px, 34vw"
-                  alt="Janelle Koenig looking surprised in a burgundy floral dress"
-                  width={heroCutoutSources.width}
-                  height={heroCutoutSources.height}
-                  loading="eager"
-                  fetchpriority="high"
-                  decoding="async"
-                  class="hero-cutout-img"
-                />
-              </picture>
-            </div>
-          </div>
-        </figure>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    id="about-page-title"
+    eyebrow="WA’s First Lady of Comedy"
+    titleLines={['ABOUT', 'JANELLE']}
+    lead="Almost 25 years making people laugh on stage, on screen, on radio and, increasingly, while they’re supposed to be working."
+    image={aboutHeroCutoutImg}
+    imageAlt="Janelle Koenig looking surprised in a burgundy floral dress"
+    imagePosition="center bottom"
+  />
 
   <!-- 2. Shared Media Credibility Strip -->
   <CredibilityStrip />
@@ -274,136 +233,6 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 </BaseLayout>
 
 <style>
-  /* ==========================================================================
-     1. Bio Intro Split
-     ========================================================================== */
-  .bio-hero-section {
-    background: var(--gradient-hero-warm);
-    padding-block-start: calc(var(--header-offset) + clamp(1.5rem, 3vw, 2.25rem));
-    padding-block-end: clamp(1.75rem, 3.5vw, 2.5rem);
-    padding-inline: 0;
-    position: relative;
-    overflow: clip;
-    width: 100%;
-  }
-
-  .bio-hero-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(2rem, 4.5vw, 3.75rem);
-    align-items: center;
-  }
-
-  .bio-hero-content {
-    min-width: 0;
-  }
-
-  .bio-eyebrow {
-    font-size: clamp(1.35rem, 1rem + 0.55vw, 1.75rem);
-    line-height: 1.1;
-    display: inline-block;
-    margin-bottom: var(--space-2);
-    transform: rotate(-1.5deg);
-  }
-
-  .bio-heading {
-    font-family: var(--font-display);
-    font-size: clamp(2.75rem, 1.28rem + 4vw, 4.6rem);
-    font-weight: 900;
-    line-height: 0.93;
-    letter-spacing: -0.04em;
-    color: var(--colour-ink);
-    text-transform: uppercase;
-    margin: 0 0 var(--space-5) 0;
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-  }
-
-  .heading-line {
-    display: inline-flex;
-    align-items: baseline;
-    white-space: nowrap;
-  }
-
-  .bio-lead {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 0.85rem + 0.25vw, 1.15rem);
-    line-height: 1.5;
-    color: var(--colour-ink-subtle);
-    font-weight: 500;
-    max-width: 500px;
-    margin: 0;
-  }
-
-  .bio-hero-media {
-    position: relative;
-    min-width: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .bio-hero-figure {
-    margin: 0;
-    width: 100%;
-    max-width: clamp(220px, 23vw, 285px);
-  }
-
-  .hero-popout-stage {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 682 / 900;
-  }
-
-  .bio-burst-mark {
-    position: absolute;
-    top: 3%;
-    right: 10%;
-    left: auto;
-    z-index: 3;
-    transform: scaleX(-1) rotate(-8deg);
-    pointer-events: none;
-    --burst-size: clamp(28px, 2.8vw, 36px);
-  }
-
-  .hero-popout-card {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 33%;
-    z-index: 1;
-    border-radius: var(--radius-md);
-    background: var(--gradient-card-warm);
-    border: 1.5px solid rgba(18, 18, 18, 0.14);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), var(--shadow-lg);
-  }
-
-  .hero-popout-cutout {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    border-bottom-left-radius: var(--radius-md);
-    border-bottom-right-radius: var(--radius-md);
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  .hero-popout-cutout picture,
-  .hero-cutout-img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  .hero-cutout-img {
-    object-fit: cover;
-    object-position: center bottom;
-    filter: drop-shadow(0 10px 22px rgba(18, 18, 18, 0.12));
-  }
-
   /* ==========================================================================
      3. Official Bio Story & Staggered Photography
      ========================================================================== */
@@ -674,17 +503,6 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
      Responsive Breakpoints
      ========================================================================== */
   @media (max-width: 1023px) {
-    .bio-hero-grid {
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: clamp(1rem, 3vw, 2rem);
-      align-items: center;
-    }
-
-    .bio-hero-figure {
-      max-width: clamp(175px, 25vw, 220px);
-      margin-inline: auto;
-    }
-
     .story-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
@@ -714,79 +532,9 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     }
   }
 
-  @media (max-width: 767px) {
-    .bio-hero-section {
-      padding-block-start: calc(var(--header-offset) + clamp(1rem, 3vw, 1.4rem));
-      padding-block-end: clamp(1.15rem, 3.5vw, 1.6rem);
-    }
-
-    .bio-hero-grid {
-      grid-template-columns: 1fr auto;
-      gap: clamp(12px, 3.5vw, 20px);
-      align-items: center;
-    }
-
-    .bio-eyebrow {
-      font-size: clamp(1.1rem, 0.8rem + 1.2vw, 1.35rem);
-      margin-bottom: 4px;
-    }
-
-    .bio-heading {
-      font-size: clamp(1.95rem, 1.1rem + 3.2vw, 2.6rem);
-      margin-bottom: var(--space-3);
-    }
-
-    .bio-lead {
-      font-size: clamp(0.875rem, 0.75rem + 0.5vw, 0.96875rem);
-      line-height: 1.4;
-    }
-
-    .bio-hero-figure {
-      width: clamp(124px, 34vw, 165px);
-      max-width: none;
-    }
-
-    .bio-burst-mark {
-      --burst-size: clamp(20px, 5vw, 26px);
-    }
-
-    .hero-popout-card {
-      border-radius: var(--radius-sm);
-    }
-
-    .hero-popout-cutout {
-      border-bottom-left-radius: var(--radius-sm);
-      border-bottom-right-radius: var(--radius-sm);
-    }
-  }
-
   @media (max-width: 420px) {
-    .bio-eyebrow {
-      font-size: 1.05rem;
-    }
-
-    .bio-heading {
-      font-size: clamp(1.75rem, 1.1rem + 2.8vw, 2.1rem);
-      margin-bottom: 8px;
-    }
-
-    .bio-lead {
-      font-size: 0.875rem;
-      line-height: 1.38;
-    }
-
-    .bio-hero-figure {
-      width: clamp(112px, 33vw, 130px);
-    }
-
     .staggered-photos {
       grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 359px) {
-    .heading-line {
-      white-space: normal;
     }
   }
 
