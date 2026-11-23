@@ -1,6 +1,7 @@
 export interface NavItem {
   label: string;
-  href: string;
+  href?: string;
+  action?: 'booking';
 }
 
 export interface SocialLink {
@@ -36,7 +37,7 @@ export const siteConfig: SiteConfig = {
   navItems: [
     { label: 'SHOWS', href: '/#shows' },
     { label: 'ABOUT', href: '/about' },
-    { label: 'MC & EVENTS', href: '/#mc-events' },
+    { label: 'MC & EVENTS', action: 'booking' },
     { label: 'GALLERY', href: '/photos' },
   ],
   socialLinks: [

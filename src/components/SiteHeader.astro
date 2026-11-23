@@ -5,8 +5,8 @@ import CloseIcon from './CloseIcon.astro';
 import { asset } from '../utils/paths';
 
 const normalizedPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const isItemActive = (itemHref: string) => {
-  if (!itemHref.startsWith('/') || itemHref.startsWith('/#')) return false;
+const isItemActive = (itemHref?: string) => {
+  if (!itemHref || !itemHref.startsWith('/') || itemHref.startsWith('/#')) return false;
   const resolved = asset(itemHref).replace(/\/+$/, '') || '/';
   return normalizedPath === resolved;
 };
@@ -24,8 +24,23 @@ const isItemActive = (itemHref: string) => {
       <ul class="nav-list">
         {
           siteConfig.navItems.map((item) => {
-            const isActive = isItemActive(item.href);
-            const href = item.href.startsWith('/') ? asset(item.href) : item.href;
+            if (item.action === 'booking') {
+              return (
+                <li>
+                  <button
+                    type="button"
+                    class="nav-link nav-link-btn"
+                    data-booking-trigger
+                    aria-haspopup="dialog"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              );
+            }
+            const itemHref = item.href || '/';
+            const isActive = isItemActive(itemHref);
+            const href = itemHref.startsWith('/') ? asset(itemHref) : itemHref;
             return (
               <li>
                 <a
@@ -93,8 +108,23 @@ const isItemActive = (itemHref: string) => {
       <ul class="mobile-nav-list">
         {
           siteConfig.navItems.map((item) => {
-            const isActive = isItemActive(item.href);
-            const href = item.href.startsWith('/') ? asset(item.href) : item.href;
+            if (item.action === 'booking') {
+              return (
+                <li>
+                  <button
+                    type="button"
+                    class="mobile-nav-link nav-link-btn"
+                    data-booking-trigger
+                    aria-haspopup="dialog"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              );
+            }
+            const itemHref = item.href || '/';
+            const isActive = isItemActive(itemHref);
+            const href = itemHref.startsWith('/') ? asset(itemHref) : itemHref;
             return (
               <li>
                 <a
@@ -257,6 +287,18 @@ const isItemActive = (itemHref: string) => {
   .nav-link:hover::after,
   .nav-link.is-active::after {
     width: 100%;
+  }
+
+  .nav-link-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding-inline: 0;
+    text-align: left;
+  }
+
+  .mobile-nav-link.nav-link-btn {
+    padding: 0;
   }
 
   /* Header CTA Aligned to Right */
