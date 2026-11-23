@@ -11,8 +11,8 @@ const { events, sheetUrl } = Astro.props;
 const hasEvents = Array.isArray(events) && events.length > 0;
 ---
 
-<div class="event-list-wrapper" data-sheet-url={sheetUrl}>
-  <ul class="event-skeleton-list" id="events-skeleton-list" aria-label="Loading upcoming shows" aria-busy="true" style="display: none;">
+<div class="event-list-wrapper" data-sheet-url={sheetUrl} data-loading={sheetUrl ? 'true' : undefined}>
+  <ul class="event-skeleton-list" id="events-skeleton-list" aria-label="Loading upcoming shows" aria-busy="true">
     <li class="event-skeleton-row" aria-hidden="true">
       <div class="skeleton-date shimmer"></div>
       <div class="skeleton-details">
@@ -60,12 +60,20 @@ const hasEvents = Array.isArray(events) && events.length > 0;
   }
 
   .event-skeleton-list {
-    display: flex;
+    display: none;
     flex-direction: column;
     margin: 0;
     padding: 0;
     list-style: none;
-    transition: opacity var(--motion-fast) var(--ease-out);
+  }
+
+  :global(html.js) .event-list-wrapper[data-loading='true'] .event-skeleton-list {
+    display: flex;
+  }
+
+  :global(html.js) .event-list-wrapper[data-loading='true'] .event-list,
+  :global(html.js) .event-list-wrapper[data-loading='true'] .events-empty-state {
+    display: none !important;
   }
 
   .event-skeleton-row {
@@ -287,16 +295,25 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     const wrapper = document.querySelector<HTMLElement>('.event-list-wrapper[data-sheet-url]');
     if (!wrapper) return;
 
-    const rawUrl = wrapper.dataset.sheetUrl || '';
+    const currentWrapper = wrapper;
+    const rawUrl = currentWrapper.dataset.sheetUrl || '';
     const csvUrl = getSheetCSVUrl(rawUrl);
-    if (!csvUrl) return;
+    if (!csvUrl) {
+      currentWrapper.removeAttribute('data-loading');
+      return;
+    }
 
-    const skeletonEl = wrapper.querySelector<HTMLElement>('#events-skeleton-list');
-    const listEl = wrapper.querySelector<HTMLElement>('#event-list');
-    const emptyStateEl = wrapper.querySelector<HTMLElement>('#events-empty-state');
+    const skeletonEl = currentWrapper.querySelector<HTMLElement>('#events-skeleton-list');
+    const listEl = currentWrapper.querySelector<HTMLElement>('#event-list');
+    const emptyStateEl = currentWrapper.querySelector<HTMLElement>('#events-empty-state');
+
+    function finishLoading() {
+      currentWrapper.removeAttribute('data-loading');
+      if (skeletonEl) skeletonEl.style.display = 'none';
+    }
 
     function revealFallback() {
-      if (skeletonEl) skeletonEl.style.display = 'none';
+      finishLoading();
       if (listEl && listEl.children.length > 0) {
         listEl.style.display = '';
         if (emptyStateEl) emptyStateEl.style.display = 'none';
@@ -307,12 +324,7 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     }
 
     function applyEvents(upcomingEvents: EventItem[]) {
-      if (skeletonEl) {
-        skeletonEl.style.opacity = '0';
-        setTimeout(() => {
-          skeletonEl.style.display = 'none';
-        }, 150);
-      }
+      finishLoading();
 
       if (!upcomingEvents || upcomingEvents.length === 0) {
         if (listEl) {
