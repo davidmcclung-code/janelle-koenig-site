@@ -84,7 +84,7 @@ export const mainRows: GalleryRow[] = [
         title: 'Bunnings Environmental Couture',
         caption: 'Nobody wears a dress made of Bunnings environmental bags like me. NO-ONE.',
         alt: 'Janelle Koenig onstage wearing a dress made from green Bunnings environmental bags',
-        objectPosition: 'center top',
+        objectPosition: 'center 92%',
       },
       {
         id: 'sequin-guitar',

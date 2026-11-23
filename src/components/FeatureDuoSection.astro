@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '../data/siteConfig';
+import { asset } from '../utils/paths';
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
 import ArrowIcon from './ArrowIcon.astro';
 import enquiryCutoutImg from '../assets/photography/photos/janelle-enquiry-cutout.png';
@@ -37,16 +38,10 @@ const substackSources = await createResponsiveSourceSet(
             Janelle keeps the room laughing, the event moving and awkward silences off the agenda.
           </p>
           <div class="duo-actions">
-            <button
-              type="button"
-              class="btn duo-mc-btn"
-              id="mc-enquire-btn"
-              data-booking-trigger
-              aria-haspopup="dialog"
-            >
+            <a href={asset('/mc-events')} class="btn duo-mc-btn" id="mc-enquire-btn">
               <span>MC &amp; EVENT ENQUIRIES</span>
               <ArrowIcon size={13} />
-            </button>
+            </a>
           </div>
         </div>
 

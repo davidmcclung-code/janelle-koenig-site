@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
-import CredibilityStrip from '../components/CredibilityStrip.astro';
 import AboutScrollytelling from '../components/AboutScrollytelling.astro';
 import EnquiryBanner from '../components/EnquiryBanner.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
@@ -13,7 +12,7 @@ import kidsCancerGalaImg from '../assets/photography/about/janelle-kids-cancer-g
 
 const pageTitle = 'About | Janelle Koenig';
 const pageDescription =
-  'Western Australia’s First Lady of Comedy: Janelle Koenig is a comedian, writer, director, MC, actor and producer with nearly 25 years on stage, screen and radio.';
+  'Western Australia’s First Lady of Comedy: Janelle Koenig is a comedian, writer, director, MC, actor and producer with over 25 years on stage, screen and radio.';
 
 const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560, 760, 960], 'jpeg');
 ---
@@ -24,7 +23,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     id="about-page-title"
     eyebrow="WA’s First Lady of Comedy"
     titleLines={['ABOUT', 'JANELLE']}
-    lead="Almost 25 years on stage, screen and radio. Plus keeping corporate rooms awake."
+    lead="Over 25 years on stage, screen and radio. Plus keeping corporate rooms awake."
     image={aboutHeroCutoutImg}
     imageAlt="Janelle Koenig looking surprised in a burgundy floral dress"
     imagePosition="center bottom"
@@ -42,86 +41,25 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
           </a>
         </li>
         <li>
-          <a href="#credits" class="jump-link" data-chapter-link="credits">
+          <a href="#community" class="jump-link" data-chapter-link="community">
             <span class="jump-num">02</span>
-            <span>Credits</span>
+            <span>Stage &amp; Community</span>
           </a>
         </li>
         <li>
-          <a href="#community" class="jump-link" data-chapter-link="community">
+          <a href="#credits" class="jump-link" data-chapter-link="credits">
             <span class="jump-num">03</span>
-            <span>Community</span>
+            <span>Credits</span>
           </a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <!-- 3. Shared Media Credibility Strip -->
-  <CredibilityStrip />
-
-  <!-- 4. Chapter 1: Pinned Scrollytelling Bio -->
+  <!-- 3. Chapter 1: Pinned Scrollytelling Bio -->
   <AboutScrollytelling />
 
-  <!-- 5. Chapter 2: Credits & Highlights -->
-  <section class="credits-section" id="credits" aria-labelledby="credits-heading">
-    <div class="container">
-      <div class="credits-header scroll-reveal">
-        <span class="font-script text-script-section section-script">
-          On stage, on screen &amp; behind the scenes
-        </span>
-        <h2 id="credits-heading" class="section-heading credits-title">
-          Credits &amp; highlights.
-        </h2>
-      </div>
-
-      <div class="pillars-grid">
-        <div class="pillar-col scroll-reveal">
-          <span class="pillar-num" aria-hidden="true">01.</span>
-          <h3 class="pillar-title">Stand-Up &amp; Musical Comedy</h3>
-          <p class="pillar-copy">
-            Nearly 20 years as a full-time stand-up headlining clubs, theatres and festivals worldwide.
-          </p>
-          <ul class="pillar-list">
-            <li>NBC’s Last Comic Standing (International Edition)</li>
-            <li>Shared stages with Jimeoin, Alan Davies &amp; Wayne Brady</li>
-            <li>Producer &amp; host, Let’s Hear It For The Girls</li>
-            <li>30,000+ followers &amp; 20M+ online views</li>
-          </ul>
-        </div>
-
-        <div class="pillar-col scroll-reveal">
-          <span class="pillar-num" aria-hidden="true">02.</span>
-          <h3 class="pillar-title">Stage, MC &amp; Major Events</h3>
-          <p class="pillar-copy">
-            Leading musical theatre roles and major live hosting across Western Australia.
-          </p>
-          <ul class="pillar-list">
-            <li>Priscilla Queen of the Desert (55,000+ at Crown Theatre)</li>
-            <li>We Will Rock You (Regal Theatre, Perth)</li>
-            <li>2025 Perth Pride Parade Mainstage Host</li>
-            <li>Wicked &amp; Wicked: For Good WA Premieres (Universal)</li>
-          </ul>
-        </div>
-
-        <div class="pillar-col scroll-reveal">
-          <span class="pillar-num" aria-hidden="true">03.</span>
-          <h3 class="pillar-title">Writing, Directing &amp; Radio</h3>
-          <p class="pillar-copy">
-            Head-writer credits for flagship Australian broadcasts plus national weekly radio.
-          </p>
-          <ul class="pillar-list">
-            <li>Eurovision – Australia Decides (Logie-nominated, 2019)</li>
-            <li>SBS Mardi Gras Parade (AACTA Winner, 2021)</li>
-            <li>Channel 7’s Take Me Out &amp; RHOS Reunion (Binge)</li>
-            <li>'Janelle’s Juice Box' on Nova FM’s Joel Creasey Show</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Chapter 3: Dark-Stage Community & Events Spotlight -->
+  <!-- 5. Chapter 2: Dark-Stage Community & Events Spotlight -->
   <section class="community-stage-section" id="community" aria-labelledby="community-heading">
     <div class="container">
       <div class="ambassador-panel scroll-reveal">
@@ -148,15 +86,15 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
           <h2 id="community-heading" class="ambassador-h3">Showing off, hosting &amp; giving back</h2>
 
           <p class="ambassador-copy">
-            When she feels like showing off, Janelle also acts. Her stage credits include leading roles in <em>Priscilla Queen of the Desert</em>, playing to more than 55,000 people at Perth’s Crown Theatre, and <em>We Will Rock You</em> at the Regal Theatre.
+            When she feels like showing off, Janelle also acts, with leading stage roles in <em>Priscilla Queen of the Desert</em> (playing to more than 55,000 people at Perth’s Crown Theatre) and <em>We Will Rock You</em> at the Regal Theatre.
           </p>
 
           <p class="ambassador-copy">
-            As an MC, Janelle has hosted major events across WA, including the three-hour 2025 Perth Pride Parade mainstage, and was handpicked by Universal Pictures to host the WA premieres of <em>Wicked</em> and <em>Wicked: For Good</em> and was recently engaged to capture content at the exclusive Perth Film Studios Open Day.
+            On the live events side, she has hosted the three-hour televised 2025 and 2026 Perth Pride Parade mainstage, Universal Pictures’ WA premieres of <em>Wicked</em> and <em>Wicked: For Good</em>, and the exclusive Perth Film Studios Open Day.
           </p>
 
           <p class="ambassador-copy">
-            Janelle is also the producer and host of the sell-out female comedy gala <em>Let’s Hear It For The Girls</em> and is a proud ambassador for the Kids Cancer Support Group.
+            Janelle is also the producer and host of the sell-out female comedy gala <em>Let’s Hear It For The Girls</em> and a proud ambassador for the Kids Cancer Support Group.
           </p>
 
           <p class="bio-closing-line">
@@ -164,10 +102,74 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
             Janelle is proud to call herself a real woman – but she’s keeping the skinny jeans, just in case.
           </p>
 
-          <a href={asset('/photos')} class="ambassador-link">
-            <span>VIEW MORE IN THE PHOTO GALLERY</span>
-            <ArrowIcon size={14} />
-          </a>
+          <div class="ambassador-links">
+            <a href={asset('/mc-events')} class="ambassador-link">
+              <span>MC &amp; EVENT HOSTING + REVIEWS</span>
+              <ArrowIcon size={14} />
+            </a>
+            <a href={asset('/photos')} class="ambassador-link">
+              <span>VIEW MORE IN THE PHOTO GALLERY</span>
+              <ArrowIcon size={14} />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Chapter 3: Credits & Highlights -->
+  <section class="credits-section" id="credits" aria-labelledby="credits-heading">
+    <div class="container">
+      <div class="credits-header scroll-reveal">
+        <span class="font-script text-script-section section-script">
+          On stage, on screen &amp; behind the scenes
+        </span>
+        <h2 id="credits-heading" class="section-heading credits-title">
+          Credits &amp; highlights.
+        </h2>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-col scroll-reveal">
+          <span class="pillar-num" aria-hidden="true">01.</span>
+          <h3 class="pillar-title">Stand-Up &amp; Musical Comedy</h3>
+          <p class="pillar-copy">
+            Over 25 years performing stand-up, headlining clubs, theatres and festivals worldwide.
+          </p>
+          <ul class="pillar-list">
+            <li>NBC’s Last Comic Standing (International Edition)</li>
+            <li>Shared stages with Jimeoin, Alan Davies &amp; Wayne Brady</li>
+            <li>Producer &amp; host, Let’s Hear It For The Girls</li>
+            <li>30,000+ followers &amp; 20M+ online views</li>
+          </ul>
+        </div>
+
+        <div class="pillar-col scroll-reveal">
+          <span class="pillar-num" aria-hidden="true">02.</span>
+          <h3 class="pillar-title">Stage, MC &amp; Major Events</h3>
+          <p class="pillar-copy">
+            Leading musical theatre roles and major live hosting across Western Australia.
+          </p>
+          <ul class="pillar-list">
+            <li>Priscilla Queen of the Desert (55,000+ at Crown Theatre)</li>
+            <li>We Will Rock You (Regal Theatre, Perth)</li>
+            <li>2025 &amp; 2026 Perth Pride Parade Mainstage Host</li>
+            <li>Wicked &amp; Wicked: For Good WA Premieres (Universal)</li>
+          </ul>
+        </div>
+
+        <div class="pillar-col scroll-reveal">
+          <span class="pillar-num" aria-hidden="true">03.</span>
+          <h3 class="pillar-title">Writing, Directing &amp; Radio</h3>
+          <p class="pillar-copy">
+            Head-writer credits for flagship Australian broadcasts plus national weekly radio.
+          </p>
+          <ul class="pillar-list">
+            <li>Eurovision – Australia Decides (Logie-nominated, 2019)</li>
+            <li>SBS Mardi Gras Parade (AACTA Winner, 2021)</li>
+            <li>Channel 7’s Take Me Out &amp; RHOS Reunion (Binge)</li>
+            <li>'Janelle’s Juice Box' on Nova FM’s Joel Creasey Show</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -215,7 +217,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   // Highlight active chapter in jump bar during scroll
   const chapterLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-chapter-link]'));
-  const chapterIds = ['story', 'credits', 'community'];
+  const chapterIds = ['story', 'community', 'credits'];
   const chapterSections = chapterIds
     .map((id) => document.getElementById(id))
     .filter((el): el is HTMLElement => el !== null);
@@ -352,21 +354,23 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
   }
 
   /* ==========================================================================
-     Credits & Highlights Section
+     Credits & Highlights Section (Dark Stage)
      ========================================================================== */
   .credits-section {
-    background-color: var(--colour-page-warm);
+    --colour-focus: var(--colour-focus-on-dark);
+    background-color: var(--colour-footer);
     padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
-    border-top: 1px solid var(--colour-border);
+    color: var(--colour-dark-ink);
   }
 
   .credits-header {
     margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
   }
 
-  .section-script {
+  .credits-section .section-script {
     font-size: clamp(1.45rem, 1.1rem + 0.6vw, 1.9rem);
     line-height: 1.15;
+    color: var(--colour-primary-on-dark);
     display: inline-block;
     margin-bottom: var(--space-2);
     transform: rotate(-1deg);
@@ -378,7 +382,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-weight: 900;
     line-height: 1.06;
     letter-spacing: -0.03em;
-    color: var(--colour-ink);
+    color: #ffffff;
     margin: 0;
   }
 
@@ -389,21 +393,21 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
   }
 
   .pillar-col {
-    border-top: 2px solid var(--colour-ink);
+    border-top: 2px solid var(--colour-dark-border-strong);
     padding-top: var(--space-4);
     min-width: 0;
     transition: border-color var(--motion-fast) var(--ease-out);
   }
 
   .pillar-col:hover {
-    border-top-color: var(--colour-primary);
+    border-top-color: var(--colour-primary-on-dark);
   }
 
   .pillar-num {
     font-family: var(--font-script);
     font-size: 1.375rem;
     font-weight: 700;
-    color: var(--colour-primary);
+    color: var(--colour-primary-on-dark);
     display: block;
     margin-bottom: 4px;
     line-height: 1.1;
@@ -414,7 +418,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-size: clamp(1.15rem, 0.95rem + 0.35vw, 1.3125rem);
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: var(--colour-ink);
+    color: #ffffff;
     margin: 0 0 10px 0;
   }
 
@@ -422,7 +426,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-family: var(--font-body);
     font-size: 0.90625rem;
     line-height: 1.55;
-    color: var(--colour-ink-subtle);
+    color: rgba(243, 243, 243, 0.8);
     margin: 0 0 14px 0;
   }
 
@@ -431,24 +435,24 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     margin: 0;
     padding: 0;
     font-size: 0.84375rem;
-    color: var(--colour-ink);
+    color: rgba(255, 255, 255, 0.92);
     font-weight: 500;
   }
 
   .pillar-list li {
     padding: 6px 0;
-    border-top: 1px solid var(--colour-border);
+    border-top: 1px solid var(--colour-dark-border);
     line-height: 1.4;
   }
 
   /* ==========================================================================
-     Dark-Stage Community Spotlight
+     Warm-Ground Community Spotlight
      ========================================================================== */
   .community-stage-section {
-    --colour-focus: var(--colour-focus-on-dark);
-    background-color: var(--colour-footer);
+    background-color: var(--colour-page-warm);
     padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
-    color: var(--colour-dark-ink);
+    color: var(--colour-ink);
+    border-top: 1px solid var(--colour-border);
   }
 
   .ambassador-panel {
@@ -456,19 +460,19 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     grid-template-columns: minmax(260px, 380px) 1fr;
     gap: clamp(1.5rem, 3.5vw, 2.75rem);
     align-items: center;
-    background-color: var(--colour-dark-surface);
-    border: 1px solid var(--colour-dark-border);
+    background-color: var(--colour-surface);
+    border: 1px solid var(--colour-border);
     border-radius: var(--radius-sm);
     padding: clamp(1.25rem, 2.8vw, 2rem);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
 
   .ambassador-photo {
     border-radius: var(--radius-xs);
     overflow: hidden;
     aspect-ratio: 3 / 3.6;
-    background-color: var(--colour-dark-stage);
-    border: 1px solid var(--colour-dark-border);
+    background-color: var(--colour-surface-alt);
+    border: 1px solid var(--colour-border);
   }
 
   .ambassador-photo picture,
@@ -486,7 +490,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   .ambassador-eyebrow {
     font-size: clamp(1.35rem, 1.05rem + 0.5vw, 1.625rem);
-    color: var(--colour-primary-on-dark);
+    color: var(--colour-primary);
     display: inline-block;
     margin-bottom: 4px;
     line-height: 1.1;
@@ -497,7 +501,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-size: clamp(1.35rem, 1.05rem + 0.55vw, 1.75rem);
     font-weight: 900;
     letter-spacing: -0.025em;
-    color: #ffffff;
+    color: var(--colour-ink);
     margin: 0 0 14px 0;
   }
 
@@ -505,7 +509,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-family: var(--font-body);
     font-size: 0.96875rem;
     line-height: 1.6;
-    color: rgba(243, 243, 243, 0.86);
+    color: var(--colour-ink-subtle);
     max-width: 60ch;
     margin: 0 0 14px 0;
   }
@@ -515,11 +519,18 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-size: 0.96875rem;
     line-height: 1.55;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--colour-ink);
     padding-top: 12px;
-    border-top: 1px solid var(--colour-dark-border);
+    border-top: 1px solid var(--colour-border);
     margin: 0 0 18px 0;
     max-width: 60ch;
+  }
+
+  .ambassador-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 24px;
   }
 
   .ambassador-link {
@@ -532,14 +543,14 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--colour-primary-on-dark);
+    color: var(--colour-primary);
     transition:
       transform var(--motion-fast) var(--ease-out),
       color var(--motion-fast) var(--ease-out);
   }
 
   .ambassador-link:hover {
-    color: #ffffff;
+    color: var(--colour-ink);
   }
 
   @media (max-width: 1023px) {

@@ -139,7 +139,10 @@ html {
 
 [id="story"],
 [id="credits"],
-[id="community"] {
+[id="community"],
+[id="services"],
+[id="reviews"],
+[id="highlights"] {
   scroll-margin-top: calc(var(--header-height-compact) + 64px);
 }
 

@@ -59,9 +59,14 @@ const isItemActive = (itemHref?: string) => {
 
     <!-- Header CTA button aligned to right margin -->
     <div class="header-action">
-      <a href={asset('/#shows')} class="btn btn-secondary header-cta">
-        SEE JANELLE LIVE
-      </a>
+      <button
+        type="button"
+        class="btn btn-secondary header-cta"
+        data-booking-trigger
+        aria-haspopup="dialog"
+      >
+        BOOK JANELLE
+      </button>
     </div>
 
     <!-- Mobile Menu Toggle Button -->
@@ -150,7 +155,7 @@ const isItemActive = (itemHref?: string) => {
           data-booking-trigger
           id="drawer-booking-btn"
         >
-          MC &amp; EVENT ENQUIRIES
+          BOOK JANELLE
         </button>
       </div>
     </nav>

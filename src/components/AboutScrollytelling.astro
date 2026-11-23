@@ -1,11 +1,11 @@
 ---
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
 import guitarStageImg from '../assets/photography/about/janelle-guitar-stage.jpg';
-import pawaAwardsImg from '../assets/photography/about/janelle-pawa-awards.jpg';
+import prettyWomanImg from '../assets/photos/janelle-11-pretty-woman-red.webp';
 import wickedPremiereImg from '../assets/photos/janelle-15-wicked-premiere.webp';
 
 const guitarSources = await createResponsiveSourceSet(guitarStageImg, [360, 560, 760, 960], 'jpeg');
-const pawaSources = await createResponsiveSourceSet(pawaAwardsImg, [360, 560, 760, 960], 'jpeg');
+const prettyWomanSources = await createResponsiveSourceSet(prettyWomanImg, [360, 560, 760, 960], 'jpeg');
 const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 560, 760, 960], 'jpeg');
 ---
 
@@ -21,7 +21,7 @@ const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 5
         </h2>
 
         <p>
-          Western Australia’s First Lady of Comedy, Janelle Koenig, has spent almost 25 years making people laugh – on stage, on screen, on radio and, increasingly, while they’re supposed to be working.
+          Western Australia’s First Lady of Comedy, Janelle Koenig, has spent over 25 years making people laugh – on stage, on screen, on radio and, increasingly, while they’re supposed to be working.
         </p>
 
         <p>
@@ -59,7 +59,7 @@ const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 5
         <h3 class="beat-heading">20M+ views, national radio &amp; international stages.</h3>
 
         <p>
-          Blending razor-sharp stand-up with killer(ish) vocals and masterful musical comedy, Janelle has headlined all over the world, has been a full-time stand-up for nearly 20 years and is a dominating presence in the Australian comedy scene. She was also one of a handful of Australian comedians selected for the international edition of NBC’s <em>Last Comic Standing</em>.
+          Blending razor-sharp stand-up with killer(ish) vocals and masterful musical comedy, Janelle has spent over 25 years performing stand-up, headlining all over the world and remaining a dominating presence in the Australian comedy scene. She was also one of a handful of Australian comedians selected for the international edition of NBC’s <em>Last Comic Standing</em>.
         </p>
 
         <p>
@@ -73,24 +73,24 @@ const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 5
         <figure class="beat-inline-figure">
           <div class="editorial-frame">
             <picture>
-              <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="(min-width: 960px) 380px, 90vw" width={pawaSources.width} height={pawaSources.height} />
-              <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="(min-width: 960px) 380px, 90vw" width={pawaSources.width} height={pawaSources.height} />
+              <source type="image/avif" srcset={prettyWomanSources.avifSrcset} sizes="(min-width: 960px) 380px, 90vw" width={prettyWomanSources.width} height={prettyWomanSources.height} />
+              <source type="image/webp" srcset={prettyWomanSources.webpSrcset} sizes="(min-width: 960px) 380px, 90vw" width={prettyWomanSources.width} height={prettyWomanSources.height} />
               <img
-                src={pawaSources.fallbackSrc}
-                srcset={pawaSources.fallbackSrcset}
+                src={prettyWomanSources.fallbackSrc}
+                srcset={prettyWomanSources.fallbackSrcset}
                 sizes="(min-width: 960px) 380px, 90vw"
-                alt="Janelle Koenig hosting the Performing Arts WA Awards at a lectern"
-                width={pawaSources.width}
-                height={pawaSources.height}
+                alt="Janelle Koenig in a floor-length red dress on the Pretty Woman red carpet"
+                width={prettyWomanSources.width}
+                height={prettyWomanSources.height}
                 loading="lazy"
                 decoding="async"
-                class="stage-img img-lectern"
+                class="stage-img img-pretty-woman"
               />
             </picture>
           </div>
           <figcaption class="editorial-caption">
-            <strong>Performing Arts WA Awards</strong>
-            Keeping major live rooms and broadcasts moving.
+            <strong>Red carpet &amp; live stages</strong>
+            Stand-up, musical comedy, national radio and major events.
           </figcaption>
         </figure>
       </article>
@@ -162,25 +162,25 @@ const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 5
           <figure class="stage-card stage-card-2">
             <div class="editorial-frame">
               <picture>
-                <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="380px" width={pawaSources.width} height={pawaSources.height} />
-                <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="380px" width={pawaSources.width} height={pawaSources.height} />
+                <source type="image/avif" srcset={prettyWomanSources.avifSrcset} sizes="380px" width={prettyWomanSources.width} height={prettyWomanSources.height} />
+                <source type="image/webp" srcset={prettyWomanSources.webpSrcset} sizes="380px" width={prettyWomanSources.width} height={prettyWomanSources.height} />
                 <img
-                  src={pawaSources.fallbackSrc}
-                  srcset={pawaSources.fallbackSrcset}
+                  src={prettyWomanSources.fallbackSrc}
+                  srcset={prettyWomanSources.fallbackSrcset}
                   sizes="380px"
                   alt=""
-                  width={pawaSources.width}
-                  height={pawaSources.height}
+                  width={prettyWomanSources.width}
+                  height={prettyWomanSources.height}
                   loading="lazy"
                   decoding="async"
-                  class="stage-img img-lectern"
+                  class="stage-img img-pretty-woman"
                 />
               </picture>
             </div>
             <figcaption class="stage-caption">
               <span class="stage-step">02 / 03</span>
-              <strong>Performing Arts WA Awards</strong>
-              <span>Keeping major live rooms and broadcasts moving.</span>
+              <strong>Red carpet &amp; live stages</strong>
+              <span>Stand-up, musical comedy, national radio and major events.</span>
             </figcaption>
           </figure>
 
@@ -306,7 +306,7 @@ const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 5
   }
 
   .img-guitar { object-position: 50% 4%; }
-  .img-lectern { object-position: 50% 6%; }
+  .img-pretty-woman { object-position: 50% 8%; }
   .img-wicked { object-position: 50% 12%; }
 
   .editorial-caption {
@@ -453,13 +453,13 @@ const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 5
       .stage-card-2 {
         animation: scrolly-card-wipe linear both;
         animation-timeline: --bio-beat-2;
-        animation-range: cover 40% cover 52%;
+        animation-range: cover 18% cover 36%;
       }
 
       .stage-card-3 {
         animation: scrolly-card-wipe linear both;
         animation-timeline: --bio-beat-3;
-        animation-range: cover 40% cover 52%;
+        animation-range: cover 18% cover 36%;
       }
     }
 

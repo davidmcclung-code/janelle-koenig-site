@@ -30,14 +30,14 @@ export const siteConfig: SiteConfig = {
   name: 'Janelle Koenig',
   role: 'Comedian | MC | Panel Host',
   heroHeadline: ['Comedy.', 'Casseroles.', 'Chaos.'],
-  heroSubhead: 'Comedian, creator, writer, MC, mum, and indoorsy type. See Janelle live around Australia.',
+  heroSubhead: 'Comedian, creator, writer, MC, mum, and indoorsy type.',
   email: 'hello@janellekoenig.com',
   substackUrl: 'https://janellekoenig.substack.com/',
   eventsSheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7-WEu9FEEkyIqi3TxtQ4DzrqlWn4dKMcmvki-X2xkPaHQwvdshaupWr-DWcPhiOoQjtO_yRkvzXHy/pub?gid=0&single=true&output=csv',
   navItems: [
     { label: 'SHOWS', href: '/#shows' },
     { label: 'ABOUT', href: '/about' },
-    { label: 'MC & EVENTS', action: 'booking' },
+    { label: 'MC & EVENTS', href: '/mc-events' },
     { label: 'GALLERY', href: '/photos' },
   ],
   socialLinks: [

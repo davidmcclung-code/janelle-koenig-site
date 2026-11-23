@@ -1,0 +1,775 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import EnquiryBanner from '../components/EnquiryBanner.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import testimonials from '../data/testimonials.json';
+import { asset } from '../utils/paths';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+
+import enquiryCutoutImg from '../assets/photography/photos/janelle-enquiry-cutout.png';
+import wickedPremiereImg from '../assets/photos/janelle-15-wicked-premiere.webp';
+import malaysiaImg from '../assets/photos/janelle-12-malaysian-tourism.webp';
+
+const pageTitle = 'MC & Events | Janelle Koenig';
+const pageDescription =
+  'Book Janelle Koenig as an MC, corporate comedian, panel host or awards night host across Perth, WA and Australia.';
+
+const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 560, 760, 960], 'jpeg');
+const malaysiaSources = await createResponsiveSourceSet(malaysiaImg, [360, 560, 760, 960], 'jpeg');
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- 1. MC & Events Hero -->
+  <PageHero
+    id="mc-events-page-title"
+    eyebrow="Need a grown-up?"
+    titleLines={['MC &', 'EVENTS']}
+    lead="Quick wit. Calm hands. Zero beige. Janelle MCs galas, hosts panels and turns corporate rooms into actual fun."
+    image={enquiryCutoutImg}
+    imageAlt="Janelle Koenig smiling with arms crossed"
+    imagePosition="center top"
+  />
+
+  <!-- 2. Compact Chapter Jump Links Bar -->
+  <nav class="chapter-jump-nav" id="chapter-jump-nav" aria-label="MC and Events page sections">
+    <div class="container jump-nav-inner">
+      <span class="jump-nav-label" aria-hidden="true">JUMP TO</span>
+      <ul class="jump-nav-list">
+        <li>
+          <a href="#services" class="jump-link is-active" data-chapter-link="services" aria-current="location">
+            <span class="jump-num">01</span>
+            <span>Services</span>
+          </a>
+        </li>
+        <li>
+          <a href="#reviews" class="jump-link" data-chapter-link="reviews">
+            <span class="jump-num">02</span>
+            <span>Reviews</span>
+          </a>
+        </li>
+        <li>
+          <a href="#highlights" class="jump-link" data-chapter-link="highlights">
+            <span class="jump-num">03</span>
+            <span>Highlights</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 3. Light Section: Services -->
+  <section class="services-section" id="services" aria-labelledby="services-heading">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <span class="font-script text-script-section section-script">
+          Corporate, gala &amp; live hosting
+        </span>
+        <h2 id="services-heading" class="section-heading">
+          Three ways Janelle keeps the room alive.
+        </h2>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-col scroll-reveal">
+          <span class="pillar-num" aria-hidden="true">01.</span>
+          <h3 class="pillar-title">MC &amp; Major Event Hosting</h3>
+          <p class="pillar-copy">
+            Warm, sharp and completely unflappable, keeping run sheets tight, sponsors happy and awkward silences off the agenda.
+          </p>
+          <ul class="pillar-list">
+            <li>Awards nights, galas &amp; charity fundraisers</li>
+            <li>Conferences, government &amp; VIP roadshows</li>
+            <li>Red-carpet premieres &amp; live broadcasts</li>
+          </ul>
+        </div>
+
+        <div class="pillar-col scroll-reveal">
+          <span class="pillar-num" aria-hidden="true">02.</span>
+          <h3 class="pillar-title">Tailored Comedy &amp; Musical Sets</h3>
+          <p class="pillar-copy">
+            Bespoke stand-up and custom comedy songs written around your organisation, industry and guests, funny without making HR nervous.
+          </p>
+          <ul class="pillar-list">
+            <li>Custom-written event material &amp; jingles</li>
+            <li>Headliner sets for corporate &amp; regional events</li>
+            <li>25+ years reading every kind of room</li>
+          </ul>
+        </div>
+
+        <div class="pillar-col scroll-reveal">
+          <span class="pillar-num" aria-hidden="true">03.</span>
+          <h3 class="pillar-title">Panel Hosting &amp; Q&amp;As</h3>
+          <p class="pillar-copy">
+            Draws the best stories out of speakers, keeps conversations lively and makes even technical topics genuinely entertaining.
+          </p>
+          <ul class="pillar-list">
+            <li>Fireside chats &amp; celebrity Q&amp;As</li>
+            <li>Industry panels &amp; ladies luncheons</li>
+            <li>Seamless briefing &amp; pre-event prep</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Warm Cream Section: Client Reviews -->
+  <section class="reviews-section" id="reviews" aria-labelledby="reviews-heading">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <span class="font-script text-script-section section-script">
+          Don’t just take her word for it
+        </span>
+        <h2 id="reviews-heading" class="section-heading">
+          Nice things people said.
+        </h2>
+      </div>
+
+      <div class="testimonials-grid">
+        {
+          testimonials.map((item) => (
+            <figure class="testimonial-card scroll-reveal">
+              <blockquote class="testimonial-quote">
+                <p>“{item.quote}”</p>
+              </blockquote>
+              <figcaption class="testimonial-meta">
+                <span class="testimonial-author">{item.author}</span>
+                <span class="testimonial-org">{item.organisation}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Dark Stage Section: Recent Hosting & Event Highlights -->
+  <section class="highlights-section" id="highlights" aria-labelledby="highlights-heading">
+    <div class="container">
+      <div class="highlights-grid scroll-reveal">
+        <div class="highlights-media">
+          <figure class="highlight-photo-card is-portrait">
+            <div class="highlight-frame frame-portrait">
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset={wickedSources.avifSrcset}
+                  sizes="(min-width: 1024px) 225px, (min-width: 540px) 45vw, 90vw"
+                  width={wickedSources.width}
+                  height={wickedSources.height}
+                />
+                <source
+                  type="image/webp"
+                  srcset={wickedSources.webpSrcset}
+                  sizes="(min-width: 1024px) 225px, (min-width: 540px) 45vw, 90vw"
+                  width={wickedSources.width}
+                  height={wickedSources.height}
+                />
+                <img
+                  src={wickedSources.fallbackSrc}
+                  srcset={wickedSources.fallbackSrcset}
+                  sizes="(min-width: 1024px) 225px, (min-width: 540px) 45vw, 90vw"
+                  alt="Janelle Koenig hosting the Wicked: For Good premiere in Perth"
+                  width={wickedSources.width}
+                  height={wickedSources.height}
+                  loading="lazy"
+                  decoding="async"
+                  class="highlight-img img-wicked"
+                />
+              </picture>
+            </div>
+            <figcaption class="highlight-caption">
+              <span class="highlight-tag">Premiere Host</span>
+              <strong>Wicked WA Premieres</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="highlight-photo-card is-portrait">
+            <div class="highlight-frame frame-portrait">
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset={malaysiaSources.avifSrcset}
+                  sizes="(min-width: 1024px) 225px, (min-width: 540px) 45vw, 90vw"
+                  width={malaysiaSources.width}
+                  height={malaysiaSources.height}
+                />
+                <source
+                  type="image/webp"
+                  srcset={malaysiaSources.webpSrcset}
+                  sizes="(min-width: 1024px) 225px, (min-width: 540px) 45vw, 90vw"
+                  width={malaysiaSources.width}
+                  height={malaysiaSources.height}
+                />
+                <img
+                  src={malaysiaSources.fallbackSrc}
+                  srcset={malaysiaSources.fallbackSrcset}
+                  sizes="(min-width: 1024px) 225px, (min-width: 540px) 45vw, 90vw"
+                  alt="Janelle Koenig hosting at the Consulate General of Malaysia media wall"
+                  width={malaysiaSources.width}
+                  height={malaysiaSources.height}
+                  loading="lazy"
+                  decoding="async"
+                  class="highlight-img img-malaysia"
+                />
+              </picture>
+            </div>
+            <figcaption class="highlight-caption">
+              <span class="highlight-tag">VIP Roadshow</span>
+              <strong>Tourism Malaysia</strong>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="highlights-content">
+          <span class="font-script highlights-eyebrow">Trusted with big rooms</span>
+          <h2 id="highlights-heading" class="highlights-title">
+            Recent hosting &amp; event highlights.
+          </h2>
+
+          <ul class="highlights-list">
+            <li>
+              <strong>2025 &amp; 2026 Perth Pride Parade:</strong> Three-hour televised mainstage host
+            </li>
+            <li>
+              <strong>Universal Pictures:</strong> Handpicked host for WA premieres of <em>Wicked</em> &amp; <em>Wicked: For Good</em>
+            </li>
+            <li>
+              <strong>Tourism Malaysia:</strong> Host &amp; custom comedy for VIP roadshow with international government officials
+            </li>
+            <li>
+              <strong>Perth Film Studios &amp; Charity Galas:</strong> Open Day host, Kai’s Big Gold Ball &amp; Kids Cancer Support Group Ambassador
+            </li>
+          </ul>
+
+          <a href={asset('/photos')} class="highlights-link">
+            <span>SEE MORE EVENT PHOTOS IN THE GALLERY</span>
+            <ArrowIcon size={14} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Full-Bleed Warm Enquiry CTA Banner -->
+  <EnquiryBanner buttonId="mc-events-cta-btn" />
+</BaseLayout>
+
+<script>
+  // Sync sticky chapter jump bar position cleanly beneath shrinking site header
+  const siteHeader = document.getElementById('site-header');
+  if (siteHeader) {
+    let lastHeaderHeight = -1;
+    let rafId = 0;
+
+    const syncHeaderHeight = () => {
+      rafId = 0;
+      const nextHeight = Math.round(siteHeader.getBoundingClientRect().height * 2) / 2;
+      if (nextHeight !== lastHeaderHeight) {
+        lastHeaderHeight = nextHeight;
+        document.documentElement.style.setProperty('--live-header-h', `${nextHeight}px`);
+      }
+    };
+
+    const scheduleHeaderSync = () => {
+      if (!rafId) {
+        rafId = window.requestAnimationFrame(syncHeaderHeight);
+      }
+    };
+
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(syncHeaderHeight);
+      try {
+        ro.observe(siteHeader, { box: 'border-box' });
+      } catch {
+        ro.observe(siteHeader);
+      }
+    }
+
+    window.addEventListener('scroll', scheduleHeaderSync, { passive: true });
+    window.addEventListener('resize', scheduleHeaderSync, { passive: true });
+    syncHeaderHeight();
+  }
+
+  // Highlight active chapter in jump bar during scroll
+  const chapterLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-chapter-link]'));
+  const chapterIds = ['services', 'reviews', 'highlights'];
+  const chapterSections = chapterIds
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  function setActiveChapter(activeId: string) {
+    chapterLinks.forEach((link) => {
+      const isMatch = link.dataset.chapterLink === activeId;
+      link.classList.toggle('is-active', isMatch);
+      if (isMatch) {
+        link.setAttribute('aria-current', 'location');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  if ('IntersectionObserver' in window && chapterSections.length > 0) {
+    const chapterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveChapter(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0.01 }
+    );
+    chapterSections.forEach((section) => chapterObserver.observe(section));
+  }
+</script>
+
+<style>
+  /* ==========================================================================
+     Compact Chapter Jump Links Bar
+     ========================================================================== */
+  .chapter-jump-nav {
+    position: sticky;
+    top: calc(var(--live-header-h, var(--header-height-compact)) - 1px);
+    z-index: 90;
+    background-color: rgba(251, 248, 244, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid var(--colour-border);
+    border-bottom: 1px solid var(--colour-border);
+  }
+
+  .jump-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 48px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .jump-nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .jump-nav-label {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--colour-muted);
+    white-space: nowrap;
+  }
+
+  .jump-nav-list {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1.5vw, 14px);
+    margin: 0;
+    padding: 4px 0;
+  }
+
+  .jump-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--colour-ink);
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition:
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out);
+  }
+
+  .jump-num {
+    font-family: var(--font-script);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--colour-primary);
+    line-height: 1;
+  }
+
+  .jump-link:hover {
+    background-color: var(--colour-primary-light);
+    color: var(--colour-primary);
+  }
+
+  .jump-link.is-active {
+    background-color: var(--colour-primary);
+    color: #ffffff;
+  }
+
+  .jump-link.is-active .jump-num {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  @media (max-width: 560px) {
+    .jump-nav-label {
+      display: none;
+    }
+
+    .jump-nav-inner {
+      justify-content: center;
+    }
+
+    .jump-link {
+      padding: 0 10px;
+      font-size: 0.6875rem;
+    }
+  }
+
+  /* ==========================================================================
+     Shared Section Typography & Services Grid (Light Ground)
+     ========================================================================== */
+  .services-section {
+    background-color: var(--colour-page);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+  }
+
+  .section-header {
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .section-script {
+    font-size: clamp(1.45rem, 1.1rem + 0.6vw, 1.9rem);
+    line-height: 1.15;
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    transform: rotate(-1deg);
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 1.15rem + 0.9vw, 2.25rem);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--colour-ink);
+    margin: 0;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 2.8vw, 2.25rem);
+  }
+
+  .pillar-col {
+    border-top: 2px solid var(--colour-ink);
+    padding-top: var(--space-4);
+    min-width: 0;
+    transition: border-color var(--motion-fast) var(--ease-out);
+  }
+
+  .pillar-col:hover {
+    border-top-color: var(--colour-primary);
+  }
+
+  .pillar-num {
+    font-family: var(--font-script);
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--colour-primary);
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .pillar-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 0.95rem + 0.35vw, 1.3125rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--colour-ink);
+    margin: 0 0 10px 0;
+  }
+
+  .pillar-copy {
+    font-family: var(--font-body);
+    font-size: 0.90625rem;
+    line-height: 1.55;
+    color: var(--colour-ink-subtle);
+    margin: 0 0 14px 0;
+  }
+
+  .pillar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.84375rem;
+    color: var(--colour-ink);
+    font-weight: 500;
+  }
+
+  .pillar-list li {
+    padding: 6px 0;
+    border-top: 1px solid var(--colour-border);
+    line-height: 1.4;
+  }
+
+  /* ==========================================================================
+     Client Reviews Section (Warm Cream Ground)
+     ========================================================================== */
+  .reviews-section {
+    background-color: var(--colour-page-warm);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    border-top: 1px solid var(--colour-border);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.15rem, 2.2vw, 1.65rem);
+  }
+
+  .testimonial-card {
+    background-color: var(--colour-surface);
+    border: 1px solid var(--colour-border);
+    border-top: 3px solid var(--colour-primary);
+    border-radius: var(--radius-sm);
+    padding: clamp(1.35rem, 2.5vw, 1.85rem);
+    box-shadow: var(--shadow-sm);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .testimonial-quote {
+    margin: 0;
+  }
+
+  .testimonial-quote p {
+    font-family: var(--font-body);
+    font-size: 0.96875rem;
+    line-height: 1.62;
+    color: var(--colour-ink-subtle);
+    margin: 0;
+  }
+
+  .testimonial-meta {
+    padding-top: 12px;
+    border-top: 1px solid var(--colour-border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .testimonial-author {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 800;
+    color: var(--colour-ink);
+    line-height: 1.3;
+  }
+
+  .testimonial-org {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--colour-muted);
+    line-height: 1.35;
+  }
+
+  /* ==========================================================================
+     Recent Hosting & Event Highlights (Dark Stage)
+     ========================================================================== */
+  .highlights-section {
+    --colour-focus: var(--colour-focus-on-dark);
+    background-color: var(--colour-footer);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    color: var(--colour-dark-ink);
+  }
+
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 470px) 1fr;
+    gap: clamp(1.75rem, 4vw, 3.25rem);
+    align-items: center;
+  }
+
+  .highlights-media {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: stretch;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .highlight-photo-card {
+    margin: 0;
+    background-color: var(--colour-dark-surface);
+    border: 1px solid var(--colour-dark-border);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .highlight-frame {
+    overflow: hidden;
+    background-color: var(--colour-dark-stage);
+  }
+
+  .frame-portrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  .highlight-frame picture,
+  .highlight-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .img-wicked {
+    object-position: 50% 15%;
+  }
+
+  .img-malaysia {
+    object-position: 50% 10%;
+  }
+
+  .highlight-caption {
+    padding: 9px 11px;
+    border-top: 1px solid var(--colour-dark-border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .highlight-tag {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--colour-primary-on-dark);
+  }
+
+  .highlight-caption strong {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.25;
+  }
+
+  .highlights-content {
+    min-width: 0;
+  }
+
+  .highlights-eyebrow {
+    font-size: clamp(1.35rem, 1.05rem + 0.5vw, 1.625rem);
+    color: var(--colour-primary-on-dark);
+    display: inline-block;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .highlights-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 1.05rem + 0.8vw, 2rem);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    margin: 0 0 18px 0;
+  }
+
+  .highlights-list {
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgba(243, 243, 243, 0.88);
+    max-width: 60ch;
+  }
+
+  .highlights-list li {
+    padding: 10px 0;
+    border-top: 1px solid var(--colour-dark-border);
+  }
+
+  .highlights-list li:last-child {
+    border-bottom: 1px solid var(--colour-dark-border);
+  }
+
+  .highlights-list strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .highlights-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--colour-primary-on-dark);
+    transition:
+      transform var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out);
+  }
+
+  .highlights-link:hover {
+    color: #ffffff;
+  }
+
+  /* ==========================================================================
+     Responsive Rules
+     ========================================================================== */
+  @media (max-width: 1023px) {
+    .pillars-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .highlights-grid {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+
+    .highlights-media {
+      max-width: 540px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 539px) {
+    .highlights-media {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      max-width: 380px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .highlights-link:hover {
+      transform: none;
+    }
+  }
+</style>

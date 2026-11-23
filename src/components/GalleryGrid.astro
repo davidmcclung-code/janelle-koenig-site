@@ -41,7 +41,10 @@ const filters = [
           </button>
         ))}
       </div>
-      <p class="gallery-hint">Tap or click any frame to read the story behind it.</p>
+      <p class="gallery-hint">
+        <span class="hint-dot" aria-hidden="true"></span>
+        <span>Tap or click any photo to read the story behind it</span>
+      </p>
     </div>
 
     <!-- Primary Contact Sheet: 16 Live, Event & Hosting Photographs -->
@@ -92,11 +95,15 @@ const filters = [
                       style={`object-position: ${item.objectPosition || 'center center'};`}
                     />
 
+                    <span class="tile-story-pill" aria-hidden="true">
+                      Story <span class="tile-story-arrow">→</span>
+                    </span>
+
                     <div class="tile-overlay">
                       <div class="overlay-content">
                         <span class="overlay-meta">{item.badge} · {item.title}</span>
                         <p class="overlay-caption line-clamp-2">“{item.caption}”</p>
-                        <span class="overlay-cta" aria-hidden="true">Open story →</span>
+                        <span class="overlay-cta" aria-hidden="true">Read story →</span>
                       </div>
                     </div>
                   </div>
@@ -448,10 +455,27 @@ const filters = [
   }
 
   .gallery-hint {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    color: var(--colour-dark-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin: 0;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-xs);
+    background-color: var(--colour-dark-elevated);
+    border: 1px solid rgba(229, 107, 127, 0.42);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #ffffff;
+  }
+
+  .hint-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--colour-primary-on-dark);
+    flex-shrink: 0;
   }
 
   /* ==========================================================================
@@ -481,6 +505,7 @@ const filters = [
   @media (min-width: 1024px) {
     .gallery-rows.is-filtered {
       display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
       gap: clamp(10px, 1.4vw, 14px);
     }
@@ -490,10 +515,10 @@ const filters = [
     }
 
     .gallery-rows.is-filtered .gallery-tile {
-      flex: var(--tile-ratio, 1) 1 calc(var(--tile-ratio, 1) * clamp(180px, 18vw, 235px));
+      flex: var(--tile-ratio, 1) 1 calc(var(--tile-ratio, 1) * clamp(200px, 19vw, 250px));
       width: auto;
-      max-inline-size: calc(var(--tile-ratio, 1) * 480px);
-      height: clamp(240px, 24vw, 315px);
+      max-inline-size: calc(var(--tile-ratio, 1) * 440px);
+      height: clamp(270px, 26vw, 340px);
       aspect-ratio: auto;
     }
   }
@@ -516,8 +541,7 @@ const filters = [
       height: auto;
     }
 
-    .gallery-tile.is-wide-mobile,
-    .gallery-rows.is-filtered .gallery-tile.is-wide-mobile {
+    .gallery-rows:not(.is-filtered) .gallery-tile.is-wide-mobile {
       grid-column: 1 / -1;
       aspect-ratio: 16 / 10;
     }
@@ -956,6 +980,33 @@ const filters = [
     border-color: var(--colour-primary);
   }
 
+  .tile-story-pill {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    border-radius: var(--radius-xs);
+    background: rgba(10, 10, 10, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    pointer-events: none;
+    transition: opacity var(--motion-fast) var(--ease-out);
+  }
+
+  .tile-story-arrow {
+    color: var(--colour-primary-on-dark);
+  }
+
   .gallery-tile:focus-visible {
     outline: 3px solid var(--colour-primary-on-dark);
     outline-offset: 3px;
@@ -967,6 +1018,11 @@ const filters = [
   }
 
   @media (min-width: 1024px) {
+    .gallery-tile:hover .tile-story-pill,
+    .gallery-tile:focus-visible .tile-story-pill {
+      opacity: 0;
+    }
+
     .gallery-tile.is-contact-tile:hover,
     .gallery-tile.is-contact-tile:focus-visible {
       transform: scale(1.02);
@@ -1014,20 +1070,28 @@ const filters = [
   }
 
   @media (max-width: 1023px), (hover: none) {
+    .tile-story-pill {
+      display: none;
+    }
+
     .tile-overlay {
       opacity: 1;
       padding: var(--space-2) var(--space-3);
       background: linear-gradient(
         to top,
-        rgba(10, 10, 10, 0.88) 0%,
-        rgba(10, 10, 10, 0.45) 55%,
+        rgba(10, 10, 10, 0.92) 0%,
+        rgba(10, 10, 10, 0.52) 55%,
         rgba(10, 10, 10, 0) 100%
       );
     }
 
-    .overlay-caption,
-    .overlay-cta {
+    .overlay-caption {
       display: none;
+    }
+
+    .overlay-cta {
+      margin-top: 1px;
+      font-size: 0.6875rem;
     }
 
     .overlay-meta {
