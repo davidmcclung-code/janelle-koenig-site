@@ -24,18 +24,22 @@ const {
 } = Astro.props;
 ---
 
-<dialog id="video-modal" class="modal-dialog" aria-labelledby="video-modal-title" closedby="any">
+<dialog
+  id="video-modal"
+  class="animated-dialog modal-dialog"
+  aria-labelledby="video-modal-title"
+  closedby="any"
+>
   <div class="modal-card">
     <div class="modal-header">
       <h2 id="video-modal-title" class="font-script modal-title">Watch Janelle</h2>
-      <button type="button" class="modal-close-btn" id="video-modal-close" aria-label="Close video modal">
+      <button type="button" class="modal-close-btn" id="video-modal-close" aria-label="Close video modal" autofocus>
         <CloseIcon size={22} />
       </button>
     </div>
 
     <div class="modal-body">
       <div class="video-container">
-        <!-- Native HTML5 Video Player -->
         <video
           id="video-player-element"
           class="video-player"
@@ -58,6 +62,7 @@ const {
 <style>
   .modal-dialog {
     --colour-focus: var(--colour-focus-on-dark);
+    --dialog-backdrop-bg: rgba(10, 10, 10, 0.8);
     padding: 0;
     border: none;
     border-radius: var(--radius-lg);
@@ -65,34 +70,7 @@ const {
     max-width: 900px;
     width: calc(100% - 2rem);
     margin: auto;
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
-  }
-
-  .modal-dialog[open] {
-    animation: modalScaleIn 260ms var(--ease-out) forwards;
-  }
-
-  .modal-dialog::backdrop {
-    background-color: rgba(10, 10, 10, 0.75);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
-  }
-
-  @keyframes modalScaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.96) translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .modal-dialog[open] {
-      animation: none !important;
-    }
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
   }
 
   .modal-card {
@@ -197,12 +175,12 @@ const {
 </style>
 
 <script>
+  import { bindDialogLightDismiss, closeAnimatedDialog } from '../utils/topLayerDialog';
+
   const videoModal = document.getElementById('video-modal') as HTMLDialogElement | null;
   const videoCloseBtn = document.getElementById('video-modal-close');
   const videoTriggers = document.querySelectorAll('[data-video-trigger]');
   const videoElement = document.getElementById('video-player-element') as HTMLVideoElement | null;
-
-  let isVideoBackdropMousedown = false;
 
   function openVideoModal() {
     if (videoModal && typeof videoModal.showModal === 'function') {
@@ -216,39 +194,22 @@ const {
           // Autoplay browser policy fallback
         });
       }
-      requestAnimationFrame(() => {
-        videoCloseBtn?.focus();
-      });
     }
   }
 
-  function closeVideoModal() {
-    if (videoModal && typeof videoModal.close === 'function') {
-      if (videoElement) {
-        videoElement.pause();
-        videoElement.currentTime = 0;
-      }
-      videoModal.close();
+  async function closeVideoModal() {
+    if (videoElement) {
+      videoElement.pause();
     }
+    await closeAnimatedDialog(videoModal);
   }
 
   videoTriggers.forEach((trigger) => {
     trigger.addEventListener('click', openVideoModal);
   });
 
-  videoCloseBtn?.addEventListener('click', closeVideoModal);
-
-  // Safe backdrop click handling
-  videoModal?.addEventListener('mousedown', (e) => {
-    isVideoBackdropMousedown = e.target === videoModal;
-  });
-
-  videoModal?.addEventListener('mouseup', (e) => {
-    if (isVideoBackdropMousedown && e.target === videoModal) {
-      closeVideoModal();
-    }
-    isVideoBackdropMousedown = false;
-  });
+  videoCloseBtn?.addEventListener('click', () => void closeVideoModal());
+  bindDialogLightDismiss(videoModal, closeVideoModal);
 
   videoModal?.addEventListener('close', () => {
     if (videoElement) {

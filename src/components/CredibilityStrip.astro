@@ -28,13 +28,11 @@ const logos = await Promise.all(
 
 <section class="credibility-section" aria-label="Media Appearances and Credits">
   <div class="container">
-    <div class="credibility-inner reveal">
-      <!-- Cursive Label -->
+    <div class="credibility-inner scroll-reveal">
       <div class="credibility-label-wrapper">
         <span class="font-script text-script-section credibility-label">As seen on</span>
       </div>
 
-      <!-- Normalized Logo Row: One Single Horizontal Line -->
       <div class="logo-cloud">
         {
           logos.map((logo) => (
@@ -57,7 +55,7 @@ const logos = await Promise.all(
                   alt={logo.alt}
                   width={logo.sources.width}
                   height={logo.sources.height}
-                  loading="eager"
+                  loading="lazy"
                   decoding="async"
                   class="media-logo-img"
                 />
@@ -72,10 +70,10 @@ const logos = await Promise.all(
 
 <style>
   .credibility-section {
-    padding-top: 0.85rem;
-    padding-bottom: 0.85rem;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-    border-bottom: none;
+    border-bottom: 1px solid var(--colour-border);
     background-color: var(--colour-page);
     width: 100%;
   }
@@ -118,13 +116,16 @@ const logos = await Promise.all(
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    opacity: 0.85;
+    opacity: 0.82;
     color: var(--colour-ink);
-    transition: opacity var(--motion-fast) var(--ease-out);
+    transition:
+      opacity var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out);
   }
 
   .logo-item:hover {
     opacity: 1;
+    transform: translateY(-2px);
   }
 
   .media-logo-img {
@@ -135,34 +136,13 @@ const logos = await Promise.all(
     filter: grayscale(100%) contrast(120%);
   }
 
-  /* Optical Normalisation for Balanced Visual Weight */
-  .logo-abc .media-logo-img {
-    height: 22px;
-  }
-
-  .logo-nine .media-logo-img {
-    height: 18px;
-  }
-
-  .logo-ten .media-logo-img {
-    height: 19px;
-  }
-
-  .logo-sbs .media-logo-img {
-    height: 17.5px;
-  }
-
-  .logo-prime .media-logo-img {
-    height: 16.5px;
-  }
-
-  .logo-project .media-logo-img {
-    height: 16.5px;
-  }
-
-  .logo-nova .media-logo-img {
-    height: 20px;
-  }
+  .logo-abc .media-logo-img { height: 22px; }
+  .logo-nine .media-logo-img { height: 18px; }
+  .logo-ten .media-logo-img { height: 19px; }
+  .logo-sbs .media-logo-img { height: 17.5px; }
+  .logo-prime .media-logo-img { height: 16.5px; }
+  .logo-project .media-logo-img { height: 16.5px; }
+  .logo-nova .media-logo-img { height: 20px; }
 
   @media (max-width: 639px) {
     .credibility-label-wrapper {
@@ -176,40 +156,20 @@ const logos = await Promise.all(
   }
 
   @media (max-width: 480px) {
-    .credibility-inner {
-      gap: 10px;
-    }
+    .credibility-inner { gap: 10px; }
+    .credibility-label { font-size: 1.1rem; }
+    .logo-cloud { gap: 6px; }
+    .media-logo-img { height: 14px; }
+    .logo-abc .media-logo-img { height: 18px; }
+    .logo-nine .media-logo-img { height: 14px; }
+    .logo-ten .media-logo-img { height: 15px; }
+    .logo-sbs .media-logo-img { height: 14px; }
+    .logo-prime .media-logo-img { height: 11px; }
+  }
 
-    .credibility-label {
-      font-size: 1.1rem;
-    }
-
-    .logo-cloud {
-      gap: 6px;
-    }
-
-    .media-logo-img {
-      height: 14px;
-    }
-
-    .logo-abc .media-logo-img {
-      height: 18px;
-    }
-
-    .logo-nine .media-logo-img {
-      height: 14px;
-    }
-
-    .logo-ten .media-logo-img {
-      height: 15px;
-    }
-
-    .logo-sbs .media-logo-img {
-      height: 14px;
-    }
-
-    .logo-prime .media-logo-img {
-      height: 11px;
+  @media (prefers-reduced-motion: reduce) {
+    .logo-item:hover {
+      transform: none;
     }
   }
 </style>

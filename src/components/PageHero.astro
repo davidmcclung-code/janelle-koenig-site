@@ -29,14 +29,14 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
 
 <section class="page-hero-section" aria-labelledby={id}>
   <div class="container page-hero-grid">
-    <div class="page-hero-content reveal">
+    <div class="page-hero-content">
       <span class="font-script text-script-section page-hero-eyebrow">
         {eyebrow}
       </span>
 
       <h1 id={id} class="page-hero-heading">
         {titleLines.map((line, index) => (
-          <span class="heading-line">
+          <span class="heading-line" style={`--line-idx: ${index};`}>
             {line}
             {index === titleLines.length - 1 && <span class="red-sq" aria-hidden="true"></span>}
           </span>
@@ -48,11 +48,11 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
       </p>
     </div>
 
-    <div class="page-hero-media reveal">
+    <div class="page-hero-media">
       <figure class="page-hero-figure">
         <div class="hero-popout-stage">
           <div class="page-hero-burst" aria-hidden="true">
-            <BurstMark strokeWidth={3} />
+            <BurstMark animated={true} strokeWidth={3} />
           </div>
 
           <div class="hero-popout-card" aria-hidden="true"></div>
@@ -97,7 +97,7 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
 <style>
   .page-hero-section {
     background: var(--gradient-hero-warm);
-    padding-block-start: calc(var(--header-offset) + clamp(1.25rem, 2.5vw, 1.85rem));
+    padding-block-start: calc(var(--header-height) + clamp(1rem, 2.2vw, 1.65rem));
     padding-block-end: clamp(1.5rem, 3vw, 2.15rem);
     padding-inline: 0;
     position: relative;
@@ -222,6 +222,50 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
     filter: drop-shadow(0 10px 22px rgba(18, 18, 18, 0.12));
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes page-hero-rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes page-hero-card-rise {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .page-hero-eyebrow {
+      animation: page-hero-rise 550ms var(--ease-out) 40ms both;
+    }
+
+    .heading-line {
+      animation: page-hero-rise 650ms var(--ease-out) calc(80ms + var(--line-idx, 0) * 90ms) both;
+    }
+
+    .page-hero-lead {
+      animation: page-hero-rise 650ms var(--ease-out) 220ms both;
+    }
+
+    .hero-popout-card {
+      animation: page-hero-card-rise 700ms var(--ease-out) 120ms both;
+    }
+
+    .hero-popout-cutout {
+      animation: page-hero-card-rise 750ms var(--ease-out) 180ms both;
+    }
+  }
+
   @media (max-width: 1023px) {
     .page-hero-grid {
       grid-template-columns: 1.15fr 0.85fr;
@@ -237,7 +281,7 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
 
   @media (max-width: 767px) {
     .page-hero-section {
-      padding-block-start: calc(var(--header-offset) + clamp(1rem, 3vw, 1.4rem));
+      padding-block-start: calc(var(--header-height) + clamp(0.85rem, 2.5vw, 1.25rem));
       padding-block-end: clamp(1.15rem, 3.5vw, 1.6rem);
     }
 

@@ -12,7 +12,6 @@ const hasEvents = Array.isArray(events) && events.length > 0;
 ---
 
 <div class="event-list-wrapper" data-sheet-url={sheetUrl}>
-  <!-- Skeleton rows matching EventRow geometry to guarantee zero layout shift during sync -->
   <ul class="event-skeleton-list" id="events-skeleton-list" aria-label="Loading upcoming shows" aria-busy="true" style="display: none;">
     <li class="event-skeleton-row" aria-hidden="true">
       <div class="skeleton-date shimmer"></div>
@@ -40,17 +39,15 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     </li>
   </ul>
 
-  <!-- Upcoming Shows List rendered immediately from SSR and hydrated when live calendar syncs -->
   <ul class="event-list" id="event-list" role="list" aria-label="Upcoming Shows" style={hasEvents ? undefined : 'display: none;'}>
     {hasEvents && events.map((event, index) => (
       <EventRow event={event} index={index} />
     ))}
   </ul>
 
-  <!-- Empty state displayed if no upcoming public dates are announced -->
   <div class="events-empty-state" id="events-empty-state" aria-live="polite" style={hasEvents ? 'display: none;' : undefined}>
     <p class="empty-text">No upcoming public shows currently announced.</p>
-    <p class="empty-subtext">Check back soon or enquire for private & corporate bookings.</p>
+    <p class="empty-subtext">Check back soon or enquire for private &amp; corporate bookings.</p>
     <button type="button" class="btn btn-primary empty-enquire-btn" data-booking-trigger>
       BOOK JANELLE
     </button>
@@ -62,7 +59,6 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     width: 100%;
   }
 
-  /* Skeleton Placeholders matching EventRow geometry */
   .event-skeleton-list {
     display: flex;
     flex-direction: column;
@@ -83,14 +79,6 @@ const hasEvents = Array.isArray(events) && events.length > 0;
 
   .event-skeleton-row:not(:last-child) {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  .event-skeleton-row:first-child {
-    padding-top: 0.25rem;
-  }
-
-  .event-skeleton-row:last-child {
-    padding-bottom: 0.25rem;
   }
 
   .skeleton-date {
@@ -130,7 +118,6 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     flex-shrink: 0;
   }
 
-  /* Shimmer pulse effect */
   .shimmer {
     background: linear-gradient(
       90deg,
@@ -148,35 +135,6 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     }
     100% {
       background-position: -200% 0;
-    }
-  }
-
-  @media (max-width: 580px) {
-    .event-skeleton-row {
-      grid-template-columns: 44px 1fr auto;
-      gap: clamp(8px, 2.5vw, 12px);
-      padding: 0.6rem 0;
-      margin-inline: 0;
-    }
-
-    .skeleton-date {
-      width: 44px;
-      height: 36px;
-    }
-
-    .skeleton-title {
-      width: clamp(120px, 50%, 200px);
-      height: 15px;
-    }
-
-    .skeleton-venue {
-      width: clamp(90px, 40%, 150px);
-      height: 11px;
-    }
-
-    .skeleton-action {
-      width: 58px;
-      height: 28px;
     }
   }
 
@@ -403,4 +361,3 @@ const hasEvents = Array.isArray(events) && events.length > 0;
     syncEventsFromSheet();
   }
 </script>
-

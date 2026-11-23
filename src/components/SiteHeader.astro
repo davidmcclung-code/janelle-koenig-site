@@ -56,7 +56,7 @@ const isItemActive = (itemHref: string) => {
       id="menu-toggle"
       aria-label="Toggle navigation menu"
       aria-expanded="false"
-      aria-controls="mobile-menu"
+      aria-controls="mobile-drawer"
     >
       <svg class="hamburger-icon" width="24" height="18" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
         <line x1="2" y1="2" x2="22" y2="2" />
@@ -65,19 +65,18 @@ const isItemActive = (itemHref: string) => {
       </svg>
     </button>
   </div>
+</header>
 
-  <!-- Mobile Navigation Drawer -->
-  <div
-    class="mobile-menu"
-    id="mobile-menu"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Mobile navigation menu"
-    aria-hidden="true"
-  >
-    <div class="mobile-menu-inner">
-      <div class="mobile-menu-header">
-        <a href={asset('/')} class="logo-link" aria-label="Janelle Koenig Home" id="mobile-logo">
+<!-- Swipeable Top-Layer Mobile Navigation Drawer -->
+<dialog
+  class="nav-drawer"
+  id="mobile-drawer"
+  aria-label="Mobile navigation drawer"
+>
+  <div class="drawer-scroller">
+    <nav class="drawer-sheet" aria-label="Mobile Navigation">
+      <div class="drawer-header">
+        <a href={asset('/')} class="logo-link drawer-logo-link" aria-label="Janelle Koenig Home">
           <BrandLogo variant="dark" loading="eager" />
         </a>
         <button
@@ -85,56 +84,105 @@ const isItemActive = (itemHref: string) => {
           class="menu-close"
           id="menu-close"
           aria-label="Close navigation menu"
+          autofocus
         >
           <CloseIcon size={24} />
         </button>
       </div>
 
-      <nav class="mobile-nav" aria-label="Mobile Navigation">
-        <ul class="mobile-nav-list">
-          {
-            siteConfig.navItems.map((item) => {
-              const isActive = isItemActive(item.href);
-              const href = item.href.startsWith('/') ? asset(item.href) : item.href;
-              return (
-                <li>
-                  <a
-                    href={href}
-                    class:list={['mobile-nav-link', { 'is-active': isActive }]}
-                    aria-current={isActive ? 'page' : undefined}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              );
-            })
-          }
-        </ul>
-        <div class="mobile-menu-cta">
-          <a href={asset('/#shows')} class="btn btn-primary mobile-btn" id="mobile-cta-btn">
-            SEE JANELLE LIVE
-          </a>
-        </div>
-      </nav>
-    </div>
+      <ul class="mobile-nav-list">
+        {
+          siteConfig.navItems.map((item) => {
+            const isActive = isItemActive(item.href);
+            const href = item.href.startsWith('/') ? asset(item.href) : item.href;
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={['mobile-nav-link', { 'is-active': isActive }]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      <div class="drawer-footer">
+        <a href={asset('/#shows')} class="btn btn-primary mobile-btn" id="mobile-cta-btn">
+          SEE JANELLE LIVE
+        </a>
+        <button
+          type="button"
+          class="btn btn-secondary mobile-btn"
+          data-booking-trigger
+          id="drawer-booking-btn"
+        >
+          MC &amp; EVENT ENQUIRIES
+        </button>
+      </div>
+    </nav>
   </div>
-</header>
+</dialog>
 
 <style>
   .site-header {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
-    background: transparent;
-    padding-block-start: 1.25rem;
-    padding-block-end: 0.5rem;
+    background-color: rgba(251, 248, 244, 0);
+    border-bottom: 1px solid transparent;
+    padding-block: 0.95rem 0.65rem;
+    transition:
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out),
+      padding var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out);
+  }
+
+  .site-header.is-scrolled {
+    background-color: rgba(251, 248, 244, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom-color: var(--colour-border);
+    padding-block: 0.4rem 0.4rem;
+    box-shadow: 0 4px 20px rgba(18, 18, 18, 0.06);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+      @keyframes header-compact {
+        from {
+          background-color: rgba(251, 248, 244, 0);
+          border-bottom-color: transparent;
+          padding-block: 0.95rem 0.65rem;
+          box-shadow: 0 0 0 rgba(18, 18, 18, 0);
+        }
+        to {
+          background-color: rgba(251, 248, 244, 0.95);
+          border-bottom-color: var(--colour-border);
+          padding-block: 0.4rem 0.4rem;
+          box-shadow: 0 4px 20px rgba(18, 18, 18, 0.06);
+        }
+      }
+
+      .site-header {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        animation: header-compact linear both;
+        animation-timeline: scroll(block root);
+        animation-range: 0px 120px;
+      }
+    }
   }
 
   @media (max-width: 600px) {
     .site-header {
-      padding-block-start: 0.85rem;
-      padding-block-end: 0.25rem;
+      padding-block: 0.65rem 0.45rem;
     }
   }
 
@@ -261,40 +309,106 @@ const isItemActive = (itemHref: string) => {
     }
   }
 
-  /* Mobile Menu Drawer */
-  .mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
+  /* ==========================================================================
+     Swipeable Top-Layer Mobile Navigation Drawer (navigation-drawer guide)
+     ========================================================================== */
+  .nav-drawer {
+    --drawer-width: min(21rem, 82dvw, 100dvw - 24px);
+    --drawer-backdrop: 0;
+
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    overflow: visible;
+  }
+
+  .nav-drawer::backdrop {
+    background-color: #0a0a0a;
+    opacity: calc(var(--drawer-backdrop) * 0.65);
+    overflow: hidden;
+    overscroll-behavior: contain;
+  }
+
+  .drawer-scroller {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--drawer-width) 100%;
+    overflow-x: scroll;
+    overscroll-behavior: none;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .drawer-scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .drawer-scroller {
+      scroll-behavior: smooth;
+    }
+  }
+
+  .drawer-scroller::after {
+    content: '';
+    scroll-snap-align: end;
+    scroll-initial-target: nearest;
+  }
+
+  .drawer-sheet {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100svh;
+    background-color: var(--colour-page);
+    color: var(--colour-ink);
+    border-right: 1px solid var(--colour-border);
+    box-shadow: 12px 0 36px rgba(0, 0, 0, 0.18);
     overflow-y: auto;
     overscroll-behavior: contain;
-    background-color: var(--colour-page);
-    z-index: 200;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-100%);
-    transition: opacity var(--motion-standard) var(--ease-out),
-                transform var(--motion-standard) var(--ease-out),
-                visibility var(--motion-standard);
+    scroll-snap-align: start;
+    scrollbar-width: none;
+    padding: var(--space-4) var(--space-5) max(var(--space-6), env(safe-area-inset-bottom));
+    gap: var(--space-6);
   }
 
-  .mobile-menu.is-open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  .drawer-sheet::-webkit-scrollbar {
+    display: none;
   }
 
-  .mobile-menu-inner {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    padding: var(--space-4) var(--container-gutter) var(--space-8);
+  @supports (animation-timeline: scroll()) {
+    .nav-drawer {
+      timeline-scope: --drawer-fade;
+      animation: fade-drawer-backdrop linear both;
+      animation-timeline: --drawer-fade;
+    }
+
+    .drawer-scroller {
+      scroll-timeline: --drawer-fade x;
+    }
+
+    @property --drawer-backdrop {
+      syntax: '<number>';
+      inherits: true;
+      initial-value: 0;
+    }
+
+    @keyframes fade-drawer-backdrop {
+      0% {
+        --drawer-backdrop: 1;
+      }
+      100% {
+        --drawer-backdrop: 0;
+      }
+    }
   }
 
-  .mobile-menu-header {
+  .drawer-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -310,22 +424,21 @@ const isItemActive = (itemHref: string) => {
     justify-content: center;
     background: transparent;
     border: none;
+    border-radius: var(--radius-xs);
     cursor: pointer;
     color: var(--colour-ink);
+    transition: background-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out);
   }
 
-  .mobile-nav {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-    padding-top: var(--space-6);
+  .menu-close:hover {
+    background-color: rgba(158, 27, 50, 0.08);
+    color: var(--colour-primary);
   }
 
   .mobile-nav-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-3);
   }
 
   .mobile-nav-link {
@@ -333,12 +446,12 @@ const isItemActive = (itemHref: string) => {
     align-items: center;
     min-height: 44px;
     font-family: var(--font-display);
-    font-size: 1.625rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--colour-ink);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     text-transform: uppercase;
-    transition: color var(--motion-fast) var(--ease-out);
+    transition: color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
   }
 
   .mobile-nav-link:hover,
@@ -348,139 +461,149 @@ const isItemActive = (itemHref: string) => {
 
   .mobile-nav-link.is-active {
     text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 2.5px;
   }
 
-  .mobile-menu-cta {
-    padding-top: var(--space-6);
+  .drawer-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--colour-border);
   }
 
   .mobile-btn {
     width: 100%;
-    padding: 0.9rem;
-    font-size: 0.9375rem;
-  }
-
-  @media (max-height: 540px) {
-    .mobile-menu-inner {
-      padding-bottom: var(--space-4);
-    }
-
-    .mobile-nav {
-      padding-top: var(--space-3);
-    }
-
-    .mobile-nav-list {
-      gap: var(--space-2);
-    }
-
-    .mobile-nav-link {
-      font-size: 1.25rem;
-      min-height: 44px;
-    }
-
-    .mobile-menu-cta {
-      padding-top: var(--space-3);
-    }
+    padding: 0.8rem 1rem;
+    font-size: 0.8125rem;
   }
 </style>
 
-<script is:inline>
-  (function () {
-    function getElements() {
-      return {
-        menuToggle: document.getElementById('menu-toggle'),
-        menuClose: document.getElementById('menu-close'),
-        mobileMenu: document.getElementById('mobile-menu'),
-        headerInner: document.querySelector('.header-inner'),
-        mainContent: document.getElementById('main-content'),
-        siteFooter: document.querySelector('.site-footer'),
-      };
+<script>
+  // Header compact scroll fallback for browsers without scroll-timeline support
+  const headerEl = document.getElementById('site-header');
+  if (
+    headerEl &&
+    !CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)')
+  ) {
+    const syncHeaderScroll = () => {
+      headerEl.classList.toggle('is-scrolled', window.scrollY > 24);
+    };
+    window.addEventListener('scroll', syncHeaderScroll, { passive: true });
+    syncHeaderScroll();
+  }
+
+  // Swipeable Top-Layer Mobile Navigation Drawer
+  const drawer = document.getElementById('mobile-drawer') as HTMLDialogElement | null;
+  const openBtn = document.getElementById('menu-toggle');
+  const closeBtn = document.getElementById('menu-close');
+  const scroller = drawer?.querySelector<HTMLElement>('.drawer-scroller') ?? null;
+  const sheet = drawer?.querySelector<HTMLElement>('.drawer-sheet') ?? null;
+
+  if (drawer && openBtn && scroller && sheet) {
+    let sheetEntered = false;
+
+    if (!CSS.supports('animation-timeline: scroll()')) {
+      scroller.addEventListener(
+        'scroll',
+        () => {
+          const width = sheet.offsetWidth || 1;
+          const ratio = Math.max(0, Math.min(1, 1 - scroller.scrollLeft / width));
+          drawer.style.setProperty('--drawer-backdrop', String(ratio));
+        },
+        { passive: true }
+      );
     }
 
-    function openMenu() {
-      var els = getElements();
-      if (!els.mobileMenu || !els.menuToggle) return;
-      els.mobileMenu.classList.add('is-open');
-      els.mobileMenu.setAttribute('aria-hidden', 'false');
-      els.menuToggle.setAttribute('aria-expanded', 'true');
-      if (els.headerInner) els.headerInner.setAttribute('inert', '');
-      if (els.mainContent) els.mainContent.setAttribute('inert', '');
-      if (els.siteFooter) els.siteFooter.setAttribute('inert', '');
-      document.body.style.overflow = 'hidden';
-      if (els.menuClose) els.menuClose.focus();
+    async function openDrawer() {
+      if (!drawer || !scroller) return;
+      sheetEntered = false;
+      drawer.showModal();
+
+      if (!CSS.supports('scroll-initial-target', 'nearest')) {
+        scroller.scrollTo({ left: scroller.offsetWidth, behavior: 'instant' as ScrollBehavior });
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+        );
+      }
+
+      scroller.scrollTo({ left: 0, behavior: 'auto' });
     }
 
-    function closeMenu() {
-      var els = getElements();
-      if (!els.mobileMenu || !els.menuToggle) return;
-      els.mobileMenu.classList.remove('is-open');
-      els.mobileMenu.setAttribute('aria-hidden', 'true');
-      els.menuToggle.setAttribute('aria-expanded', 'false');
-      if (els.headerInner) els.headerInner.removeAttribute('inert');
-      if (els.mainContent) els.mainContent.removeAttribute('inert');
-      if (els.siteFooter) els.siteFooter.removeAttribute('inert');
-      document.body.style.overflow = '';
-      els.menuToggle.focus();
+    function closeDrawer(instant = false) {
+      if (!drawer || !scroller || !drawer.open) return;
+      if (instant || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        sheetEntered = false;
+        drawer.close();
+        openBtn?.setAttribute('aria-expanded', 'false');
+        return;
+      }
+      scroller.scrollTo({ left: scroller.offsetWidth, behavior: 'auto' });
     }
 
-    if (!window.__jkHeaderBound) {
-      window.__jkHeaderBound = true;
-
-      document.addEventListener('click', function (e) {
-        var target = e.target;
-        if (!(target instanceof Element)) return;
-
-        if (target.closest('#menu-toggle')) {
-          openMenu();
-          return;
-        }
-
-        if (target.closest('#menu-close, .mobile-nav-link, #mobile-cta-btn, #mobile-logo')) {
-          closeMenu();
-        }
-      });
-
-      document.addEventListener('keydown', function (e) {
-        var els = getElements();
-        if (!els.mobileMenu || !els.mobileMenu.classList.contains('is-open')) return;
-
-        if (e.key === 'Escape') {
-          closeMenu();
-          return;
-        }
-
-        if (e.key === 'Tab') {
-          var focusable = els.mobileMenu.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          );
-          if (focusable.length === 0) return;
-
-          var firstElement = focusable[0];
-          var lastElement = focusable[focusable.length - 1];
-
-          if (e.shiftKey) {
-            if (document.activeElement === firstElement) {
-              lastElement.focus();
-              e.preventDefault();
-            }
-          } else {
-            if (document.activeElement === lastElement) {
-              firstElement.focus();
-              e.preventDefault();
-            }
-          }
-        }
-      });
-
-      var desktopMq = window.matchMedia('(min-width: 850px)');
-      desktopMq.addEventListener('change', function (e) {
-        var els = getElements();
-        if (e.matches && els.mobileMenu && els.mobileMenu.classList.contains('is-open')) {
-          closeMenu();
-        }
-      });
+    function onDrawerOpened() {
+      sheetEntered = true;
+      openBtn?.setAttribute('aria-expanded', 'true');
     }
-  })();
+
+    function onDrawerClosed() {
+      if (!drawer?.open || !sheetEntered) return;
+      sheetEntered = false;
+      drawer.close();
+      openBtn?.setAttribute('aria-expanded', 'false');
+    }
+
+    const visibleThreshold = Math.min(0.1, 1 / Math.max(window.innerWidth, 320));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries.at(-1);
+        if (!entry || !drawer.open) return;
+        if (entry.intersectionRatio >= visibleThreshold && !sheetEntered) {
+          sheetEntered = true;
+        }
+        if (entry.intersectionRatio === 1) {
+          onDrawerOpened();
+        } else if (entry.intersectionRatio < visibleThreshold && sheetEntered) {
+          onDrawerClosed();
+        }
+      },
+      { root: drawer, threshold: [visibleThreshold, 1] }
+    );
+    observer.observe(sheet);
+
+    openBtn.addEventListener('click', () => void openDrawer());
+    closeBtn?.addEventListener('click', () => closeDrawer());
+
+    // Light-dismiss: tapping dimmed area outside sheet slides drawer closed
+    drawer.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !sheet.contains(event.target)) {
+        closeDrawer();
+      }
+    });
+
+    // Close drawer cleanly when navigating or triggering booking modal inside drawer
+    sheet.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (target.closest('.mobile-nav-link, #mobile-cta-btn, .drawer-logo-link, #drawer-booking-btn')) {
+        closeDrawer(true);
+      }
+    });
+
+    // Escape key fires cancel on modal dialog; intercept to animate slide-out
+    drawer.addEventListener('cancel', (event) => {
+      if (event.cancelable) {
+        event.preventDefault();
+        closeDrawer();
+      }
+    });
+
+    const desktopMq = window.matchMedia('(min-width: 850px)');
+    desktopMq.addEventListener('change', (e) => {
+      if (e.matches && drawer.open) {
+        closeDrawer(true);
+      }
+    });
+  }
 </script>

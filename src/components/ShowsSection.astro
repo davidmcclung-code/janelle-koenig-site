@@ -1,7 +1,7 @@
 ---
 import events from '../data/events.json';
 import EventList from './EventList.astro';
-import VideoCard from './VideoCard.astro';
+import ArrowIcon from './ArrowIcon.astro';
 import type { EventItem } from '../types';
 import { siteConfig } from '../data/siteConfig';
 import { processEventsFromCSV, getSheetCSVUrl } from '../utils/events';
@@ -25,89 +25,78 @@ if (effectiveSheetUrl) {
 }
 ---
 
-<section class="shows-section" id="shows" aria-label="Upcoming Shows and Video">
-  <div class="container reveal">
-    <!-- 1.8:1 Column Relationship: Left column and Video column start on the same top line -->
-    <div class="shows-grid">
-      <div class="shows-list-col">
-        <!-- Section Heading in Cursive Script -->
-        <div class="shows-header">
-          <h2 class="font-script text-script-section shows-title">
-            Book the babysitter
-          </h2>
-        </div>
-        <EventList events={initialEvents} sheetUrl={effectiveSheetUrl} />
-      </div>
+<section class="shows-section" id="shows" aria-label="Upcoming Shows">
+  <div class="container">
+    <div class="shows-header scroll-reveal">
+      <h2 class="font-script text-script-section shows-title">
+        Book the babysitter
+      </h2>
 
-      <div class="shows-video-col" id="watch">
-        <VideoCard />
-      </div>
+      <button
+        type="button"
+        class="shows-kicker-btn"
+        data-booking-trigger
+        aria-haspopup="dialog"
+      >
+        <span>Private or corporate event? Enquire</span>
+        <ArrowIcon size={13} />
+      </button>
+    </div>
+
+    <div class="shows-card scroll-reveal">
+      <EventList events={initialEvents} sheetUrl={effectiveSheetUrl} />
     </div>
   </div>
 </section>
 
 <style>
   .shows-section {
-    padding-top: clamp(1rem, 2vw, 1.65rem);
-    padding-bottom: clamp(1.25rem, 2.2vw, 1.85rem);
-  }
-
-  :global(.js .reveal:not(.is-visible)) .shows-header {
-    opacity: 0;
-    transform: translateY(18px);
+    background-color: var(--colour-page);
+    padding-block: clamp(2rem, 4.2vw, 3.25rem);
   }
 
   .shows-header {
-    margin-bottom: var(--space-3);
-    transition: opacity var(--motion-standard) var(--ease-out),
-                transform var(--motion-standard) var(--ease-out);
-    transition-delay: 0ms;
-  }
-
-  :global(.reveal.is-visible) .shows-header {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .shows-header,
-    :global(.js .reveal:not(.is-visible)) .shows-header {
-      opacity: 1 !important;
-      transform: none !important;
-      transition: none !important;
-    }
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-bottom: var(--space-4);
   }
 
   .shows-title {
     color: var(--colour-primary);
     transform: rotate(-1.5deg);
     display: inline-block;
-    font-size: 1.75rem;
+    font-size: clamp(1.65rem, 1.25rem + 0.65vw, 2.05rem);
     line-height: 1.1;
   }
 
-  .shows-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-    align-items: start;
+  .shows-kicker-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 2px;
+    background: transparent;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--colour-ink-subtle);
+    cursor: pointer;
+    transition: color var(--motion-fast) var(--ease-out);
   }
 
-  /* 1.8:1 Ratio and 60px Column Gap at Desktop */
-  @media (min-width: 850px) {
-    .shows-grid {
-      grid-template-columns: 1.8fr 1fr;
-      gap: clamp(45px, 5.8vw, 65px);
-      align-items: start;
-    }
+  .shows-kicker-btn:hover {
+    color: var(--colour-primary);
   }
 
-  .shows-list-col {
-    width: 100%;
-  }
-
-  .shows-video-col {
-    width: 100%;
-    align-self: start;
+  .shows-card {
+    background-color: var(--colour-surface);
+    border: 1px solid var(--colour-border);
+    border-radius: var(--radius-md);
+    padding: clamp(0.65rem, 1.5vw, 1.1rem) clamp(1rem, 2.4vw, 1.75rem);
+    box-shadow: var(--shadow-sm);
   }
 </style>

@@ -1,5 +1,5 @@
 :root {
-  /* Colors - Sampled directly from approved mockups */
+  /* Colours - Exact approved brand palette */
   --colour-page: #fbf8f4;
   --colour-page-warm: #f4ede3;
   --colour-surface: #ffffff;
@@ -53,11 +53,12 @@
   --space-9: 64px;
   --space-10: 96px;
 
-  /* Containers & Layout - 91% width at 1024px */
+  /* Containers & Layout */
   --container-max-width: 1280px;
   --container-gutter: clamp(20px, 4.4vw, 46px);
   --section-space: clamp(1.75rem, 3.5vw, 3rem);
-  --header-offset: calc(max(56px, 2.75rem) + 1.75rem);
+  --header-height: 76px;
+  --header-height-compact: 60px;
 
   /* Border Radii */
   --radius-xs: 3px;
@@ -74,21 +75,16 @@
 
   /* Motion */
   --motion-fast: 200ms;
-  --motion-standard: 800ms;
+  --motion-standard: 750ms;
   --motion-slow: 950ms;
   --motion-distance: 24px;
-  --motion-stagger: 100ms;
+  --motion-stagger: 95ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (max-width: 600px) {
   :root {
-    --header-offset: calc(max(56px, 2.75rem) + 1.1rem);
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    --header-offset: calc(max(47px, 2.75rem) + 1.1rem);
+    --header-height: 64px;
+    --header-height-compact: 56px;
   }
 }

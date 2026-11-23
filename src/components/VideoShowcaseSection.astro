@@ -1,0 +1,323 @@
+---
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import defaultThumbImg from '../assets/photography/performance/debbie-gibson-thumbnail.jpg';
+import ArrowIcon from './ArrowIcon.astro';
+
+interface Props {
+  thumbnailSrc?: string;
+  title?: string;
+  headline?: string;
+  description?: string;
+}
+
+const {
+  thumbnailSrc,
+  title = 'Watch Janelle',
+  headline = 'Stand-up, interviews & questionable life choices.',
+  description = 'Janelle catches up with pop icon, Debbie Gibson.',
+} = Astro.props;
+
+const thumbSources = await createResponsiveSourceSet(
+  defaultThumbImg,
+  [480, 720, 960],
+  'jpeg'
+);
+---
+
+<section class="video-showcase-section" id="watch" aria-label="Watch Janelle Video Showcase">
+  <div class="container video-showcase-grid">
+    <!-- Left Cinema Stage Preview -->
+    <button
+      type="button"
+      class="showcase-stage-btn"
+      id="video-card-trigger"
+      data-video-trigger
+      aria-haspopup="dialog"
+      aria-label="Play video: Janelle catches up with pop icon Debbie Gibson"
+    >
+      <span class="showcase-badge">FEATURED CLIP</span>
+
+      {thumbnailSrc ? (
+        <img
+          src={thumbnailSrc}
+          alt="Janelle Koenig catches up with pop icon Debbie Gibson"
+          width="960"
+          height="540"
+          loading="lazy"
+          decoding="async"
+          class="showcase-thumb"
+        />
+      ) : (
+        <picture style="display: contents;">
+          <source
+            type="image/avif"
+            srcset={thumbSources.avifSrcset}
+            sizes="(min-width: 850px) 680px, 92vw"
+          />
+          <source
+            type="image/webp"
+            srcset={thumbSources.webpSrcset}
+            sizes="(min-width: 850px) 680px, 92vw"
+          />
+          <img
+            src={thumbSources.fallbackSrc}
+            srcset={thumbSources.fallbackSrcset}
+            sizes="(min-width: 850px) 680px, 92vw"
+            alt="Janelle Koenig catches up with pop icon Debbie Gibson"
+            width={thumbSources.width}
+            height={thumbSources.height}
+            loading="lazy"
+            decoding="async"
+            class="showcase-thumb"
+          />
+        </picture>
+      )}
+
+      <div class="showcase-overlay">
+        <div class="play-halo" aria-hidden="true"></div>
+        <div class="play-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <polygon points="9 6 19 12 9 18 9 6" fill="#ffffff"></polygon>
+          </svg>
+        </div>
+      </div>
+    </button>
+
+    <!-- Right Editorial Copy & CTA -->
+    <div class="showcase-copy scroll-reveal">
+      <h2 class="font-script showcase-eyebrow">{title}</h2>
+      <p class="showcase-headline">{headline}</p>
+      <p class="showcase-desc wrap-break">{description}</p>
+
+      <div class="showcase-actions">
+        <button type="button" class="btn btn-primary showcase-cta-btn" data-video-trigger aria-haspopup="dialog">
+          <span>WATCH NOW</span>
+          <ArrowIcon size={14} />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .video-showcase-section {
+    --colour-focus: var(--colour-focus-on-dark);
+    background-color: var(--colour-footer);
+    color: var(--colour-dark-ink);
+    padding-block: clamp(2.75rem, 5.5vw, 4.5rem);
+    width: 100%;
+    overflow: clip;
+  }
+
+  .video-showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 3.5vw, 2.5rem);
+    align-items: center;
+  }
+
+  @media (min-width: 850px) {
+    .video-showcase-grid {
+      grid-template-columns: 1.32fr 1fr;
+      gap: clamp(2rem, 4.5vw, 3.75rem);
+    }
+  }
+
+  .showcase-stage-btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--colour-dark-border-strong);
+    border-radius: var(--radius-md);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: var(--colour-dark-stage);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+    text-align: left;
+    transition: border-color var(--motion-fast) var(--ease-out);
+  }
+
+  .showcase-stage-btn:hover,
+  .showcase-stage-btn:focus-visible {
+    border-color: var(--colour-primary-on-dark);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      @keyframes showcase-settle {
+        from {
+          scale: 0.96;
+          opacity: 0.45;
+        }
+        to {
+          scale: 1;
+          opacity: 1;
+        }
+      }
+
+      .showcase-stage-btn {
+        animation: showcase-settle auto var(--ease-out) both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 36%;
+      }
+    }
+  }
+
+  .showcase-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 3;
+    padding: 5px 10px;
+    border-radius: var(--radius-xs);
+    background-color: var(--colour-primary);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .showcase-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition:
+      transform 450ms var(--ease-out),
+      opacity var(--motion-fast) var(--ease-out);
+  }
+
+  .showcase-stage-btn:hover .showcase-thumb,
+  .showcase-stage-btn:focus-visible .showcase-thumb {
+    transform: scale(1.045);
+    opacity: 0.9;
+  }
+
+  .showcase-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.45) 100%);
+  }
+
+  .play-halo {
+    position: absolute;
+    width: 84px;
+    height: 84px;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 300ms var(--ease-out),
+      transform 300ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .play-circle {
+    position: relative;
+    z-index: 2;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-pill);
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 2px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+    transition:
+      transform var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out);
+  }
+
+  .play-circle svg {
+    margin-left: 3px;
+  }
+
+  .play-circle svg polygon {
+    fill: var(--colour-ink);
+    transition: fill var(--motion-fast) var(--ease-out);
+  }
+
+  .showcase-stage-btn:hover .play-circle,
+  .showcase-stage-btn:focus-visible .play-circle {
+    transform: scale(1.08);
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+  }
+
+  .showcase-stage-btn:hover .play-halo,
+  .showcase-stage-btn:focus-visible .play-halo {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+
+  .showcase-stage-btn:hover .play-circle svg polygon,
+  .showcase-stage-btn:focus-visible .play-circle svg polygon {
+    fill: #ffffff;
+  }
+
+  .showcase-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .showcase-eyebrow {
+    font-size: clamp(1.55rem, 1.2rem + 0.65vw, 1.95rem);
+    color: var(--colour-primary-on-dark);
+    line-height: 1.1;
+    transform: rotate(-1.5deg);
+    display: inline-block;
+    margin-bottom: var(--space-2);
+  }
+
+  .showcase-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.15rem + 1vw, 2.15rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    margin: 0 0 var(--space-3) 0;
+    text-wrap: balance;
+  }
+
+  .showcase-desc {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(243, 243, 243, 0.84);
+    margin: 0 0 var(--space-5) 0;
+    max-width: 38ch;
+  }
+
+  .showcase-cta-btn {
+    min-height: 44px;
+    padding: 0.65rem 1.35rem;
+    font-size: 0.8125rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .showcase-stage-btn,
+    .showcase-stage-btn:hover .showcase-thumb,
+    .showcase-stage-btn:hover .play-circle,
+    .showcase-stage-btn:hover .play-halo {
+      animation: none !important;
+      opacity: 1 !important;
+      scale: none !important;
+      transform: none !important;
+    }
+  }
+</style>

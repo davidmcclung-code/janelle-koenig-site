@@ -15,7 +15,7 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
       <!-- Brand & Bio Column -->
       <div class="footer-brand-col">
         <a href={asset('/')} class="footer-logo-link" aria-label="Janelle Koenig Home">
-          <BrandLogo variant="light" loading="eager" />
+          <BrandLogo variant="light" loading="lazy" />
         </a>
         <p class="footer-bio wrap-break">
           Comedian. Writer. Indoors enthusiast.<br />
@@ -29,18 +29,16 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
         <ul class="footer-links" role="list">
           <li><a href={asset('/#shows')} class="footer-link">Shows</a></li>
           <li><a href={asset('/about')} class="footer-link">About</a></li>
-          <li><a href={asset('/#mc-events')} class="footer-link">MC & Events</a></li>
+          <li><a href={asset('/#mc-events')} class="footer-link">MC &amp; Events</a></li>
           <li><a href={asset('/photos')} class="footer-link">Gallery</a></li>
         </ul>
       </div>
 
-      <!-- Follow & Enquiries Group (splits into 2 columns on mobile) -->
+      <!-- Follow & Enquiries Group -->
       <div class="footer-secondary-cols">
-        <!-- Follow Column -->
         <div class="footer-social-col">
           <h2 class="footer-heading">FOLLOW</h2>
           <div class="footer-social-icons">
-            <!-- Instagram -->
             <a
               href={siteConfig.socialLinks.find((s) => s.platform === 'instagram')?.url || '#'}
               target="_blank"
@@ -55,7 +53,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
               </svg>
             </a>
 
-            <!-- Facebook -->
             <a
               href={siteConfig.socialLinks.find((s) => s.platform === 'facebook')?.url || '#'}
               target="_blank"
@@ -68,7 +65,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
               </svg>
             </a>
 
-            <!-- TikTok -->
             <a
               href={siteConfig.socialLinks.find((s) => s.platform === 'tiktok')?.url || '#'}
               target="_blank"
@@ -81,7 +77,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
               </svg>
             </a>
 
-            <!-- YouTube -->
             <a
               href={siteConfig.socialLinks.find((s) => s.platform === 'youtube')?.url || '#'}
               target="_blank"
@@ -94,7 +89,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
               </svg>
             </a>
 
-            <!-- X / Twitter -->
             <a
               href={siteConfig.socialLinks.find((s) => s.platform === 'x')?.url || '#'}
               target="_blank"
@@ -109,7 +103,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
           </div>
         </div>
 
-        <!-- Enquiries Column -->
         <div class="footer-contact-col">
           <h2 class="footer-heading">ENQUIRIES</h2>
           <div class="footer-contact-links">
@@ -121,49 +114,49 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
       </div>
     </div>
 
-    <!-- Bottom Colophon / Copyright Bar -->
+    <!-- Bottom Colophon -->
     <div class="footer-bottom">
       <p class="copyright-text wrap-break">
         &copy; {currentYear} {siteConfig.name}. All rights reserved.
       </p>
       <div class="footer-bottom-right">
-        <a href="#site-header" class="back-to-top-link">
+        <a href="#main-content" class="back-to-top-link">
           <span>Back to top</span>
           <span aria-hidden="true">↑</span>
         </a>
         <div class="studio-credit wrap-break">
-        <a
-          href={siteConfig.studioCredit.url || 'https://www.mcclung.com.au'}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="credit-link"
-          aria-label="Website by David McClung (opens in new tab)"
-        >
-          <span class="credit-label">{siteConfig.studioCredit.text}</span>
-          <picture style="display: contents;">
-            <source
-              type="image/avif"
-              srcset={creditLogoSources.avifSrcset}
-              sizes="55px"
-            />
-            <source
-              type="image/webp"
-              srcset={creditLogoSources.webpSrcset}
-              sizes="55px"
-            />
-            <img
-              src={creditLogoSources.fallbackSrc}
-              srcset={creditLogoSources.fallbackSrcset}
-              sizes="55px"
-              alt="David McClung"
-              class="credit-logo"
-              width={creditLogoSources.width}
-              height={creditLogoSources.height}
-              loading="eager"
-              decoding="async"
-            />
-          </picture>
-        </a>
+          <a
+            href={siteConfig.studioCredit.url || 'https://www.mcclung.com.au'}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="credit-link"
+            aria-label="Website by David McClung (opens in new tab)"
+          >
+            <span class="credit-label">{siteConfig.studioCredit.text}</span>
+            <picture style="display: contents;">
+              <source
+                type="image/avif"
+                srcset={creditLogoSources.avifSrcset}
+                sizes="55px"
+              />
+              <source
+                type="image/webp"
+                srcset={creditLogoSources.webpSrcset}
+                sizes="55px"
+              />
+              <img
+                src={creditLogoSources.fallbackSrc}
+                srcset={creditLogoSources.fallbackSrcset}
+                sizes="55px"
+                alt="David McClung"
+                class="credit-logo"
+                width={creditLogoSources.width}
+                height={creditLogoSources.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          </a>
         </div>
       </div>
     </div>
@@ -280,7 +273,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     }
   }
 
-  /* Logo */
   .footer-logo-link {
     display: inline-flex;
     align-items: center;
@@ -307,7 +299,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     margin: 0;
   }
 
-  /* Headings */
   .footer-heading {
     font-family: var(--font-display);
     font-size: 0.75rem;
@@ -320,7 +311,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     text-transform: uppercase;
   }
 
-  /* Navigation Links */
   .footer-links {
     display: flex;
     flex-direction: column;
@@ -345,7 +335,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     color: #ffffff;
   }
 
-  /* Social Icons */
   .footer-social-icons {
     display: flex;
     align-items: center;
@@ -365,9 +354,10 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
     line-height: 1;
-    transition: color var(--motion-fast) var(--ease-out),
-                transform var(--motion-fast) var(--ease-out),
-                background-color var(--motion-fast) var(--ease-out);
+    transition:
+      color var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out);
   }
 
   .social-icon-link:hover {
@@ -397,7 +387,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     }
   }
 
-  /* Contact Links */
   .footer-contact-links {
     display: flex;
     flex-direction: column;
@@ -428,7 +417,6 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     }
   }
 
-  /* Bottom Colophon */
   .footer-bottom {
     display: flex;
     flex-direction: column;
@@ -460,8 +448,9 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     font-weight: 600;
     color: rgba(255, 255, 255, 0.72);
     text-decoration: none;
-    transition: color var(--motion-fast) var(--ease-out),
-                transform var(--motion-fast) var(--ease-out);
+    transition:
+      color var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out);
   }
 
   .back-to-top-link:hover {
@@ -518,8 +507,9 @@ const creditLogoSources = await createResponsiveSourceSet(creditLogoImg, [100, 2
     max-height: 30px;
     filter: brightness(0) invert(1);
     opacity: 0.75;
-    transition: opacity var(--motion-fast) var(--ease-out),
-                transform var(--motion-fast) var(--ease-out);
+    transition:
+      opacity var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out);
   }
 
   .credit-link:hover {

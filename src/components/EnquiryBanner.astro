@@ -12,7 +12,7 @@ const enquiryCutoutSources = await createResponsiveSourceSet(enquiryCutoutImg, [
 ---
 
 <section class="enquiry-banner-section" aria-label="Book Janelle Koenig">
-  <div class="enquiry-lockup reveal">
+  <div class="enquiry-lockup scroll-reveal">
     <div class="enquiry-media">
       <picture style="display: contents;">
         <source
@@ -36,7 +36,7 @@ const enquiryCutoutSources = await createResponsiveSourceSet(enquiryCutoutImg, [
           alt="Janelle Koenig smiling with arms crossed"
           width={enquiryCutoutSources.width}
           height={enquiryCutoutSources.height}
-          loading="eager"
+          loading="lazy"
           decoding="async"
           class="enquiry-cutout-img"
         />
@@ -73,11 +73,11 @@ const enquiryCutoutSources = await createResponsiveSourceSet(enquiryCutoutImg, [
     margin: 0;
     padding: 0 var(--container-gutter);
     position: relative;
-    overflow: hidden;
+    overflow: clip;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: clamp(170px, 16vw, 210px);
+    min-height: clamp(174px, 16vw, 215px);
     line-height: normal;
   }
 
@@ -101,19 +101,38 @@ const enquiryCutoutSources = await createResponsiveSourceSet(enquiryCutoutImg, [
     justify-content: center;
     flex-shrink: 0;
     line-height: 0;
-    height: clamp(170px, 16vw, 210px);
+    height: clamp(174px, 16vw, 215px);
   }
 
   .enquiry-cutout-img {
     position: relative;
     z-index: 1;
     height: 100%;
-    max-height: clamp(170px, 16vw, 210px);
+    max-height: clamp(174px, 16vw, 215px);
     width: auto;
     object-fit: contain;
     object-position: bottom center;
     display: block;
-    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.07));
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.08));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      @keyframes enquiry-cutout-glide {
+        from {
+          transform: translateY(20px) scale(0.97);
+        }
+        to {
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .enquiry-cutout-img {
+        animation: enquiry-cutout-glide auto var(--ease-out) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 60%;
+      }
+    }
   }
 
   .enquiry-content {

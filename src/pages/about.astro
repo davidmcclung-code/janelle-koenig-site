@@ -2,22 +2,19 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CredibilityStrip from '../components/CredibilityStrip.astro';
+import AboutScrollytelling from '../components/AboutScrollytelling.astro';
 import EnquiryBanner from '../components/EnquiryBanner.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
 import { asset } from '../utils/paths';
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
 
 import aboutHeroCutoutImg from '../assets/photography/about/janelle-about-hero-cutout.png';
-import guitarStageImg from '../assets/photography/about/janelle-guitar-stage.jpg';
-import pawaAwardsImg from '../assets/photography/about/janelle-pawa-awards.jpg';
 import kidsCancerGalaImg from '../assets/photography/about/janelle-kids-cancer-gala.jpg';
 
 const pageTitle = 'About | Janelle Koenig';
 const pageDescription =
   'Western Australia’s First Lady of Comedy: Janelle Koenig is a comedian, writer, director, MC, actor and producer with nearly 25 years on stage, screen and radio.';
 
-const guitarSources = await createResponsiveSourceSet(guitarStageImg, [360, 560, 760, 960], 'jpeg');
-const pawaSources = await createResponsiveSourceSet(pawaAwardsImg, [360, 560, 760, 960], 'jpeg');
 const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560, 760, 960], 'jpeg');
 ---
 
@@ -33,99 +30,43 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     imagePosition="center bottom"
   />
 
-  <!-- 2. Shared Media Credibility Strip -->
+  <!-- 2. Compact Chapter Jump Links Bar -->
+  <nav class="chapter-jump-nav" id="chapter-jump-nav" aria-label="About page sections">
+    <div class="container jump-nav-inner">
+      <span class="jump-nav-label" aria-hidden="true">JUMP TO</span>
+      <ul class="jump-nav-list">
+        <li>
+          <a href="#story" class="jump-link is-active" data-chapter-link="story" aria-current="location">
+            <span class="jump-num">01</span>
+            <span>The Story</span>
+          </a>
+        </li>
+        <li>
+          <a href="#credits" class="jump-link" data-chapter-link="credits">
+            <span class="jump-num">02</span>
+            <span>Credits</span>
+          </a>
+        </li>
+        <li>
+          <a href="#community" class="jump-link" data-chapter-link="community">
+            <span class="jump-num">03</span>
+            <span>Community</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 3. Shared Media Credibility Strip -->
   <CredibilityStrip />
 
-  <!-- 3. Official Bio Narrative + Staggered Photos -->
-  <section class="story-section" aria-labelledby="story-heading">
-    <div class="container story-grid">
-      <div class="story-copy reveal">
-        <span class="font-script text-script-section section-script">The full story</span>
-        <h2 id="story-heading" class="section-heading">
-          Comedian, writer, MC, actor &amp; professional show-off.
-        </h2>
+  <!-- 4. Chapter 1: Pinned Scrollytelling Bio -->
+  <AboutScrollytelling />
 
-        <p>
-          Western Australia’s First Lady of Comedy, Janelle Koenig, has spent almost 25 years making people laugh – on stage, on screen, on radio and, increasingly, while they’re supposed to be working.
-        </p>
-
-        <p>
-          A powerhouse headliner, writer, director, MC, actor and content creator, Janelle has worked alongside some of the biggest names in Australian and international comedy, including Jimeoin, Alan Davies, Wayne Brady and Joel Creasey. Behind the scenes, she has written and directed extensively for comedy heavyweights including Em Rusciano, Joel Creasey, Jimeoin and Mary Coustas’ beloved Effie.
-        </p>
-
-        <p>
-          Blending razor-sharp stand-up with killer(ish) vocals and masterful musical comedy, Janelle has headlined all over the world, has been a full-time stand-up for nearly 20 years and is a dominating presence in the Australian comedy scene. She was also one of a handful of Australian comedians selected for the international edition of NBC’s <em>Last Comic Standing</em>.
-        </p>
-
-        <p>
-          Janelle has also built a fiercely loyal online following of more than 30,000, with her comedy and content clocking up more than 20 million views.
-        </p>
-
-        <p>
-          Janelle has a hugely popular weekly spot 'Janelle's Juice Box' on Nova FM's 'Joel Creasey Show', broadcast nationally.
-        </p>
-
-        <p>
-          As a writer, Janelle has earned head-writer credits across some of Australia’s biggest broadcasts and events, including <em>Eurovision – Australia Decides</em> (Logie-nominated, 2019), the <em>Sydney Gay and Lesbian Mardi Gras Parade</em> for SBS (AACTA Award for Best Entertainment Program, 2021), Channel 7’s <em>Take Me Out</em> and the <em>Real Housewives of Sydney Reunion</em> for Binge.
-        </p>
-      </div>
-
-      <div class="staggered-photos reveal">
-        <figure class="editorial-figure">
-          <div class="editorial-frame">
-            <picture>
-              <source type="image/avif" srcset={guitarSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" width={guitarSources.width} height={guitarSources.height} />
-              <source type="image/webp" srcset={guitarSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" width={guitarSources.width} height={guitarSources.height} />
-              <img
-                src={guitarSources.fallbackSrc}
-                srcset={guitarSources.fallbackSrcset}
-                sizes="(min-width: 900px) 260px, 44vw"
-                alt="Janelle Koenig performing musical comedy with an acoustic guitar in a sequined dress"
-                width={guitarSources.width}
-                height={guitarSources.height}
-                loading="lazy"
-                decoding="async"
-                class="img-guitar"
-              />
-            </picture>
-          </div>
-          <figcaption class="editorial-caption">
-            <strong>Stand-up &amp; musical comedy</strong>
-            Razor-sharp comedy and killer(ish) vocals on stage.
-          </figcaption>
-        </figure>
-
-        <figure class="editorial-figure offset">
-          <div class="editorial-frame">
-            <picture>
-              <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="(min-width: 900px) 260px, 44vw" width={pawaSources.width} height={pawaSources.height} />
-              <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="(min-width: 900px) 260px, 44vw" width={pawaSources.width} height={pawaSources.height} />
-              <img
-                src={pawaSources.fallbackSrc}
-                srcset={pawaSources.fallbackSrcset}
-                sizes="(min-width: 900px) 260px, 44vw"
-                alt="Janelle Koenig hosting the Performing Arts WA Awards at a lectern"
-                width={pawaSources.width}
-                height={pawaSources.height}
-                loading="lazy"
-                decoding="async"
-                class="img-lectern"
-              />
-            </picture>
-          </div>
-          <figcaption class="editorial-caption">
-            <strong>Performing Arts WA Awards</strong>
-            Keeping major live rooms and broadcasts moving.
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Credits & Stage/Hosting/Community Spotlight -->
-  <section class="credits-section" aria-labelledby="credits-heading">
+  <!-- 5. Chapter 2: Credits & Highlights -->
+  <section class="credits-section" id="credits" aria-labelledby="credits-heading">
     <div class="container">
-      <div class="credits-header reveal">
+      <div class="credits-header scroll-reveal">
         <span class="font-script text-script-section section-script">
           On stage, on screen &amp; behind the scenes
         </span>
@@ -134,8 +75,8 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
         </h2>
       </div>
 
-      <div class="pillars-grid reveal">
-        <div class="pillar-col">
+      <div class="pillars-grid">
+        <div class="pillar-col scroll-reveal">
           <span class="pillar-num" aria-hidden="true">01.</span>
           <h3 class="pillar-title">Stand-Up &amp; Musical Comedy</h3>
           <p class="pillar-copy">
@@ -149,7 +90,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
           </ul>
         </div>
 
-        <div class="pillar-col">
+        <div class="pillar-col scroll-reveal">
           <span class="pillar-num" aria-hidden="true">02.</span>
           <h3 class="pillar-title">Stage, MC &amp; Major Events</h3>
           <p class="pillar-copy">
@@ -163,7 +104,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
           </ul>
         </div>
 
-        <div class="pillar-col">
+        <div class="pillar-col scroll-reveal">
           <span class="pillar-num" aria-hidden="true">03.</span>
           <h3 class="pillar-title">Writing, Directing &amp; Radio</h3>
           <p class="pillar-copy">
@@ -177,9 +118,13 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
           </ul>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Stage, Events & Community Spotlight -->
-      <div class="ambassador-panel reveal">
+  <!-- 6. Chapter 3: Dark-Stage Community & Events Spotlight -->
+  <section class="community-stage-section" id="community" aria-labelledby="community-heading">
+    <div class="container">
+      <div class="ambassador-panel scroll-reveal">
         <div class="ambassador-photo">
           <picture>
             <source type="image/avif" srcset={galaSources.avifSrcset} sizes="(min-width: 900px) 380px, 90vw" width={galaSources.width} height={galaSources.height} />
@@ -200,7 +145,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
         <div class="ambassador-content">
           <span class="font-script ambassador-eyebrow">Stage, Events &amp; Community</span>
-          <h3 class="ambassador-h3">Showing off, hosting &amp; giving back</h3>
+          <h2 id="community-heading" class="ambassador-h3">Showing off, hosting &amp; giving back</h2>
 
           <p class="ambassador-copy">
             When she feels like showing off, Janelle also acts. Her stage credits include leading roles in <em>Priscilla Queen of the Desert</em>, playing to more than 55,000 people at Perth’s Crown Theatre, and <em>We Will Rock You</em> at the Regal Theatre.
@@ -228,25 +173,170 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     </div>
   </section>
 
-  <!-- 5. Full-Bleed Warm Enquiry CTA Banner -->
+  <!-- 7. Full-Bleed Warm Enquiry CTA Banner -->
   <EnquiryBanner buttonId="about-cta-btn" />
 </BaseLayout>
 
-<style>
-  /* ==========================================================================
-     3. Official Bio Story & Staggered Photography
-     ========================================================================== */
-  .story-section {
-    background-color: var(--colour-page);
-    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
+<script>
+  // Sync sticky chapter jump bar position cleanly beneath shrinking site header
+  const siteHeader = document.getElementById('site-header');
+  if (siteHeader && 'ResizeObserver' in window) {
+    const syncHeaderHeight = () => {
+      document.documentElement.style.setProperty('--live-header-h', `${siteHeader.offsetHeight}px`);
+    };
+    new ResizeObserver(syncHeaderHeight).observe(siteHeader);
+    syncHeaderHeight();
   }
 
-  .story-grid {
-    display: grid;
-    grid-template-columns: 1fr 0.98fr;
-    gap: clamp(2rem, 5vw, 3.75rem);
-    align-items: start;
+  // Highlight active chapter in jump bar during scroll
+  const chapterLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-chapter-link]'));
+  const chapterIds = ['story', 'credits', 'community'];
+  const chapterSections = chapterIds
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  function setActiveChapter(activeId: string) {
+    chapterLinks.forEach((link) => {
+      const isMatch = link.dataset.chapterLink === activeId;
+      link.classList.toggle('is-active', isMatch);
+      if (isMatch) {
+        link.setAttribute('aria-current', 'location');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  if ('IntersectionObserver' in window && chapterSections.length > 0) {
+    const chapterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveChapter(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0.01 }
+    );
+    chapterSections.forEach((section) => chapterObserver.observe(section));
+  }
+</script>
+
+<style>
+  /* ==========================================================================
+     Compact Chapter Jump Links Bar
+     ========================================================================== */
+  .chapter-jump-nav {
+    position: sticky;
+    top: var(--live-header-h, var(--header-height-compact));
+    z-index: 90;
+    background-color: rgba(251, 248, 244, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid var(--colour-border);
+    border-bottom: 1px solid var(--colour-border);
+  }
+
+  .jump-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 48px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .jump-nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .jump-nav-label {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--colour-muted);
+    white-space: nowrap;
+  }
+
+  .jump-nav-list {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1.5vw, 14px);
+    margin: 0;
+    padding: 4px 0;
+  }
+
+  .jump-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--colour-ink);
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition:
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out);
+  }
+
+  .jump-num {
+    font-family: var(--font-script);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--colour-primary);
+    line-height: 1;
+  }
+
+  .jump-link:hover {
+    background-color: var(--colour-primary-light);
+    color: var(--colour-primary);
+  }
+
+  .jump-link.is-active {
+    background-color: var(--colour-primary);
+    color: #ffffff;
+  }
+
+  .jump-link.is-active .jump-num {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  @media (max-width: 560px) {
+    .jump-nav-label {
+      display: none;
+    }
+
+    .jump-nav-inner {
+      justify-content: center;
+    }
+
+    .jump-link {
+      padding: 0 10px;
+      font-size: 0.6875rem;
+    }
+  }
+
+  /* ==========================================================================
+     Credits & Highlights Section
+     ========================================================================== */
+  .credits-section {
+    background-color: var(--colour-page-warm);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    border-top: 1px solid var(--colour-border);
+  }
+
+  .credits-header {
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
   }
 
   .section-script {
@@ -264,99 +354,13 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     line-height: 1.06;
     letter-spacing: -0.03em;
     color: var(--colour-ink);
-    margin: 0 0 var(--space-5) 0;
-  }
-
-  .story-copy p {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.62;
-    color: var(--colour-ink-subtle);
     margin: 0;
-    max-width: 58ch;
-  }
-
-  .story-copy p:not(:last-child) {
-    margin-bottom: var(--space-4);
-  }
-
-  .staggered-photos {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(12px, 2vw, 22px);
-    align-items: start;
-    padding-top: 8px;
-  }
-
-  .editorial-figure {
-    margin: 0;
-  }
-
-  .editorial-figure.offset {
-    margin-top: clamp(1.5rem, 4vw, 3.5rem);
-  }
-
-  .editorial-frame {
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    border: 1px solid var(--colour-border);
-    box-shadow: var(--shadow-md);
-    background-color: var(--colour-dark-surface);
-    aspect-ratio: 3 / 4;
-  }
-
-  .editorial-frame picture,
-  .editorial-frame img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-  }
-
-  .img-guitar {
-    object-position: 50% 3%;
-  }
-
-  .img-lectern {
-    object-position: 50% 5%;
-  }
-
-  .editorial-caption {
-    margin-top: 10px;
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: var(--colour-muted);
-  }
-
-  .editorial-caption strong {
-    display: block;
-    color: var(--colour-ink);
-    font-weight: 700;
-    font-size: 0.8125rem;
-  }
-
-  /* ==========================================================================
-     4. Credits & Stage/Hosting/Community Spotlight
-     ========================================================================== */
-  .credits-section {
-    background-color: var(--colour-page-warm);
-    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
-    border-top: 1px solid var(--colour-border);
-  }
-
-  .credits-header {
-    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
-  }
-
-  .credits-title {
-    margin-bottom: 0;
   }
 
   .pillars-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(1.5rem, 2.8vw, 2.25rem);
-    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 
   .pillar-col {
@@ -412,22 +416,34 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     line-height: 1.4;
   }
 
+  /* ==========================================================================
+     Dark-Stage Community Spotlight
+     ========================================================================== */
+  .community-stage-section {
+    --colour-focus: var(--colour-focus-on-dark);
+    background-color: var(--colour-footer);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    color: var(--colour-dark-ink);
+  }
+
   .ambassador-panel {
     display: grid;
     grid-template-columns: minmax(260px, 380px) 1fr;
     gap: clamp(1.5rem, 3.5vw, 2.75rem);
     align-items: center;
-    background-color: var(--colour-surface);
-    border: 1px solid var(--colour-border);
+    background-color: var(--colour-dark-surface);
+    border: 1px solid var(--colour-dark-border);
     border-radius: var(--radius-sm);
     padding: clamp(1.25rem, 2.8vw, 2rem);
+    box-shadow: var(--shadow-lg);
   }
 
   .ambassador-photo {
     border-radius: var(--radius-xs);
     overflow: hidden;
     aspect-ratio: 3 / 3.6;
-    background-color: var(--colour-dark-surface);
+    background-color: var(--colour-dark-stage);
+    border: 1px solid var(--colour-dark-border);
   }
 
   .ambassador-photo picture,
@@ -445,6 +461,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   .ambassador-eyebrow {
     font-size: clamp(1.35rem, 1.05rem + 0.5vw, 1.625rem);
+    color: var(--colour-primary-on-dark);
     display: inline-block;
     margin-bottom: 4px;
     line-height: 1.1;
@@ -452,10 +469,10 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   .ambassador-h3 {
     font-family: var(--font-display);
-    font-size: clamp(1.35rem, 1.05rem + 0.55vw, 1.7rem);
+    font-size: clamp(1.35rem, 1.05rem + 0.55vw, 1.75rem);
     font-weight: 900;
     letter-spacing: -0.025em;
-    color: var(--colour-ink);
+    color: #ffffff;
     margin: 0 0 14px 0;
   }
 
@@ -463,7 +480,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-family: var(--font-body);
     font-size: 0.96875rem;
     line-height: 1.6;
-    color: var(--colour-ink-subtle);
+    color: rgba(243, 243, 243, 0.86);
     max-width: 60ch;
     margin: 0 0 14px 0;
   }
@@ -473,9 +490,9 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-size: 0.96875rem;
     line-height: 1.55;
     font-weight: 600;
-    color: var(--colour-ink);
+    color: #ffffff;
     padding-top: 12px;
-    border-top: 1px solid var(--colour-border);
+    border-top: 1px solid var(--colour-dark-border);
     margin: 0 0 18px 0;
     max-width: 60ch;
   }
@@ -490,32 +507,17 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--colour-primary);
-    transition: transform var(--motion-fast) var(--ease-out),
-                color var(--motion-fast) var(--ease-out);
+    color: var(--colour-primary-on-dark);
+    transition:
+      transform var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out);
   }
 
   .ambassador-link:hover {
-    color: var(--colour-primary-hover);
+    color: #ffffff;
   }
 
-  /* ==========================================================================
-     Responsive Breakpoints
-     ========================================================================== */
   @media (max-width: 1023px) {
-    .story-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .staggered-photos {
-      padding-top: 0;
-    }
-
-    .editorial-figure.offset {
-      margin-top: 0;
-    }
-
     .pillars-grid {
       grid-template-columns: 1fr;
       gap: 1.5rem;
@@ -532,16 +534,9 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     }
   }
 
-  @media (max-width: 420px) {
-    .staggered-photos {
-      grid-template-columns: 1fr;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .ambassador-link:hover {
       transform: none;
     }
   }
 </style>
-

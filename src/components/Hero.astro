@@ -14,66 +14,73 @@ const heroSources = await createResponsiveSourceSet(
 <section class="hero-section" id="hero" aria-label="Hero Section">
   <div class="container hero-container">
     <!-- Hero Text Content -->
-    <div class="hero-content">
-      <!-- Main Display Headline (calibrated ~67px, ends ~485px from left edge) -->
-      <h1 class="hero-title" aria-label={siteConfig.heroHeadline.join(' ')}>
-        {siteConfig.heroHeadline.map((word) => (
-          <span class="title-line">{word.replace(/\.$/, '')}<span class="red-sq" aria-hidden="true"></span></span>
-        ))}
-      </h1>
+    <div class="hero-parallax-text">
+      <div class="hero-content">
+        <h1 class="hero-title" aria-label={siteConfig.heroHeadline.join(' ')}>
+          {siteConfig.heroHeadline.map((word, index) => (
+            <span class="title-line-mask">
+              <span class="title-line" style={`--line-idx: ${index};`}>
+                {word.replace(/\.$/, '')}<span class="red-sq" aria-hidden="true"></span>
+              </span>
+            </span>
+          ))}
+        </h1>
 
-      <!-- Supporting Copy: 3 distinct lines, constrained to ~320px -->
-      <p class="hero-subhead wrap-break">
-        Comedian, creator, writer, <br class="desktop-break" />
-        MC, mum, and indoorsy type. <br class="desktop-break" />
-        See Janelle live around Australia.
-      </p>
+        <p class="hero-subhead wrap-break">
+          Comedian, creator, writer, <br class="desktop-break" />
+          MC, mum, and indoorsy type. <br class="desktop-break" />
+          See Janelle live around Australia.
+        </p>
 
-      <!-- Action Buttons on one horizontal line with 30px gap above -->
-      <div class="hero-actions">
-        <a href="#shows" class="btn btn-primary hero-btn-live">
-          SEE JANELLE LIVE
-        </a>
-        <button type="button" class="btn btn-secondary hero-btn-watch" id="hero-watch-btn" data-video-trigger>
-          <span>WATCH JANELLE</span>
-          <svg class="play-circle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
-          </svg>
-        </button>
+        <div class="hero-actions">
+          <a href="#shows" class="btn btn-primary hero-btn-live">
+            SEE JANELLE LIVE
+          </a>
+          <button type="button" class="btn btn-secondary hero-btn-watch" id="hero-watch-btn" data-video-trigger>
+            <span>WATCH JANELLE</span>
+            <svg class="play-circle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Layered Large Portrait Anchored to Bottom Edge with Anchored Burst Mark -->
+    <!-- Layered Large Portrait & Burst Mark -->
     <div class="hero-media">
-      <div class="hero-burst-mark" aria-hidden="true">
-        <BurstMark animated={true} strokeWidth={2.5} />
+      <div class="hero-parallax-burst" aria-hidden="true">
+        <div class="hero-burst-mark">
+          <BurstMark animated={true} strokeWidth={2.5} />
+        </div>
       </div>
 
-      <picture class="hero-portrait-picture">
-        <source
-          type="image/avif"
-          srcset={heroSources.avifSrcset}
-          sizes="(min-width: 1150px) 542px, (min-width: 850px) 46vw, 72vw"
-        />
-        <source
-          type="image/webp"
-          srcset={heroSources.webpSrcset}
-          sizes="(min-width: 1150px) 542px, (min-width: 850px) 46vw, 72vw"
-        />
-        <img
-          src={heroSources.fallbackSrc}
-          srcset={heroSources.fallbackSrcset}
-          sizes="(min-width: 1150px) 542px, (min-width: 850px) 46vw, 72vw"
-          alt="Janelle Koenig smiling with hands on hips in denim dress"
-          width={heroSources.width}
-          height={heroSources.height}
-          fetchpriority="high"
-          loading="eager"
-          decoding="async"
-          class="hero-portrait-img"
-        />
-      </picture>
+      <div class="hero-parallax-media">
+        <picture class="hero-portrait-picture">
+          <source
+            type="image/avif"
+            srcset={heroSources.avifSrcset}
+            sizes="(min-width: 1150px) 542px, (min-width: 850px) 46vw, 72vw"
+          />
+          <source
+            type="image/webp"
+            srcset={heroSources.webpSrcset}
+            sizes="(min-width: 1150px) 542px, (min-width: 850px) 46vw, 72vw"
+          />
+          <img
+            src={heroSources.fallbackSrc}
+            srcset={heroSources.fallbackSrcset}
+            sizes="(min-width: 1150px) 542px, (min-width: 850px) 46vw, 72vw"
+            alt="Janelle Koenig smiling with hands on hips in denim dress"
+            width={heroSources.width}
+            height={heroSources.height}
+            fetchpriority="high"
+            loading="eager"
+            decoding="async"
+            class="hero-portrait-img"
+          />
+        </picture>
+      </div>
     </div>
   </div>
 </section>
@@ -82,34 +89,35 @@ const heroSources = await createResponsiveSourceSet(
   .hero-section {
     position: relative;
     background: var(--gradient-hero-warm);
-    padding-block-start: var(--header-offset);
+    padding-block-start: var(--header-height);
     overflow: clip;
     width: 100%;
   }
 
   .hero-container {
     position: relative;
-    min-height: clamp(560px, 46vw, 640px);
+    min-height: clamp(540px, 45vw, 630px);
     display: flex;
     align-items: center;
   }
 
-  /* Left Content Column - Preserving text block sizing and button sizing */
-  .hero-content {
+  .hero-parallax-text {
     position: relative;
     z-index: 3;
     max-width: 480px;
     min-width: 0;
-    padding-top: clamp(56px, 6vw, 84px);
+  }
+
+  .hero-content {
+    padding-top: clamp(44px, 5vw, 72px);
     padding-bottom: clamp(2.75rem, 4.5vw, 3.75rem);
     display: flex;
     flex-direction: column;
   }
 
-  /* Display Headline: calibrated to match reference */
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 1.3rem + 4.5vw, 4.2rem);
+    font-size: clamp(2.5rem, 1.3rem + 4.5vw, 4.25rem);
     font-weight: 900;
     line-height: 0.96;
     letter-spacing: -0.035em;
@@ -120,13 +128,19 @@ const heroSources = await createResponsiveSourceSet(
     width: fit-content;
   }
 
+  .title-line-mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.08em;
+  }
+
   .title-line {
     white-space: nowrap;
     display: inline-flex;
     align-items: baseline;
   }
 
-  /* Supporting Copy: Constrained to 320px across 3 lines */
   .hero-subhead {
     font-family: var(--font-body);
     font-size: 1.0625rem;
@@ -137,7 +151,6 @@ const heroSources = await createResponsiveSourceSet(
     margin-bottom: 30px;
   }
 
-  /* Action Buttons on One Horizontal Line with 30px gap above */
   .hero-actions {
     display: flex;
     flex-direction: row;
@@ -189,22 +202,23 @@ const heroSources = await createResponsiveSourceSet(
     }
 
     .hero-btn-watch:is(:hover, :focus-visible) .play-circle-icon {
-      transform: scale(1.1);
+      transform: scale(1.12);
     }
   }
 
-  /* Red 3-Line Burst Mark anchored beside Janelle's Head inside .hero-media */
-  .hero-burst-mark {
-    display: block;
+  .hero-parallax-burst {
     position: absolute;
     left: 23%;
     top: 11%;
     z-index: 2;
     pointer-events: none;
+  }
+
+  .hero-burst-mark {
+    display: block;
     --burst-size: clamp(34px, 3.2vw, 46px);
   }
 
-  /* Oversized Dominant Hero Portrait: Sized from container height with top clearance, cropped at mid-thigh */
   .hero-media {
     position: absolute;
     right: clamp(16px, 3.2vw, 52px);
@@ -216,6 +230,11 @@ const heroSources = await createResponsiveSourceSet(
     max-width: none;
     z-index: 1;
     pointer-events: none;
+  }
+
+  .hero-parallax-media {
+    width: 100%;
+    height: 100%;
   }
 
   .hero-portrait-picture {
@@ -236,6 +255,100 @@ const heroSources = await createResponsiveSourceSet(
     filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.08));
   }
 
+  /* ==========================================================================
+     Entrance Choreography & Layered Scroll Parallax (Desktop)
+     ========================================================================== */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes hero-mask-rise {
+      from {
+        opacity: 0;
+        transform: translateY(105%);
+        clip-path: inset(0 0 100% 0);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes hero-fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes hero-portrait-in {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.975);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .title-line {
+      animation: hero-mask-rise 720ms var(--ease-out) calc(60ms + var(--line-idx, 0) * 90ms) both;
+    }
+
+    .hero-subhead {
+      animation: hero-fade-up 700ms var(--ease-out) 220ms both;
+    }
+
+    .hero-actions {
+      animation: hero-fade-up 700ms var(--ease-out) 300ms both;
+    }
+
+    .hero-portrait-img {
+      animation: hero-portrait-in 850ms var(--ease-out) 140ms both;
+    }
+
+    @media (min-width: 850px) {
+      @supports ((animation-timeline: view()) and (animation-range: entry)) {
+        .hero-section {
+          view-timeline: --hero-stage block;
+        }
+
+        @keyframes hero-parallax-layer {
+          from {
+            transform: translateY(0);
+          }
+          to {
+            transform: translateY(var(--parallax-offset, 40px));
+          }
+        }
+
+        .hero-parallax-text {
+          --parallax-offset: -36px;
+          animation: hero-parallax-layer linear both;
+          animation-timeline: --hero-stage;
+          animation-range: exit 0% exit 100%;
+        }
+
+        .hero-parallax-media {
+          --parallax-offset: 48px;
+          animation: hero-parallax-layer linear both;
+          animation-timeline: --hero-stage;
+          animation-range: exit 0% exit 100%;
+        }
+
+        .hero-parallax-burst {
+          --parallax-offset: -24px;
+          animation: hero-parallax-layer linear both;
+          animation-timeline: --hero-stage;
+          animation-range: exit 0% exit 100%;
+        }
+      }
+    }
+  }
+
   /* Tablet Landscape & Medium Screens (850px - 1149px) */
   @media (min-width: 850px) and (max-width: 1149px) {
     .hero-container {
@@ -243,7 +356,7 @@ const heroSources = await createResponsiveSourceSet(
     }
 
     .hero-content {
-      padding-top: clamp(60px, 7vw, 84px);
+      padding-top: clamp(48px, 6vw, 72px);
       padding-bottom: 2.5rem;
     }
 
@@ -266,10 +379,13 @@ const heroSources = await createResponsiveSourceSet(
       position: relative;
     }
 
+    .hero-parallax-text {
+      max-width: 55%;
+    }
+
     .hero-content {
       padding-top: clamp(1.75rem, 4.5vw, 3rem);
       padding-bottom: clamp(1.75rem, 4.5vw, 2.75rem);
-      max-width: 55%;
       z-index: 3;
     }
 
@@ -303,9 +419,12 @@ const heroSources = await createResponsiveSourceSet(
       padding: 0.5rem 1rem;
     }
 
-    .hero-burst-mark {
+    .hero-parallax-burst {
       left: 23%;
       top: 11%;
+    }
+
+    .hero-burst-mark {
       --burst-size: clamp(28px, 4.8vw, 38px);
     }
 
@@ -332,8 +451,11 @@ const heroSources = await createResponsiveSourceSet(
       min-height: 275px;
     }
 
-    .hero-content {
+    .hero-parallax-text {
       max-width: 50%;
+    }
+
+    .hero-content {
       padding-top: 1rem;
       padding-bottom: 1.25rem;
     }
@@ -368,9 +490,12 @@ const heroSources = await createResponsiveSourceSet(
       white-space: nowrap;
     }
 
-    .hero-burst-mark {
+    .hero-parallax-burst {
       left: 22%;
       top: 11%;
+    }
+
+    .hero-burst-mark {
       --burst-size: 26px;
     }
 
@@ -388,7 +513,7 @@ const heroSources = await createResponsiveSourceSet(
       min-height: 255px;
     }
 
-    .hero-content {
+    .hero-parallax-text {
       max-width: 52%;
     }
 
@@ -422,51 +547,42 @@ const heroSources = await createResponsiveSourceSet(
       --burst-size: 22px;
     }
   }
-
-  /* Hero Load Staged Sequence */
-  @keyframes heroFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(var(--motion-distance, 24px));
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .hero-title {
-    animation: heroFadeIn var(--motion-standard, 800ms) var(--ease-out) 0ms both;
-  }
-
-  .hero-subhead,
-  .hero-actions,
-  .hero-media {
-    animation: heroFadeIn var(--motion-standard, 800ms) var(--ease-out) var(--motion-stagger, 100ms) both;
-  }
-
-  @media (max-width: 600px) {
-    .hero-title {
-      animation-duration: 600ms;
-    }
-
-    .hero-subhead,
-    .hero-actions,
-    .hero-media {
-      animation-duration: 600ms;
-      animation-delay: 90ms;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-title,
-    .hero-subhead,
-    .hero-actions,
-    .hero-media,
-    .hero-burst-mark {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  }
 </style>
+
+<script>
+  // Parallax fallback for desktop browsers without scroll-driven view() support
+  if (
+    !CSS.supports('(animation-timeline: view()) and (animation-range: entry)') &&
+    window.matchMedia('(prefers-reduced-motion: no-preference)').matches &&
+    window.matchMedia('(min-width: 850px)').matches
+  ) {
+    const heroSection = document.getElementById('hero');
+    const textLayer = heroSection?.querySelector<HTMLElement>('.hero-parallax-text');
+    const mediaLayer = heroSection?.querySelector<HTMLElement>('.hero-parallax-media');
+    const burstLayer = heroSection?.querySelector<HTMLElement>('.hero-parallax-burst');
+
+    if (heroSection && textLayer && mediaLayer && burstLayer) {
+      let active = false;
+      const updateParallax = () => {
+        if (!active) return;
+        const rect = heroSection.getBoundingClientRect();
+        const height = rect.height || 1;
+        const progress = Math.max(0, Math.min(1, -rect.top / height));
+        textLayer.style.transform = `translateY(${progress * -36}px)`;
+        mediaLayer.style.transform = `translateY(${progress * 48}px)`;
+        burstLayer.style.transform = `translateY(${progress * -24}px)`;
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        active = entries.some((entry) => entry.isIntersecting);
+        if (active) {
+          window.addEventListener('scroll', updateParallax, { passive: true });
+          updateParallax();
+        } else {
+          window.removeEventListener('scroll', updateParallax);
+        }
+      });
+      observer.observe(heroSection);
+    }
+  }
+</script>

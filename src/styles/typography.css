@@ -1,5 +1,5 @@
 :root {
-  /* Font Sizes tuned to 1024px reference with zoom-safe rem + vw clamps */
+  /* Fluid typography scales calibrated to desktop & mobile proportions */
   --text-hero: clamp(2.35rem, 1.4rem + 3.8vw, 3.75rem);
   --text-section-title: clamp(1.65rem, 1.2rem + 1.6vw, 2.25rem);
   --text-script-hero: clamp(1.35rem, 1.05rem + 1.1vw, 1.75rem);

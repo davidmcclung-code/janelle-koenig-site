@@ -1,13 +1,18 @@
 ---
 /**
  * GalleryLightbox.astro
- * Accessible Story Lightbox modal: uncropped photo stage + side-by-side story drawer,
- * with FLIP tile-to-lightbox morph on open and directional transitions between slides.
+ * Native top-layer <dialog> Story Lightbox with @starting-style / top-layer exit animation,
+ * FLIP tile-to-lightbox morph on open, and directional slide navigation.
  */
 import CloseIcon from './CloseIcon.astro';
 ---
 
-<dialog id="gallery-lightbox" class="gallery-lightbox" aria-label="Photo Story Lightbox" closedby="any">
+<dialog
+  id="gallery-lightbox"
+  class="animated-dialog gallery-lightbox"
+  aria-label="Photo Story Lightbox"
+  closedby="any"
+>
   <div class="lightbox-backdrop-wrap">
     <div class="lightbox-modal-card" id="lightbox-modal-card">
       <!-- Left: Uncropped Photo Stage -->
@@ -21,7 +26,7 @@ import CloseIcon from './CloseIcon.astro';
         />
       </div>
 
-      <!-- Right (or Bottom on Mobile): Story Drawer -->
+      <!-- Right: Story Drawer -->
       <aside class="lightbox-story-drawer" aria-label="Photo caption and controls">
         <header class="drawer-header">
           <div class="lightbox-counter" id="lightbox-counter" aria-live="polite">
@@ -32,6 +37,7 @@ import CloseIcon from './CloseIcon.astro';
             class="lightbox-close-btn"
             id="lightbox-close"
             aria-label="Close photo view (Escape)"
+            autofocus
           >
             <CloseIcon size={20} strokeWidth={2.4} />
           </button>
@@ -72,6 +78,7 @@ import CloseIcon from './CloseIcon.astro';
 <style>
   .gallery-lightbox {
     --colour-focus: var(--colour-focus-on-dark);
+    --dialog-backdrop-bg: rgba(8, 8, 8, 0.9);
     position: fixed;
     inset: 0;
     width: 100vw;
@@ -87,11 +94,6 @@ import CloseIcon from './CloseIcon.astro';
     color: #ffffff;
     z-index: 1000;
     overflow: hidden;
-  }
-
-  .gallery-lightbox::backdrop {
-    background-color: rgba(8, 8, 8, 0.9);
-    backdrop-filter: blur(4px);
   }
 
   .gallery-lightbox[open] {
@@ -146,7 +148,6 @@ import CloseIcon from './CloseIcon.astro';
     }
   }
 
-  /* Left Photo Stage */
   .lightbox-stage {
     flex: 1;
     min-width: 0;
@@ -177,7 +178,6 @@ import CloseIcon from './CloseIcon.astro';
     transform-origin: center center;
   }
 
-  /* Right Story Drawer */
   .lightbox-story-drawer {
     width: clamp(320px, 32vw, 410px);
     flex-shrink: 0;
@@ -261,7 +261,6 @@ import CloseIcon from './CloseIcon.astro';
     outline-offset: 2px;
   }
 
-  /* Story Body */
   .lightbox-story-body {
     flex: 1;
     min-height: 0;
@@ -299,16 +298,10 @@ import CloseIcon from './CloseIcon.astro';
   }
 
   @media (max-width: 899px) {
-    .lightbox-category {
-      margin-top: 0;
-    }
-
-    .lightbox-caption {
-      margin-bottom: 0;
-    }
+    .lightbox-category { margin-top: 0; }
+    .lightbox-caption { margin-bottom: 0; }
   }
 
-  /* Drawer Footer Controls */
   .drawer-footer {
     display: flex;
     flex-direction: column;
@@ -336,9 +329,7 @@ import CloseIcon from './CloseIcon.astro';
   }
 
   @media (min-width: 900px) {
-    .drawer-kbd-hint {
-      display: block;
-    }
+    .drawer-kbd-hint { display: block; }
   }
 
   .lightbox-pill-btn {
@@ -401,6 +392,8 @@ import CloseIcon from './CloseIcon.astro';
 </style>
 
 <script>
+  import { bindDialogLightDismiss, closeAnimatedDialog } from '../utils/topLayerDialog';
+
   interface GalleryItemData {
     src: string;
     alt: string;
@@ -534,7 +527,6 @@ import CloseIcon from './CloseIcon.astro';
       { duration: 300, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
     );
 
-    // Wait briefly for decoded dimensions so FLIP has accurate target bounds
     await imgEl.decode().catch(() => {});
     const lastRect = imgEl.getBoundingClientRect();
 
@@ -552,24 +544,11 @@ import CloseIcon from './CloseIcon.astro';
         ],
         { duration: 320, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
       );
-    } else {
-      imgEl.animate(
-        [
-          { transform: 'scale(0.95)', opacity: 0.4 },
-          { transform: 'scale(1)', opacity: 1 },
-        ],
-        { duration: 240, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
-      );
     }
   }
 
   function closeLightbox() {
-    if (!lightbox) return;
-    if (typeof lightbox.close === 'function') {
-      lightbox.close();
-    } else {
-      lightbox.removeAttribute('open');
-    }
+    return closeAnimatedDialog(lightbox);
   }
 
   function showNext() {
@@ -590,7 +569,7 @@ import CloseIcon from './CloseIcon.astro';
     const target = e.target as HTMLElement;
     const tile = target.closest<HTMLElement>('[data-gallery-tile]');
     if (tile && !tile.hidden) {
-      openLightbox(tile);
+      void openLightbox(tile);
     }
   });
 
@@ -598,9 +577,10 @@ import CloseIcon from './CloseIcon.astro';
     initGalleryData();
   });
 
-  closeBtn?.addEventListener('click', closeLightbox);
+  closeBtn?.addEventListener('click', () => void closeLightbox());
   prevBtn?.addEventListener('click', showPrev);
   nextBtn?.addEventListener('click', showNext);
+  bindDialogLightDismiss(lightbox, closeLightbox);
 
   document.addEventListener('keydown', (e: KeyboardEvent) => {
     if (!lightbox?.hasAttribute('open')) return;
@@ -614,14 +594,14 @@ import CloseIcon from './CloseIcon.astro';
     }
   });
 
-  // Safe backdrop click handling (handles clicks outside the card)
+  // Allow clicking backdrop wrap around modal card to close
   lightbox?.addEventListener('mousedown', (e) => {
     isBackdropMousedown = e.target === lightbox || e.target === backdropWrap;
   });
 
   lightbox?.addEventListener('mouseup', (e) => {
     if (isBackdropMousedown && (e.target === lightbox || e.target === backdropWrap)) {
-      closeLightbox();
+      void closeLightbox();
     }
     isBackdropMousedown = false;
   });

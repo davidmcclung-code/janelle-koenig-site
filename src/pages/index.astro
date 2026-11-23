@@ -1,29 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import ShowsSection from '../components/ShowsSection.astro';
 import CredibilityStrip from '../components/CredibilityStrip.astro';
-import CorporateHostingBanner from '../components/CorporateHostingBanner.astro';
-import SubstackSection from '../components/SubstackSection.astro';
+import ShowsSection from '../components/ShowsSection.astro';
+import VideoShowcaseSection from '../components/VideoShowcaseSection.astro';
+import FeatureDuoSection from '../components/FeatureDuoSection.astro';
 import VideoModal from '../components/VideoModal.astro';
 ---
 
 <BaseLayout>
-  <!-- Hero Section -->
+  <!-- Act 1: Hero Spotlight -->
   <Hero />
 
-  <!-- Shows & Video Section -->
-  <ShowsSection />
-
-  <!-- Media Logos Credibility Strip -->
+  <!-- Act 2: Media Logos Credibility Strip -->
   <CredibilityStrip />
 
-  <!-- Need someone to work the room? Corporate MC Banner -->
-  <CorporateHostingBanner />
+  <!-- Act 3: Dedicated Full-Width Shows Band -->
+  <ShowsSection />
 
-  <!-- Apparently She Writes Too Substack Panel -->
-  <SubstackSection />
+  <!-- Act 4: Dark-Stage Video Showcase -->
+  <VideoShowcaseSection />
 
-  <!-- Accessible Video Modal -->
+  <!-- Act 5: Paired MC Work & Substack Feature Duo -->
+  <FeatureDuoSection />
+
+  <!-- Top-Layer Cinema Video Modal -->
   <VideoModal />
 </BaseLayout>

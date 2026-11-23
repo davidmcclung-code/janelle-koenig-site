@@ -24,6 +24,9 @@ const { title, description } = Astro.props;
     </script>
   </head>
   <body>
+    <!-- Global Scroll Progress Rail (Progressive Enhancement) -->
+    <div class="scroll-progress-bar" aria-hidden="true"></div>
+
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="sr-only skip-link">Skip to main content</a>
 
@@ -35,14 +38,47 @@ const { title, description } = Astro.props;
 
     <SiteFooter />
 
-    <!-- Accessible Dialogs -->
+    <!-- Accessible Booking Dialog -->
     <BookingModal />
 
-    <!-- Lightweight Scroll Reveal Observer -->
+    <!-- Directional Cross-Document View Transitions & Scroll-Reveal Fallback -->
     <script>
-      const reveals = document.querySelectorAll('.reveal');
+      const routeOrder: Record<string, number> = {
+        '/': 0,
+        '/photos': 1,
+        '/about': 2,
+      };
+      const basePath = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+      const normalizeRoute = (pathname: string) => {
+        let route = pathname.replace(/\/+$/, '');
+        if (basePath && (route === basePath || route.startsWith(`${basePath}/`))) {
+          route = route.slice(basePath.length);
+        }
+        return route || '/';
+      };
 
-      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('pagereveal', (e: any) => {
+        const navActivation = (window as any).navigation?.activation;
+        if (!e.viewTransition || !navActivation) return;
+        const fromUrl = navActivation.from?.url ? new URL(navActivation.from.url) : null;
+        const entryUrl = navActivation.entry?.url ? new URL(navActivation.entry.url) : null;
+        if (!fromUrl || !entryUrl) return;
+
+        const fromRank = routeOrder[normalizeRoute(fromUrl.pathname)];
+        const toRank = routeOrder[normalizeRoute(entryUrl.pathname)];
+        if (fromRank !== undefined && toRank !== undefined && fromRank !== toRank) {
+          e.viewTransition.types.add(toRank > fromRank ? 'forward' : 'backward');
+        }
+      });
+
+      // Fallback for .scroll-reveal when CSS scroll-driven view() timelines are unsupported
+      if (
+        !CSS.supports('(animation-timeline: view()) and (animation-range: entry)') &&
+        window.matchMedia('(prefers-reduced-motion: no-preference)').matches &&
+        'IntersectionObserver' in window
+      ) {
+        document.documentElement.classList.add('js-reveal-fallback');
+        const revealEls = document.querySelectorAll('.scroll-reveal');
         const observer = new IntersectionObserver(
           (entries, obs) => {
             entries.forEach((entry) => {
@@ -52,16 +88,9 @@ const { title, description } = Astro.props;
               }
             });
           },
-          {
-            threshold: 0.05,
-            rootMargin: '0px 0px -20px 0px',
-          }
+          { threshold: 0.08, rootMargin: '0px 0px -24px 0px' }
         );
-
-        reveals.forEach((el) => observer.observe(el));
-      } else {
-        // Fallback or reduced-motion
-        reveals.forEach((el) => el.classList.add('is-visible'));
+        revealEls.forEach((el) => observer.observe(el));
       }
     </script>
 

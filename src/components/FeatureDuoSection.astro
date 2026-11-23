@@ -1,0 +1,510 @@
+---
+import { siteConfig } from '../data/siteConfig';
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import ArrowIcon from './ArrowIcon.astro';
+import enquiryCutoutImg from '../assets/photography/photos/janelle-enquiry-cutout.png';
+import substackCompactImg from '../assets/photography/substack/janelle-substack-compact.png';
+
+interface Props {
+  substackUrl?: string;
+}
+
+const { substackUrl = siteConfig.substackUrl } = Astro.props;
+
+const cutoutSources = await createResponsiveSourceSet(
+  enquiryCutoutImg,
+  [220, 340, 480],
+  'png'
+);
+
+const substackSources = await createResponsiveSourceSet(
+  substackCompactImg,
+  [320, 480, 640],
+  'png'
+);
+---
+
+<section class="feature-duo-section" aria-label="MC Work and Writing">
+  <div class="container">
+    <div class="feature-duo-grid">
+      <!-- Left Card: MC & Corporate Events -->
+      <article class="duo-card duo-card-mc scroll-reveal" id="mc-events">
+        <div class="duo-content">
+          <h2 class="font-script text-script-section duo-title">
+            Need someone to work the room?
+          </h2>
+          <p class="duo-desc wrap-break">
+            Janelle keeps the room laughing, the event moving and awkward silences off the agenda.
+          </p>
+          <div class="duo-actions">
+            <button
+              type="button"
+              class="btn duo-mc-btn"
+              id="mc-enquire-btn"
+              data-booking-trigger
+              aria-haspopup="dialog"
+            >
+              <span>MC &amp; EVENT ENQUIRIES</span>
+              <ArrowIcon size={13} />
+            </button>
+          </div>
+        </div>
+
+        <div class="duo-mc-media" aria-hidden="true">
+          <picture class="duo-mc-picture">
+            <source
+              type="image/avif"
+              srcset={cutoutSources.avifSrcset}
+              sizes="(min-width: 900px) 250px, 210px"
+              width={cutoutSources.width}
+              height={cutoutSources.height}
+            />
+            <source
+              type="image/webp"
+              srcset={cutoutSources.webpSrcset}
+              sizes="(min-width: 900px) 250px, 210px"
+              width={cutoutSources.width}
+              height={cutoutSources.height}
+            />
+            <img
+              src={cutoutSources.fallbackSrc}
+              srcset={cutoutSources.fallbackSrcset}
+              sizes="(min-width: 900px) 250px, 210px"
+              alt=""
+              width={cutoutSources.width}
+              height={cutoutSources.height}
+              loading="lazy"
+              decoding="async"
+              class="duo-mc-cutout"
+            />
+          </picture>
+        </div>
+      </article>
+
+      <!-- Right Card: Substack -->
+      <article class="duo-card duo-card-substack scroll-reveal" id="substack">
+        <div class="duo-content substack-duo-content">
+          <div class="duo-mug-row">
+            <div class="mug-illustration-wrapper" aria-hidden="true">
+              <svg class="mug-svg" width="58" height="66" viewBox="0 -10 90 110" fill="none" aria-hidden="true">
+                <g class="burst-lines" stroke="var(--colour-primary)" stroke-width="3.2" stroke-linecap="round">
+                  <path class="steam-line steam-left" d="M26 21 C24 16 19 14 17 9" />
+                  <path class="steam-line steam-center" d="M38 19 C39 15 37 11 38 7" />
+                  <path class="steam-line steam-right" d="M50 21 C52 16 57 14 59 9" />
+                </g>
+                <rect x="12" y="24" width="52" height="60" rx="8" fill="var(--colour-surface)" stroke="var(--colour-ink)" stroke-width="3.5" />
+                <path d="M64 34 C76 34 82 42 82 54 C82 66 76 74 64 74" fill="none" stroke="var(--colour-ink)" stroke-width="3.5" stroke-linecap="round" />
+                <text x="38" y="52" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="var(--colour-ink)" text-anchor="middle" letter-spacing="0.6">INDOORS</text>
+                <text x="38" y="65" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8.5" fill="var(--colour-ink)" text-anchor="middle" letter-spacing="0.6">CLUB</text>
+              </svg>
+            </div>
+
+            <h2 class="font-script text-script-section duo-title">
+              Funny, even sitting down
+            </h2>
+          </div>
+
+          <p class="duo-desc wrap-break">
+            Because some thoughts deserve way more than 280 characters.
+          </p>
+
+          <div class="substack-actions">
+            <a
+              href={substackUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary substack-btn"
+              aria-label="Read the Substack (opens in a new tab)"
+            >
+              <span>READ THE SUBSTACK</span>
+              <ArrowIcon size={13} />
+            </a>
+            <svg class="substack-underline" viewBox="0 0 160 8" preserveAspectRatio="none" fill="none" aria-hidden="true">
+              <path class="underline-path" d="M3 5C45 2.5 115 2.5 157 5" stroke="var(--colour-primary)" stroke-width="2.5" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+            </svg>
+          </div>
+        </div>
+
+        <a
+          href={substackUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="duo-substack-media"
+          aria-label="Read Janelle's Indoors Club Substack (opens in a new tab)"
+        >
+          <picture class="duo-substack-picture">
+            <source
+              type="image/avif"
+              srcset={substackSources.avifSrcset}
+              sizes="(min-width: 900px) 260px, 220px"
+              width={substackSources.width}
+              height={substackSources.height}
+            />
+            <source
+              type="image/webp"
+              srcset={substackSources.webpSrcset}
+              sizes="(min-width: 900px) 260px, 220px"
+              width={substackSources.width}
+              height={substackSources.height}
+            />
+            <img
+              src={substackSources.fallbackSrc}
+              srcset={substackSources.fallbackSrcset}
+              sizes="(min-width: 900px) 260px, 220px"
+              alt="Indoors Club - Things I Thought About Instead of Sleeping"
+              width={substackSources.width}
+              height={substackSources.height}
+              loading="lazy"
+              decoding="async"
+              class="duo-substack-img"
+            />
+          </picture>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature-duo-section {
+    background-color: var(--colour-page);
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    width: 100%;
+  }
+
+  .feature-duo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(18px, 2.4vw, 28px);
+    align-items: stretch;
+  }
+
+  @media (min-width: 900px) {
+    .feature-duo-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .duo-card {
+    position: relative;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(18, 18, 18, 0.08);
+    overflow: clip;
+    padding: clamp(1.5rem, 2.8vw, 2.25rem);
+    min-height: clamp(320px, 27vw, 380px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .duo-card-mc {
+    background-color: var(--colour-banner-warm);
+  }
+
+  .duo-card-substack {
+    background-color: var(--colour-banner-peach);
+  }
+
+  .duo-content {
+    position: relative;
+    z-index: 2;
+    max-width: 62%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .substack-duo-content {
+    max-width: 64%;
+  }
+
+  .duo-title {
+    color: var(--colour-primary);
+    transform: rotate(-1.5deg);
+    display: inline-block;
+    font-size: clamp(1.45rem, 1.15rem + 0.5vw, 1.8rem);
+    line-height: 1.08;
+    margin: 0 0 var(--space-3) 0;
+  }
+
+  .duo-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.875rem, 0.82rem + 0.15vw, 0.96875rem);
+    line-height: 1.48;
+    color: var(--colour-ink);
+    font-weight: 500;
+    margin: 0;
+    max-width: 34ch;
+  }
+
+  .duo-actions {
+    margin-top: var(--space-5);
+  }
+
+  .duo-mc-btn {
+    background-color: var(--colour-ink);
+    border-color: var(--colour-ink);
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 0.55rem 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+  }
+
+  .duo-mc-btn:hover {
+    background-color: var(--colour-primary);
+    border-color: var(--colour-primary);
+    box-shadow: var(--shadow-button-hover);
+  }
+
+  /* Left Card Cutout */
+  .duo-mc-media {
+    position: absolute;
+    right: clamp(-4px, 0.6vw, 14px);
+    bottom: 0;
+    height: clamp(255px, 24vw, 330px);
+    width: auto;
+    z-index: 1;
+    pointer-events: none;
+    line-height: 0;
+  }
+
+  .duo-mc-picture {
+    display: block;
+    height: 100%;
+    width: auto;
+  }
+
+  .duo-mc-cutout {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom right;
+    filter: drop-shadow(0 8px 20px rgba(18, 18, 18, 0.14));
+  }
+
+  /* Right Card Mug & Substack Artwork */
+  .duo-mug-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: var(--space-2);
+  }
+
+  .duo-mug-row .duo-title {
+    margin-bottom: 0;
+  }
+
+  .mug-illustration-wrapper {
+    flex-shrink: 0;
+    line-height: 0;
+  }
+
+  .mug-svg {
+    width: clamp(48px, 4.5vw, 58px);
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.06));
+    transition: transform var(--motion-fast) var(--ease-out);
+    transform-origin: bottom center;
+  }
+
+  .duo-card-substack:hover .mug-svg {
+    transform: rotate(-3deg) scale(1.04);
+  }
+
+  .burst-lines {
+    transition: transform var(--motion-fast) var(--ease-out);
+    transform-origin: 38px 24px;
+  }
+
+  .substack-actions {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: var(--space-5);
+  }
+
+  .substack-btn {
+    min-height: 44px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.75rem;
+  }
+
+  .substack-underline {
+    display: block;
+    inline-size: 100%;
+    block-size: 8px;
+    margin-block-start: 4px;
+    overflow: visible;
+  }
+
+  .underline-path {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 0;
+  }
+
+  .duo-substack-media {
+    position: absolute;
+    right: clamp(-14px, -0.5vw, 8px);
+    bottom: clamp(-12px, -0.5vw, 4px);
+    width: clamp(180px, 19vw, 240px);
+    z-index: 1;
+    display: block;
+    text-decoration: none;
+  }
+
+  .duo-substack-picture {
+    display: block;
+    width: 100%;
+  }
+
+  .duo-substack-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+
+  .duo-substack-media:hover .duo-substack-img,
+  .duo-substack-media:focus-visible .duo-substack-img {
+    transform: translateY(-4px) rotate(1deg);
+  }
+
+  /* Scroll-driven entrance choreography */
+  @media (prefers-reduced-motion: no-preference) {
+    .duo-card-substack:hover .burst-lines,
+    .duo-card-substack:has(.substack-btn:focus-visible) .burst-lines {
+      transform: translateY(-2px);
+    }
+
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      .duo-card-mc {
+        view-timeline: --duo-mc block;
+      }
+
+      .duo-card-substack {
+        view-timeline: --duo-substack block;
+      }
+
+      @keyframes duo-cutout-glide {
+        from {
+          transform: translateY(24px) scale(0.97);
+        }
+        to {
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes duo-mug-scrub {
+        from {
+          transform: rotate(-7deg) translateY(10px);
+        }
+        to {
+          transform: rotate(0deg) translateY(0);
+        }
+      }
+
+      @keyframes duo-underline-scrub {
+        from {
+          stroke-dashoffset: 160;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes duo-substack-art-scrub {
+        from {
+          transform: translateY(16px) rotate(-2deg);
+        }
+        to {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      .duo-mc-cutout {
+        animation: duo-cutout-glide auto var(--ease-out) both;
+        animation-timeline: --duo-mc;
+        animation-range: entry 0% cover 45%;
+      }
+
+      .mug-svg {
+        animation: duo-mug-scrub linear both;
+        animation-timeline: --duo-substack;
+        animation-range: entry 10% cover 46%;
+      }
+
+      .underline-path {
+        animation: duo-underline-scrub linear both;
+        animation-timeline: --duo-substack;
+        animation-range: entry 15% cover 48%;
+      }
+
+      .duo-substack-img {
+        animation: duo-substack-art-scrub linear both;
+        animation-timeline: --duo-substack;
+        animation-range: entry 0% cover 48%;
+      }
+    }
+  }
+
+  :global(.js-reveal-fallback) .duo-card-substack:not(.is-visible) .underline-path {
+    stroke-dashoffset: 160;
+  }
+
+  :global(.js-reveal-fallback) .duo-card-substack.is-visible .underline-path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 750ms var(--ease-out) 120ms;
+  }
+
+  /* Responsive Mobile Stack (<= 560px): prevent text/cutout collisions */
+  @media (max-width: 560px) {
+    .duo-card {
+      min-height: auto;
+      padding: var(--space-5) var(--space-4) 0 var(--space-4);
+      justify-content: flex-start;
+      gap: var(--space-4);
+    }
+
+    .duo-content,
+    .substack-duo-content {
+      max-width: 100%;
+    }
+
+    .duo-mc-media {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      align-self: flex-end;
+      height: 215px;
+      margin-top: 4px;
+    }
+
+    .duo-substack-media {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      align-self: flex-end;
+      width: 210px;
+      margin-bottom: -10px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .duo-mc-cutout,
+    .mug-svg,
+    .duo-substack-img {
+      animation: none !important;
+      transform: none !important;
+    }
+
+    .underline-path {
+      animation: none !important;
+      stroke-dashoffset: 0 !important;
+      transition: none !important;
+    }
+  }
+</style>

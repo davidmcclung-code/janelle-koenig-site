@@ -11,19 +11,16 @@ const { event, index = 0 } = Astro.props;
 ---
 
 <li class="event-row" data-event-id={event.id} style={`--row-index: ${index};`}>
-  <!-- Date Badge -->
   <div class="event-date">
     <span class="event-day">{event.day}</span>
     <span class="event-month">{event.month}</span>
   </div>
 
-  <!-- Title & Venue -->
   <div class="event-details">
     <h3 class="event-title wrap-break">{event.title}</h3>
     <p class="event-venue wrap-break">{event.venue}, {event.location}</p>
   </div>
 
-  <!-- Action: Right Aligned -->
   <div class="event-action">
     {
       event.isSoldOut ? (
@@ -45,39 +42,49 @@ const { event, index = 0 } = Astro.props;
 </li>
 
 <style is:global>
-  :global(.js .reveal:not(.is-visible)) .event-row {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-
   .event-row {
     display: grid;
     grid-template-columns: 48px 1fr auto;
     align-items: center;
     gap: var(--space-4);
-    padding: 0.65rem 0.6rem;
-    margin-inline: -0.6rem;
+    padding: 0.72rem 0.65rem;
+    margin-inline: -0.65rem;
     border-radius: var(--radius-xs);
     box-shadow: inset 0 0 0 0 var(--colour-primary);
-    transition: background-color var(--motion-fast) var(--ease-out),
-                box-shadow var(--motion-fast) var(--ease-out),
-                opacity 700ms var(--ease-out),
-                transform 700ms var(--ease-out);
-    transition-delay: 0ms, 0ms, calc(85ms + var(--row-index, 0) * 85ms), calc(85ms + var(--row-index, 0) * 85ms);
+    transition:
+      background-color var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out);
   }
 
   .event-row:not(:last-child) {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
 
-  :global(.reveal.is-visible) .event-row {
-    opacity: 1;
-    transform: translateY(0);
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      @keyframes event-row-in {
+        from {
+          opacity: 0;
+          translate: 0 22px;
+        }
+        to {
+          opacity: 1;
+          translate: 0 0;
+        }
+      }
+
+      .event-row {
+        animation: event-row-in auto var(--ease-out) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry calc(28% + var(--row-index, 0) * 5%);
+      }
+    }
   }
 
   .event-row:hover,
   .event-row:focus-within {
-    background-color: rgba(158, 27, 50, 0.035);
+    background-color: rgba(158, 27, 50, 0.04);
     box-shadow: inset 3px 0 0 0 var(--colour-primary);
   }
 
@@ -106,14 +113,13 @@ const { event, index = 0 } = Astro.props;
   }
 
   .event-row:first-child {
-    padding-top: 0.25rem;
+    padding-top: 0.35rem;
   }
 
   .event-row:last-child {
-    padding-bottom: 0.25rem;
+    padding-bottom: 0.35rem;
   }
 
-  /* Fixed-Width Date Badge Column */
   .event-date {
     display: flex;
     flex-direction: column;
@@ -150,7 +156,6 @@ const { event, index = 0 } = Astro.props;
     margin-top: 2px;
   }
 
-  /* Event Details */
   .event-details {
     display: flex;
     flex-direction: column;
@@ -161,7 +166,7 @@ const { event, index = 0 } = Astro.props;
 
   .event-title {
     font-family: var(--font-display);
-    font-size: 0.9375rem;
+    font-size: 0.96875rem;
     font-weight: 800;
     color: var(--colour-ink);
     letter-spacing: -0.01em;
@@ -181,7 +186,6 @@ const { event, index = 0 } = Astro.props;
     text-overflow: ellipsis;
   }
 
-  /* Ticket Link: Consistently Aligned to Right Margin of Column */
   .event-action {
     display: flex;
     justify-content: flex-end;
@@ -201,8 +205,9 @@ const { event, index = 0 } = Astro.props;
     letter-spacing: 0.05em;
     color: var(--colour-primary);
     white-space: nowrap;
-    transition: transform var(--motion-fast) var(--ease-out),
-                color var(--motion-fast) var(--ease-out);
+    transition:
+      transform var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out);
   }
 
   .event-ticket-link:hover {
@@ -228,8 +233,6 @@ const { event, index = 0 } = Astro.props;
       gap: clamp(8px, 2.5vw, 12px);
       padding: 0.6rem 0;
       margin-inline: 0;
-      transition-duration: 550ms;
-      transition-delay: calc(60ms + var(--row-index, 0) * 70ms);
     }
 
     .event-date {
@@ -267,9 +270,10 @@ const { event, index = 0 } = Astro.props;
     .event-row,
     .event-date,
     .event-ticket-link,
-    .event-ticket-link svg,
-    :global(.js .reveal:not(.is-visible)) .event-row {
+    .event-ticket-link svg {
+      animation: none !important;
       opacity: 1 !important;
+      translate: none !important;
       transform: none !important;
       transition: none !important;
     }

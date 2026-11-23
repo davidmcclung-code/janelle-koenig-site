@@ -1,0 +1,513 @@
+---
+import { createResponsiveSourceSet } from '../utils/responsiveImage';
+import guitarStageImg from '../assets/photography/about/janelle-guitar-stage.jpg';
+import pawaAwardsImg from '../assets/photography/about/janelle-pawa-awards.jpg';
+import wickedPremiereImg from '../assets/photos/janelle-15-wicked-premiere.webp';
+
+const guitarSources = await createResponsiveSourceSet(guitarStageImg, [360, 560, 760, 960], 'jpeg');
+const pawaSources = await createResponsiveSourceSet(pawaAwardsImg, [360, 560, 760, 960], 'jpeg');
+const wickedSources = await createResponsiveSourceSet(wickedPremiereImg, [360, 560, 760, 960], 'jpeg');
+---
+
+<section class="story-section" id="story" aria-labelledby="story-heading">
+  <div class="container scrolly-container">
+    <!-- Left Scrolling Narrative Beats -->
+    <div class="scrolly-beats">
+      <!-- Beat 1 -->
+      <article class="scrolly-beat beat-1" data-beat="1">
+        <span class="font-script text-script-section section-script">The full story</span>
+        <h2 id="story-heading" class="section-heading">
+          Comedian, writer, MC, actor &amp; professional show-off.
+        </h2>
+
+        <p>
+          Western Australia’s First Lady of Comedy, Janelle Koenig, has spent almost 25 years making people laugh – on stage, on screen, on radio and, increasingly, while they’re supposed to be working.
+        </p>
+
+        <p>
+          A powerhouse headliner, writer, director, MC, actor and content creator, Janelle has worked alongside some of the biggest names in Australian and international comedy, including Jimeoin, Alan Davies, Wayne Brady and Joel Creasey. Behind the scenes, she has written and directed extensively for comedy heavyweights including Em Rusciano, Joel Creasey, Jimeoin and Mary Coustas’ beloved Effie.
+        </p>
+
+        <figure class="beat-inline-figure">
+          <div class="editorial-frame">
+            <picture>
+              <source type="image/avif" srcset={guitarSources.avifSrcset} sizes="(min-width: 960px) 380px, 90vw" width={guitarSources.width} height={guitarSources.height} />
+              <source type="image/webp" srcset={guitarSources.webpSrcset} sizes="(min-width: 960px) 380px, 90vw" width={guitarSources.width} height={guitarSources.height} />
+              <img
+                src={guitarSources.fallbackSrc}
+                srcset={guitarSources.fallbackSrcset}
+                sizes="(min-width: 960px) 380px, 90vw"
+                alt="Janelle Koenig performing musical comedy with an acoustic guitar in a sequined dress"
+                width={guitarSources.width}
+                height={guitarSources.height}
+                loading="lazy"
+                decoding="async"
+                class="stage-img img-guitar"
+              />
+            </picture>
+          </div>
+          <figcaption class="editorial-caption">
+            <strong>Stand-up &amp; musical comedy</strong>
+            Razor-sharp comedy and killer(ish) vocals on stage.
+          </figcaption>
+        </figure>
+      </article>
+
+      <!-- Beat 2 -->
+      <article class="scrolly-beat beat-2" data-beat="2">
+        <span class="font-script beat-kicker">Stand-up, vocals &amp; radio</span>
+        <h3 class="beat-heading">20M+ views, national radio &amp; international stages.</h3>
+
+        <p>
+          Blending razor-sharp stand-up with killer(ish) vocals and masterful musical comedy, Janelle has headlined all over the world, has been a full-time stand-up for nearly 20 years and is a dominating presence in the Australian comedy scene. She was also one of a handful of Australian comedians selected for the international edition of NBC’s <em>Last Comic Standing</em>.
+        </p>
+
+        <p>
+          Janelle has also built a fiercely loyal online following of more than 30,000, with her comedy and content clocking up more than 20 million views.
+        </p>
+
+        <p>
+          Janelle has a hugely popular weekly spot 'Janelle's Juice Box' on Nova FM's 'Joel Creasey Show', broadcast nationally.
+        </p>
+
+        <figure class="beat-inline-figure">
+          <div class="editorial-frame">
+            <picture>
+              <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="(min-width: 960px) 380px, 90vw" width={pawaSources.width} height={pawaSources.height} />
+              <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="(min-width: 960px) 380px, 90vw" width={pawaSources.width} height={pawaSources.height} />
+              <img
+                src={pawaSources.fallbackSrc}
+                srcset={pawaSources.fallbackSrcset}
+                sizes="(min-width: 960px) 380px, 90vw"
+                alt="Janelle Koenig hosting the Performing Arts WA Awards at a lectern"
+                width={pawaSources.width}
+                height={pawaSources.height}
+                loading="lazy"
+                decoding="async"
+                class="stage-img img-lectern"
+              />
+            </picture>
+          </div>
+          <figcaption class="editorial-caption">
+            <strong>Performing Arts WA Awards</strong>
+            Keeping major live rooms and broadcasts moving.
+          </figcaption>
+        </figure>
+      </article>
+
+      <!-- Beat 3 -->
+      <article class="scrolly-beat beat-3" data-beat="3">
+        <span class="font-script beat-kicker">Behind the broadcast</span>
+        <h3 class="beat-heading">Head-writer credits for flagship Australian TV.</h3>
+
+        <p>
+          As a writer, Janelle has earned head-writer credits across some of Australia’s biggest broadcasts and events, including <em>Eurovision – Australia Decides</em> (Logie-nominated, 2019), the <em>Sydney Gay and Lesbian Mardi Gras Parade</em> for SBS (AACTA Award for Best Entertainment Program, 2021), Channel 7’s <em>Take Me Out</em> and the <em>Real Housewives of Sydney Reunion</em> for Binge.
+        </p>
+
+        <figure class="beat-inline-figure">
+          <div class="editorial-frame">
+            <picture>
+              <source type="image/avif" srcset={wickedSources.avifSrcset} sizes="(min-width: 960px) 380px, 90vw" width={wickedSources.width} height={wickedSources.height} />
+              <source type="image/webp" srcset={wickedSources.webpSrcset} sizes="(min-width: 960px) 380px, 90vw" width={wickedSources.width} height={wickedSources.height} />
+              <img
+                src={wickedSources.fallbackSrc}
+                srcset={wickedSources.fallbackSrcset}
+                sizes="(min-width: 960px) 380px, 90vw"
+                alt="Janelle Koenig hosting the Wicked: For Good premiere in Perth"
+                width={wickedSources.width}
+                height={wickedSources.height}
+                loading="lazy"
+                decoding="async"
+                class="stage-img img-wicked"
+              />
+            </picture>
+          </div>
+          <figcaption class="editorial-caption">
+            <strong>Live premieres &amp; major broadcasts</strong>
+            Handpicked to host major premieres and flagship Australian broadcasts.
+          </figcaption>
+        </figure>
+      </article>
+    </div>
+
+    <!-- Right Pinned Sticky Photo Stage (Desktop) -->
+    <div class="scrolly-stage-col" aria-hidden="true">
+      <div class="scrolly-stage" id="about-scrolly-stage" data-active-beat="1">
+        <div class="stage-frame-stack">
+          <figure class="stage-card stage-card-1">
+            <div class="editorial-frame">
+              <picture>
+                <source type="image/avif" srcset={guitarSources.avifSrcset} sizes="380px" width={guitarSources.width} height={guitarSources.height} />
+                <source type="image/webp" srcset={guitarSources.webpSrcset} sizes="380px" width={guitarSources.width} height={guitarSources.height} />
+                <img
+                  src={guitarSources.fallbackSrc}
+                  srcset={guitarSources.fallbackSrcset}
+                  sizes="380px"
+                  alt=""
+                  width={guitarSources.width}
+                  height={guitarSources.height}
+                  loading="lazy"
+                  decoding="async"
+                  class="stage-img img-guitar"
+                />
+              </picture>
+            </div>
+            <figcaption class="stage-caption">
+              <span class="stage-step">01 / 03</span>
+              <strong>Stand-up &amp; musical comedy</strong>
+              <span>Razor-sharp comedy and killer(ish) vocals on stage.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="stage-card stage-card-2">
+            <div class="editorial-frame">
+              <picture>
+                <source type="image/avif" srcset={pawaSources.avifSrcset} sizes="380px" width={pawaSources.width} height={pawaSources.height} />
+                <source type="image/webp" srcset={pawaSources.webpSrcset} sizes="380px" width={pawaSources.width} height={pawaSources.height} />
+                <img
+                  src={pawaSources.fallbackSrc}
+                  srcset={pawaSources.fallbackSrcset}
+                  sizes="380px"
+                  alt=""
+                  width={pawaSources.width}
+                  height={pawaSources.height}
+                  loading="lazy"
+                  decoding="async"
+                  class="stage-img img-lectern"
+                />
+              </picture>
+            </div>
+            <figcaption class="stage-caption">
+              <span class="stage-step">02 / 03</span>
+              <strong>Performing Arts WA Awards</strong>
+              <span>Keeping major live rooms and broadcasts moving.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="stage-card stage-card-3">
+            <div class="editorial-frame">
+              <picture>
+                <source type="image/avif" srcset={wickedSources.avifSrcset} sizes="380px" width={wickedSources.width} height={wickedSources.height} />
+                <source type="image/webp" srcset={wickedSources.webpSrcset} sizes="380px" width={wickedSources.width} height={wickedSources.height} />
+                <img
+                  src={wickedSources.fallbackSrc}
+                  srcset={wickedSources.fallbackSrcset}
+                  sizes="380px"
+                  alt=""
+                  width={wickedSources.width}
+                  height={wickedSources.height}
+                  loading="lazy"
+                  decoding="async"
+                  class="stage-img img-wicked"
+                />
+              </picture>
+            </div>
+            <figcaption class="stage-caption">
+              <span class="stage-step">03 / 03</span>
+              <strong>Live premieres &amp; major broadcasts</strong>
+              <span>Handpicked to host major premieres and flagship Australian broadcasts.</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-section {
+    background-color: var(--colour-page);
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+  }
+
+  .scrolly-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .scrolly-beats {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .scrolly-beat {
+    padding-bottom: var(--space-4);
+  }
+
+  .scrolly-beat:not(:last-child) {
+    border-bottom: 1px solid var(--colour-border);
+  }
+
+  .section-script,
+  .beat-kicker {
+    font-size: clamp(1.35rem, 1.05rem + 0.55vw, 1.85rem);
+    line-height: 1.15;
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    transform: rotate(-1deg);
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 1.15rem + 0.9vw, 2.25rem);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--colour-ink);
+    margin: 0 0 var(--space-5) 0;
+  }
+
+  .beat-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 1rem + 0.5vw, 1.55rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--colour-ink);
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .scrolly-beat p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.64;
+    color: var(--colour-ink-subtle);
+    margin: 0;
+    max-width: 56ch;
+  }
+
+  .scrolly-beat p:not(:last-of-type) {
+    margin-bottom: var(--space-4);
+  }
+
+  .beat-inline-figure {
+    margin: var(--space-5) 0 0 0;
+    max-width: 420px;
+  }
+
+  .editorial-frame {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--colour-border);
+    box-shadow: var(--shadow-md);
+    background-color: var(--colour-dark-surface);
+    aspect-ratio: 3 / 3.85;
+  }
+
+  .editorial-frame picture,
+  .stage-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .img-guitar { object-position: 50% 4%; }
+  .img-lectern { object-position: 50% 6%; }
+  .img-wicked { object-position: 50% 12%; }
+
+  .editorial-caption {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--colour-muted);
+  }
+
+  .editorial-caption strong {
+    display: block;
+    color: var(--colour-ink);
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  .scrolly-stage-col {
+    display: none;
+  }
+
+  /* ==========================================================================
+     Desktop Pinned Scrollytelling Stage (min-width: 960px + no-preference)
+     ========================================================================== */
+  @media (min-width: 960px) and (prefers-reduced-motion: no-preference) {
+    .scrolly-container {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(2.5rem, 5vw, 4.75rem);
+      align-items: start;
+    }
+
+    .beat-inline-figure {
+      display: none;
+    }
+
+    .scrolly-beats {
+      gap: clamp(3rem, 6vh, 4.5rem);
+    }
+
+    .scrolly-beat {
+      min-height: clamp(440px, 60vh, 560px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: var(--space-2);
+      padding-bottom: clamp(3rem, 7vh, 5rem);
+    }
+
+    .scrolly-beat.beat-3 {
+      min-height: clamp(540px, 68vh, 640px);
+      padding-bottom: clamp(4rem, 10vh, 7rem);
+    }
+
+    .scrolly-stage-col {
+      display: block;
+      position: sticky;
+      top: calc(var(--live-header-h, 60px) + 64px);
+    }
+
+    .scrolly-stage {
+      width: 100%;
+      max-width: 380px;
+      margin-inline: auto;
+    }
+
+    .stage-frame-stack {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4.05;
+      max-height: calc(100vh - 175px);
+    }
+
+    .stage-card {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      /* Opaque card backdrop eliminates ghosting between stacked layers */
+      background-color: var(--colour-page);
+    }
+
+    .stage-card .editorial-frame {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .stage-card-1 { z-index: 1; opacity: 1; }
+    .stage-card-2 { z-index: 2; }
+    .stage-card-3 { z-index: 3; }
+
+    .stage-caption {
+      margin-top: 10px;
+      padding: 12px 14px;
+      background-color: var(--colour-surface);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-xs);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stage-step {
+      font-family: var(--font-display);
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--colour-primary);
+    }
+
+    .stage-caption strong {
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 800;
+      color: var(--colour-ink);
+    }
+
+    .stage-caption span:last-child {
+      font-size: 0.8125rem;
+      color: var(--colour-muted);
+      line-height: 1.35;
+    }
+
+    /* Native Scroll-Driven Scrollytelling with named view-timeline + timeline-scope */
+    @supports ((animation-timeline: view()) and (animation-range: entry) and (timeline-scope: --a)) {
+      .scrolly-container {
+        timeline-scope: --bio-beat-1, --bio-beat-2, --bio-beat-3;
+      }
+
+      .beat-1 { view-timeline: --bio-beat-1 block; }
+      .beat-2 { view-timeline: --bio-beat-2 block; }
+      .beat-3 { view-timeline: --bio-beat-3 block; }
+
+      /* Opaque clip-path wipe prevents semi-transparent face/caption ghosting at any scroll stop */
+      @keyframes scrolly-card-wipe {
+        from {
+          clip-path: inset(100% 0 0 0);
+        }
+        to {
+          clip-path: inset(0 0 0 0);
+        }
+      }
+
+      .stage-card-2 {
+        animation: scrolly-card-wipe linear both;
+        animation-timeline: --bio-beat-2;
+        animation-range: cover 40% cover 52%;
+      }
+
+      .stage-card-3 {
+        animation: scrolly-card-wipe linear both;
+        animation-timeline: --bio-beat-3;
+        animation-range: cover 40% cover 52%;
+      }
+    }
+
+    /* IntersectionObserver fallback when timeline-scope is unsupported */
+    .scrolly-stage.is-io-fallback .stage-card-2,
+    .scrolly-stage.is-io-fallback .stage-card-3 {
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 480ms var(--ease-out);
+    }
+
+    .scrolly-stage.is-io-fallback[data-active-beat="2"] .stage-card-2,
+    .scrolly-stage.is-io-fallback[data-active-beat="3"] .stage-card-2,
+    .scrolly-stage.is-io-fallback[data-active-beat="3"] .stage-card-3 {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+</style>
+
+<script>
+  const scrollyStage = document.getElementById('about-scrolly-stage');
+  const beats = Array.from(document.querySelectorAll<HTMLElement>('.scrolly-beat'));
+
+  const supportsScrollyCss = CSS.supports(
+    '(animation-timeline: view()) and (animation-range: entry) and (timeline-scope: --a)'
+  );
+
+  if (
+    scrollyStage &&
+    beats.length > 0 &&
+    !supportsScrollyCss &&
+    window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+  ) {
+    scrollyStage.classList.add('is-io-fallback');
+
+    const beatObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const beatNum = (entry.target as HTMLElement).dataset.beat;
+            if (beatNum) {
+              scrollyStage.setAttribute('data-active-beat', beatNum);
+            }
+          }
+        });
+      },
+      { rootMargin: '-40% 0px -45% 0px', threshold: 0.01 }
+    );
+
+    beats.forEach((beat) => beatObserver.observe(beat));
+  }
+</script>
