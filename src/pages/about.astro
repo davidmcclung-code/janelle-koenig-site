@@ -180,11 +180,36 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 <script>
   // Sync sticky chapter jump bar position cleanly beneath shrinking site header
   const siteHeader = document.getElementById('site-header');
-  if (siteHeader && 'ResizeObserver' in window) {
+  if (siteHeader) {
+    let lastHeaderHeight = -1;
+    let rafId = 0;
+
     const syncHeaderHeight = () => {
-      document.documentElement.style.setProperty('--live-header-h', `${siteHeader.offsetHeight}px`);
+      rafId = 0;
+      const nextHeight = Math.round(siteHeader.getBoundingClientRect().height * 2) / 2;
+      if (nextHeight !== lastHeaderHeight) {
+        lastHeaderHeight = nextHeight;
+        document.documentElement.style.setProperty('--live-header-h', `${nextHeight}px`);
+      }
     };
-    new ResizeObserver(syncHeaderHeight).observe(siteHeader);
+
+    const scheduleHeaderSync = () => {
+      if (!rafId) {
+        rafId = window.requestAnimationFrame(syncHeaderHeight);
+      }
+    };
+
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(syncHeaderHeight);
+      try {
+        ro.observe(siteHeader, { box: 'border-box' });
+      } catch {
+        ro.observe(siteHeader);
+      }
+    }
+
+    window.addEventListener('scroll', scheduleHeaderSync, { passive: true });
+    window.addEventListener('resize', scheduleHeaderSync, { passive: true });
     syncHeaderHeight();
   }
 
@@ -228,7 +253,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
      ========================================================================== */
   .chapter-jump-nav {
     position: sticky;
-    top: var(--live-header-h, var(--header-height-compact));
+    top: calc(var(--live-header-h, var(--header-height-compact)) - 1px);
     z-index: 90;
     background-color: rgba(251, 248, 244, 0.94);
     backdrop-filter: blur(8px);
