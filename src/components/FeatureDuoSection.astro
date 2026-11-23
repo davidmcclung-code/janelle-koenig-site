@@ -460,36 +460,99 @@ const substackSources = await createResponsiveSourceSet(
     transition: stroke-dashoffset 750ms var(--ease-out) 120ms;
   }
 
-  /* Responsive Mobile Stack (<= 560px): prevent text/cutout collisions */
+  /* Responsive Mobile Layout (<= 560px): full-width copy above, CTA beside media below */
   @media (max-width: 560px) {
     .duo-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: auto auto 1fr;
+      align-items: start;
       min-height: auto;
       padding: var(--space-5) var(--space-4) 0 var(--space-4);
-      justify-content: flex-start;
-      gap: var(--space-4);
+      row-gap: var(--space-2);
+      column-gap: var(--space-3);
     }
 
     .duo-content,
     .substack-duo-content {
+      display: contents;
       max-width: 100%;
     }
 
+    .duo-title,
+    .duo-mug-row {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .duo-title {
+      margin-bottom: 0;
+    }
+
+    .duo-mug-row {
+      margin-bottom: 0;
+    }
+
+    .duo-desc {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      max-width: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    .duo-actions,
+    .substack-actions {
+      grid-column: 1;
+      grid-row: 3;
+      justify-self: start;
+      align-self: center;
+      margin-top: var(--space-2);
+      margin-bottom: var(--space-4);
+      max-width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .duo-mc-btn,
+    .substack-btn {
+      max-width: 100%;
+      height: auto;
+      min-height: 44px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.7rem;
+      line-height: 1.25;
+      white-space: normal;
+      text-align: left;
+    }
+
     .duo-mc-media {
+      grid-column: 2;
+      grid-row: 3;
       position: relative;
       right: auto;
       bottom: auto;
-      align-self: flex-end;
-      height: 215px;
-      margin-top: 4px;
+      justify-self: end;
+      align-self: end;
+      height: clamp(155px, 44vw, 210px);
+      margin-top: var(--space-1);
+      margin-right: -4px;
     }
 
     .duo-substack-media {
+      grid-column: 2;
+      grid-row: 3;
       position: relative;
       right: auto;
       bottom: auto;
-      align-self: flex-end;
-      width: 210px;
-      margin-bottom: -10px;
+      justify-self: end;
+      align-self: end;
+      width: clamp(132px, 41vw, 200px);
+      margin-top: var(--space-1);
+      margin-right: -8px;
+      margin-bottom: -8px;
     }
   }
 
