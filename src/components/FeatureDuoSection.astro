@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '../data/siteConfig';
+import testimonials from '../data/testimonials.json';
 import { asset } from '../utils/paths';
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
 import ArrowIcon from './ArrowIcon.astro';
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const { substackUrl = siteConfig.substackUrl } = Astro.props;
+const featuredTestimonial = testimonials[3];
 
 const cutoutSources = await createResponsiveSourceSet(
   enquiryCutoutImg,
@@ -27,6 +29,21 @@ const substackSources = await createResponsiveSourceSet(
 
 <section class="feature-duo-section" aria-label="MC Work and Writing">
   <div class="container">
+    <aside class="duo-proof-strip scroll-reveal" aria-label="Client testimonial">
+      <div class="duo-proof-quote-wrap">
+        <blockquote class="duo-proof-quote">
+          <p>“{featuredTestimonial.highlight}”</p>
+        </blockquote>
+        <p class="duo-proof-author">
+          {featuredTestimonial.author} <span aria-hidden="true">·</span> {featuredTestimonial.organisation}
+        </p>
+      </div>
+      <a href={asset('/mc-events#reviews')} class="duo-proof-link">
+        <span>Read Reviews</span>
+        <ArrowIcon size={13} />
+      </a>
+    </aside>
+
     <div class="feature-duo-grid">
       <!-- Left Card: MC & Corporate Events -->
       <article class="duo-card duo-card-mc scroll-reveal" id="mc-events">
@@ -167,6 +184,72 @@ const substackSources = await createResponsiveSourceSet(
     width: 100%;
   }
 
+  .duo-proof-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    border-top: 1px solid var(--colour-border);
+    border-bottom: 1px solid var(--colour-border);
+    padding: var(--space-4) 0;
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .duo-proof-quote-wrap {
+    border-left: 3px solid var(--colour-primary);
+    padding-left: var(--space-4);
+    min-width: 0;
+  }
+
+  .duo-proof-quote {
+    margin: 0 0 4px 0;
+  }
+
+  .duo-proof-quote p {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 0.94rem + 0.25vw, 1.125rem);
+    font-weight: 800;
+    line-height: 1.35;
+    color: var(--colour-ink);
+    margin: 0;
+  }
+
+  .duo-proof-author {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--colour-muted);
+    margin: 0;
+  }
+
+  .duo-proof-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--colour-primary);
+    white-space: nowrap;
+    transition: color var(--motion-fast) var(--ease-out);
+  }
+
+  .duo-proof-link:hover {
+    color: var(--colour-ink);
+  }
+
+  @media (max-width: 767px) {
+    .duo-proof-strip {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+  }
+
   .feature-duo-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -226,8 +309,8 @@ const substackSources = await createResponsiveSourceSet(
 
   .duo-desc {
     font-family: var(--font-body);
-    font-size: clamp(0.875rem, 0.82rem + 0.15vw, 0.96875rem);
-    line-height: 1.48;
+    font-size: 1rem;
+    line-height: 1.5;
     color: var(--colour-ink);
     font-weight: 500;
     margin: 0;

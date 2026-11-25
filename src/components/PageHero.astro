@@ -226,7 +226,7 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
     @keyframes page-hero-rise {
       from {
         opacity: 0;
-        transform: translateY(18px);
+        transform: translateY(12px);
       }
       to {
         opacity: 1;
@@ -237,7 +237,7 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
     @keyframes page-hero-card-rise {
       from {
         opacity: 0;
-        transform: translateY(24px) scale(0.96);
+        transform: translateY(14px) scale(0.98);
       }
       to {
         opacity: 1;
@@ -246,23 +246,23 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
     }
 
     .page-hero-eyebrow {
-      animation: page-hero-rise 550ms var(--ease-out) 40ms both;
+      animation: page-hero-rise 320ms var(--ease-out) 0ms both;
     }
 
     .heading-line {
-      animation: page-hero-rise 650ms var(--ease-out) calc(80ms + var(--line-idx, 0) * 90ms) both;
+      animation: page-hero-rise 360ms var(--ease-out) calc(30ms + var(--line-idx, 0) * 45ms) both;
     }
 
     .page-hero-lead {
-      animation: page-hero-rise 650ms var(--ease-out) 220ms both;
+      animation: page-hero-rise 360ms var(--ease-out) 90ms both;
     }
 
     .hero-popout-card {
-      animation: page-hero-card-rise 700ms var(--ease-out) 120ms both;
+      animation: page-hero-card-rise 380ms var(--ease-out) 40ms both;
     }
 
     .hero-popout-cutout {
-      animation: page-hero-card-rise 750ms var(--ease-out) 180ms both;
+      animation: page-hero-card-rise 400ms var(--ease-out) 80ms both;
     }
   }
 
@@ -302,8 +302,8 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
     }
 
     .page-hero-lead {
-      font-size: clamp(0.875rem, 0.75rem + 0.5vw, 0.96875rem);
-      line-height: 1.4;
+      font-size: 1rem;
+      line-height: 1.45;
     }
 
     .page-hero-figure {
@@ -336,8 +336,8 @@ const imageSizes = '(min-width: 1024px) 240px, (min-width: 768px) 200px, 32vw';
     }
 
     .page-hero-lead {
-      font-size: 0.875rem;
-      line-height: 1.38;
+      font-size: 1rem;
+      line-height: 1.42;
     }
 
     .page-hero-figure {

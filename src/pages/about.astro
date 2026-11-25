@@ -344,12 +344,23 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     }
 
     .jump-nav-inner {
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     .jump-link {
-      padding: 0 10px;
+      padding: 0 8px;
       font-size: 0.6875rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .jump-nav-list {
+      gap: 4px;
+    }
+
+    .jump-link {
+      padding: 0 7px;
+      gap: 4px;
     }
   }
 
@@ -424,7 +435,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   .pillar-copy {
     font-family: var(--font-body);
-    font-size: 0.90625rem;
+    font-size: 1rem;
     line-height: 1.55;
     color: rgba(243, 243, 243, 0.8);
     margin: 0 0 14px 0;
@@ -434,7 +445,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: 0.84375rem;
+    font-size: 0.9375rem;
     color: rgba(255, 255, 255, 0.92);
     font-weight: 500;
   }
@@ -507,7 +518,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   .ambassador-copy {
     font-family: var(--font-body);
-    font-size: 0.96875rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: var(--colour-ink-subtle);
     max-width: 60ch;
@@ -516,7 +527,7 @@ const galaSources = await createResponsiveSourceSet(kidsCancerGalaImg, [360, 560
 
   .bio-closing-line {
     font-family: var(--font-body);
-    font-size: 0.96875rem;
+    font-size: 1rem;
     line-height: 1.55;
     font-weight: 600;
     color: var(--colour-ink);

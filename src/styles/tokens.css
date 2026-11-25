@@ -60,11 +60,13 @@
   --header-height: 76px;
   --header-height-compact: 60px;
 
-  /* Border Radii */
-  --radius-xs: 3px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  /* Border Radii (2-value system: 3px controls/badges, 10px cards/surfaces) */
+  --radius-control: 3px;
+  --radius-surface: 10px;
+  --radius-xs: var(--radius-control);
+  --radius-sm: var(--radius-surface);
+  --radius-md: var(--radius-surface);
+  --radius-lg: var(--radius-surface);
   --radius-pill: 9999px;
 
   /* Shadows */

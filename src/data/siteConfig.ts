@@ -30,7 +30,7 @@ export const siteConfig: SiteConfig = {
   name: 'Janelle Koenig',
   role: 'Comedian | MC | Panel Host',
   heroHeadline: ['Comedy.', 'Casseroles.', 'Chaos.'],
-  heroSubhead: 'Comedian, creator, writer, MC, mum, and indoorsy type.',
+  heroSubhead: 'Comedian, creator, writer, MC, mum, indoorsy type.',
   email: 'hello@janellekoenig.com',
   substackUrl: 'https://janellekoenig.substack.com/',
   eventsSheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7-WEu9FEEkyIqi3TxtQ4DzrqlWn4dKMcmvki-X2xkPaHQwvdshaupWr-DWcPhiOoQjtO_yRkvzXHy/pub?gid=0&single=true&output=csv',

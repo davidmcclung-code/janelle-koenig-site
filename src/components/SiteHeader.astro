@@ -146,9 +146,6 @@ const isItemActive = (itemHref?: string) => {
       </ul>
 
       <div class="drawer-footer">
-        <a href={asset('/#shows')} class="btn btn-primary mobile-btn" id="mobile-cta-btn">
-          SEE JANELLE LIVE
-        </a>
         <button
           type="button"
           class="btn btn-secondary mobile-btn"
@@ -633,7 +630,7 @@ const isItemActive = (itemHref?: string) => {
     sheet.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
-      if (target.closest('.mobile-nav-link, #mobile-cta-btn, .drawer-logo-link, #drawer-booking-btn')) {
+      if (target.closest('.mobile-nav-link, .drawer-logo-link, #drawer-booking-btn')) {
         closeDrawer(true);
       }
     });

@@ -1,7 +1,9 @@
 ---
 import { createResponsiveSourceSet } from '../utils/responsiveImage';
 import defaultThumbImg from '../assets/photography/performance/debbie-gibson-thumbnail.jpg';
+import { siteConfig } from '../data/siteConfig';
 import ArrowIcon from './ArrowIcon.astro';
+import SocialIcon from './SocialIcon.astro';
 
 interface Props {
   thumbnailSrc?: string;
@@ -94,6 +96,26 @@ const thumbSources = await createResponsiveSourceSet(
           <span>WATCH NOW</span>
           <ArrowIcon size={14} />
         </button>
+      </div>
+
+      <div class="showcase-social">
+        <p class="showcase-social-label">Clips &amp; daily chaos</p>
+        <ul class="showcase-social-list" role="list">
+          {siteConfig.socialLinks.map((social) => (
+            <li>
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class:list={['showcase-social-link', { 'is-icon-only': social.platform === 'x' }]}
+                aria-label={`Follow Janelle on ${social.label} (opens in a new tab)`}
+              >
+                <SocialIcon platform={social.platform} size={15} />
+                {social.platform !== 'x' && <span>{social.label}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </div>
@@ -309,11 +331,75 @@ const thumbSources = await createResponsiveSourceSet(
     font-size: 0.8125rem;
   }
 
+  .showcase-social {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--colour-dark-border);
+    width: 100%;
+  }
+
+  .showcase-social-label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--colour-dark-muted);
+    margin: 0 0 var(--space-3) 0;
+  }
+
+  .showcase-social-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .showcase-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 44px;
+    padding: 0 9px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--colour-dark-border-strong);
+    background-color: var(--colour-dark-surface);
+    color: var(--colour-dark-ink);
+    font-family: var(--font-body);
+    font-size: 0.78125rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      border-color var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out),
+      color var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out);
+  }
+
+  .showcase-social-link.is-icon-only {
+    min-width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .showcase-social-link:hover {
+    border-color: var(--colour-primary-on-dark);
+    background-color: var(--colour-dark-elevated);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  .showcase-social-link:active {
+    transform: translateY(0);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .showcase-stage-btn,
     .showcase-stage-btn:hover .showcase-thumb,
     .showcase-stage-btn:hover .play-circle,
-    .showcase-stage-btn:hover .play-halo {
+    .showcase-stage-btn:hover .play-halo,
+    .showcase-social-link:hover {
       animation: none !important;
       opacity: 1 !important;
       scale: none !important;
